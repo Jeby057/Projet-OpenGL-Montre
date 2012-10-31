@@ -82,7 +82,6 @@ void Engrenage::Build()
 
 	// Création de la roue dentée ( face avant)
 	glBegin(GL_TRIANGLE_FAN);
-		glColor3ub(255,0,0);
 		glVertex3f(0.0, 0.0, ptDenture[0]._z);
 		for (unsigned int i =0;i<_nbDents*4;i++)
 			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z);
@@ -91,7 +90,6 @@ void Engrenage::Build()
 
 	// Création de la roue dentée ( face arriere)
 	glBegin(GL_TRIANGLE_FAN);
-		glColor3ub(255,0,0);
 		glVertex3f(0.0, 0.0, ptDenture[0]._z + _longueur);
 		for (unsigned int i =0;i<_nbDents*4;i++)
 			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z + _longueur);
@@ -100,7 +98,6 @@ void Engrenage::Build()
 
 	// Création des sties des dents
 	glBegin(GL_TRIANGLE_STRIP);
-		glColor3ub(255,0,0);
 		for (unsigned int i =0;i<_nbDents*4;i++)
 		{
 			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z);

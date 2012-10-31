@@ -12,6 +12,7 @@ TrackBallCamera* camera;
 
 void display()
 {
+	glClearColor(1.0,1.1,1.1,0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode( GL_MODELVIEW );
@@ -19,9 +20,7 @@ void display()
 	//gluLookAt(campX, campY, campZ, camdX, camdY, camdZ, camvX, camvY, camvZ);
 	camera->Look();
 
-	glLightfv(GL_LIGHT0,GL_POSITION,L0pos);
-
-	GLfloat material[] = {1.0f, 0.0f, 0.0f, 1.0f};
+	GLfloat material[] = {0.1f, 0.1f, 0.1f, 0.8f};
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, material); 
 
 	Piece* engrenage = new Engrenage(0.1, 0.1*50, 0.3, 3);
@@ -58,8 +57,7 @@ int main(int argc, char *argv[])
 	glutCreateWindow("light1");
 
 	// Initialisation
-	glClearColor(1.0,1.1,1.1,0.0);
-	glColor3f(1.0,0.0,0.0);
+	//glColor3f(1.0,0.0,0.0);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 
@@ -67,11 +65,18 @@ int main(int argc, char *argv[])
 	glShadeModel(GL_SMOOTH);
 
 	// Lumiere
-	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	GLfloat l_pos[] = { 0.0, 0.0, -3.0,0.0 };
+	glLightfv(GL_LIGHT0,GL_POSITION,l_pos);
+	glDepthFunc(GL_LESS);
+	glEnable(GL_DEPTH_TEST);
+
+	/*glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_LIGHT1);
-	glLightfv(GL_LIGHT0,GL_DIFFUSE,L0dif);
+	glLightfv(GL_LIGHT0,GL_DIFFUSE,L0dif);*/
 
 	// Perspective
 	glMatrixMode(GL_PROJECTION);
