@@ -11,5 +11,7 @@
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / PI))
 
 #include "Utilitaire.h"
+#include "Piece.h"
+#include "ModuleCouleurs.h"
 
 #endif
