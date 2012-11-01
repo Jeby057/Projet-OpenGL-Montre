@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClCompile Include="Engrenage.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Maitresse.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="TrackBallCamera.cpp" />
     <ClCompile Include="Utilitaire.cpp" />
@@ -86,6 +87,7 @@
   <ItemGroup>
     <ClInclude Include="Engrenage.h" />
     <ClInclude Include="Include.h" />
+    <ClInclude Include="Maitresse.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="TrackBallCamera.h" />
     <ClInclude Include="Utilitaire.h" />

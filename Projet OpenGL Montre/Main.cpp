@@ -2,7 +2,6 @@
 #include "Engrenage.h"
 #include "TrackBallCamera.h"
 
-float campX = 0.0F, campY = -5.0F, campZ = -6.0F, camdX = 0.0F, camdY = 0.0F, camdZ = 0.0F, camvX = 0.0F, camvY = 1.0F, camvZ = 0.0F;
 GLfloat L0pos[]={ 0.0,1.0,-1.0};
 /* parametres diffus en R,V,B */
 GLfloat L0dif[]={ 1.0,0.5,0.4};
@@ -17,7 +16,6 @@ void display()
 
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity( );
-	//gluLookAt(campX, campY, campZ, camdX, camdY, camdZ, camvX, camvY, camvZ);
 	camera->Look();
 
 	GLfloat material[] = {0.1f, 0.1f, 0.1f, 0.8f};
