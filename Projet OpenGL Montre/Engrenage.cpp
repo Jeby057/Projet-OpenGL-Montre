@@ -81,10 +81,14 @@ void Engrenage::Build()
 	}
 
 	// Création de la roue dentée ( face avant)
+	Point3D ref = Point3D(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z);
 	glBegin(GL_TRIANGLE_FAN);
+	
 		glVertex3f(0.0, 0.0, ptDenture[0]._z);
 		for (unsigned int i =0;i<_nbDents*4;i++)
+		{
 			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z);
+		}
 		glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z);
 	glEnd();
 
@@ -92,7 +96,9 @@ void Engrenage::Build()
 	glBegin(GL_TRIANGLE_FAN);
 		glVertex3f(0.0, 0.0, ptDenture[0]._z + _longueur);
 		for (unsigned int i =0;i<_nbDents*4;i++)
+		{
 			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z + _longueur);
+		}
 		glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z + _longueur);
 	glEnd();
 
@@ -100,10 +106,20 @@ void Engrenage::Build()
 	glBegin(GL_TRIANGLE_STRIP);
 		for (unsigned int i =0;i<_nbDents*4;i++)
 		{
+			if(i%2==0)
+				glTexCoord2d(0.0,0.0);
+			else
+				glTexCoord2d(1.0,0.0);
 			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z);
+			if(i%2==0)
+				glTexCoord2d(0.0,1.0);
+			else
+				glTexCoord2d(1.0,1.0);
 			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z + _longueur);
 		}
+		glTexCoord2d(0.0,0.0);
 		glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z);
+		glTexCoord2d(0.0,1.0);
 		glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z + _longueur);
 	glEnd();
 }

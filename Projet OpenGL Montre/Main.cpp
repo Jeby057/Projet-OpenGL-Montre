@@ -13,15 +13,16 @@ GLfloat Mshiny=50;
 TrackBallCamera* camera;
 CubeHeure* cubeHeure;
 
+
+	GLuint texName[2];
+
 void display()
 {
 	glClearColor(1.0,1.1,1.1,0.0);
 	camera->Look();
 
-	GLfloat material[] = {0.1f, 0.1f, 0.1f, 0.8f};
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, material); 
-
-	Piece* engrenage = new Engrenage(0.01, 0.01*30, 0.05, 3);
+	glBindTexture(GL_TEXTURE_2D, texName[0]);
+	Piece* engrenage = new Engrenage(0.1, 0.1*50, 0.3, 3);
 	engrenage->Build();
 
 	//creer le cube heure
@@ -57,6 +58,8 @@ void myReshape(int w,int h) {
 }
 
 
+
+
 int main(int argc, char *argv[])
 {
 	glutInit(&argc,argv);
@@ -69,6 +72,7 @@ int main(int argc, char *argv[])
 	//glColor3f(1.0,0.0,0.0);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
+	glShadeModel(GL_FLAT);
 
 	// Lissage
 	glShadeModel(GL_SMOOTH);
@@ -80,13 +84,6 @@ int main(int argc, char *argv[])
 	glLightfv(GL_LIGHT0,GL_POSITION,l_pos);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
-
-	/*glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
-	glLightfv(GL_LIGHT0,GL_DIFFUSE,L0dif);*/
-
 	glutDisplayFunc(display) ;
 
 	// Création d'une trackball caméra
@@ -97,6 +94,25 @@ int main(int argc, char *argv[])
 
 	//création d'un cubeHeur
 	cubeHeure = new CubeHeure(0,0,0);
+
+
+	PPMImage* image1 = new PPMImage("engrenage.ppm");
+	glGenTextures(1, texName);
+    
+    
+    glBindTexture(GL_TEXTURE_2D, texName[0]);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image1->GetSizeX(), image1->GetSizeY(),GL_RGB, GL_UNSIGNED_BYTE, image1->GetImage());
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+
+
+
+
 
 	// Aboonnement
 	glutMouseFunc(mouse);

@@ -2,6 +2,8 @@
 #define ENGRENAGE_H
 
 #include "Piece.h"
+#include "Utilitaire.h"
+#include "PPMImage.h"
 
 class Engrenage : public Piece
 {
