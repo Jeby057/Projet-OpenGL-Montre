@@ -32,7 +32,7 @@ void Engrenage::Build()
 	GLfloat anglePas = 2 * pas / _diametreTravail;
 
 	// Calcul du nombre de dents
-	_nbDents = _diametreTravail / _module;
+	_nbDents = ceil(_diametreTravail / _module);
 
 	// Point central de la dent primitive
 	Point3D ptCentreDent(_diametreTravail/2, 0, 0);

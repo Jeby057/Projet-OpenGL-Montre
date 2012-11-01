@@ -69,10 +69,6 @@ void TrackBallCamera::OnKeyboard(unsigned char key,int x,int y){
     {
 		// On diminue la distance
         _distance -= _scrollSensivity;
-
-		// Distance minimale
-        if (_distance < 0.1)
-            _distance = 0.1;
     }
 
 	// Si il y a un coup de molete vers le bas
