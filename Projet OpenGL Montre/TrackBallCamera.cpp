@@ -94,10 +94,10 @@ void TrackBallCamera::Look()
 	// Caméra
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity( );
-    gluLookAt(_distance,0,0,0,0,0,0,0,1);
-	glTranslatef(0.0, _offsetY, -_offsetZ);
-    glRotated(_angleY,0,1,0); 
-    glRotated(_angleZ,0,0,1);
+    gluLookAt(_distance,0,0,0,0,0,0,1,0);
+	glTranslatef(0.0, _offsetZ, _offsetY);
+    glRotated(-_angleY,0,0,1); 
+    glRotated(_angleZ,0,1,0);
 }
 
 void TrackBallCamera::SetMotionSensivity(double sensivity){
