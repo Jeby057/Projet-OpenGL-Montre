@@ -12,6 +12,6 @@
 
 #include "Utilitaire.h"
 #include "Piece.h"
-#include "ModuleCouleurs.h"
+#include "Couleurs.h"
 
 #endif

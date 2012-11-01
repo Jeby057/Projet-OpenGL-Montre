@@ -1,130 +1,128 @@
+#include "Couleurs.h"
 
-/* Module de gestion des couleurs         */
+float Couleur::blanc[] = { 1.0F,1.0F,1.0F,1.0F };
+float Couleur::jaune[] = { 1.0F,1.0F,0.0F,1.0F };
+float Couleur::cyan[] = { 0.0F,1.0F,1.0F,1.0F };
+float Couleur::magenta[] = { 1.0F,0.0F,1.0F,1.0F };
+float Couleur::rouge[] = { 1.0F,0.0F,0.0F,1.0F };
+float Couleur::vert[] = { 0.0F,1.0F,0.0F,1.0F };
+float Couleur::bleu[] = { 0.0F,0.0F,1.0F,1.0F };
+float Couleur::noir[] = { 0.0F,0.0F,0.0F,1.0F };
+float Couleur::grisTresFonce[] = { 0.1F,0.1F,0.1F,1.0F };
+float Couleur::grisFonce[] = { 0.25F,0.25F,0.25F,1.0F };
+float Couleur::grisMoyen[] = { 0.5F,0.5F,0.5F,1.0F };
+float Couleur::grisClair[] = { 0.75F,0.75F,0.75F,1.0F };
+float Couleur::jauneClair[] = { 0.75F,0.75F,0.0F,1.0F };
+float Couleur::jauneFonce[] = { 0.5F,0.5F,0.0F,1.0F };
+float Couleur::cyanFonce[] = { 0.0F,0.5F,0.5F,1.0F };
+float Couleur::magentaFonce[] = { 0.5F,0.0F,0.5F,1.0F };
+float Couleur::rougeFonce[] = { 0.5F,0.0F,0.0F,1.0F };
+float Couleur::vertFonce[] = { 0.0F,0.5F,0.0F,1.0F };
+float Couleur::bleuFonce[] = { 0.0F,0.0F,0.5F,1.0F };
+float Couleur::brun[] = { 0.8F,0.6F,0.4F,1.0F };
+float Couleur::rose[] = { 1.0F,0.65F,0.65F,1.0F };
+float Couleur::roseFonce[] = { 0.6F,0.25F,0.25F,1.0F };
+float Couleur::bleuCiel[] = { 0.5F,0.5F,1.0F,1.0F };
+float Couleur::bleuCielFonce[] = { 0.25F,0.25F,0.5F,1.0F };
 
-#include <stdlib.h>
 
-static float blanc[] = { 1.0F,1.0F,1.0F,1.0F };
-static float jaune[] = { 1.0F,1.0F,0.0F,1.0F };
-static float cyan[] = { 0.0F,1.0F,1.0F,1.0F };
-static float magenta[] = { 1.0F,0.0F,1.0F,1.0F };
-static float rouge[] = { 1.0F,0.0F,0.0F,1.0F };
-static float vert[] = { 0.0F,1.0F,0.0F,1.0F };
-static float bleu[] = { 0.0F,0.0F,1.0F,1.0F };
-static float noir[] = { 0.0F,0.0F,0.0F,1.0F };
-static float grisTresFonce[] = { 0.1F,0.1F,0.1F,1.0F };
-static float grisFonce[] = { 0.25F,0.25F,0.25F,1.0F };
-static float grisMoyen[] = { 0.5F,0.5F,0.5F,1.0F };
-static float grisClair[] = { 0.75F,0.75F,0.75F,1.0F };
-static float jauneClair[] = { 0.75F,0.75F,0.0F,1.0F };
-static float jauneFonce[] = { 0.5F,0.5F,0.0F,1.0F };
-static float cyanFonce[] = { 0.0F,0.5F,0.5F,1.0F };
-static float magentaFonce[] = { 0.5F,0.0F,0.5F,1.0F };
-static float rougeFonce[] = { 0.5F,0.0F,0.0F,1.0F };
-static float vertFonce[] = { 0.0F,0.5F,0.0F,1.0F };
-static float bleuFonce[] = { 0.0F,0.0F,0.5F,1.0F };
-static float brun[] = { 0.8F,0.6F,0.4F,1.0F };
-static float rose[] = { 1.0F,0.65F,0.65F,1.0F };
-static float roseFonce[] = { 0.6F,0.25F,0.25F,1.0F };
-static float bleuCiel[] = { 0.5F,0.5F,1.0F,1.0F };
-static float bleuCielFonce[] = { 0.25F,0.25F,0.5F,1.0F };
-
-float *couleurBlanc(void) {
+float* Couleur::Blanc(void) {
   return(blanc);
 }
 
-float *couleurJaune(void) {
+float* Couleur::Jaune(void) {
   return(jaune);
 }
 
-float *couleurCyan(void) {
+float* Couleur::Cyan(void) {
   return(cyan);
 }
 
-float *couleurMagenta(void) {
+float* Couleur::Magenta(void) {
   return(magenta);
 }
 
-float *couleurRouge(void) {
+float* Couleur::Rouge(void) {
   return(rouge);
 }
 
-float *couleurVert(void) {
+float* Couleur::Vert(void) {
   return(vert);
 }
 
-float *couleurBleu(void) {
+float* Couleur::Bleu(void) {
   return(bleu);
 }
 
-float *couleurNoir(void) {
+float* Couleur::Noir(void) {
   return(noir);
 }
 
-float *couleurGrisTresFonce(void) {
+float* Couleur::GrisTresFonce(void) {
   return(grisTresFonce);
 }
 
-float *couleurGrisFonce(void) {
+float* Couleur::GrisFonce(void) {
   return(grisFonce);
 }
 
-float *couleurGrisMoyen(void) {
+float* Couleur::GrisMoyen(void) {
   return(grisMoyen);
 }
 
-float *couleurGrisClair(void) {
+float* Couleur::GrisClair(void) {
   return(grisClair);
 }
 
-float *couleurJauneClair(void) {
+float* Couleur::JauneClair(void) {
   return(jauneClair);
 }
 
-float *couleurJauneFonce(void) {
+float* Couleur::JauneFonce(void) {
   return(jauneFonce);
 }
 
-float *couleurCyanFonce(void) {
+float* Couleur::CyanFonce(void) {
   return(cyanFonce);
 }
 
-float *couleurMagentaFonce(void) {
+float* Couleur::MagentaFonce(void) {
   return(magentaFonce);
 }
 
-float *couleurRougeFonce(void) {
+float* Couleur::RougeFonce(void) {
   return(rougeFonce);
 }
 
-float *couleurVertFonce(void) {
+float* Couleur::VertFonce(void) {
   return(vertFonce);
 }
 
-float *couleurBleuFonce(void) {
+float* Couleur::BleuFonce(void) {
   return(bleuFonce);
 }
 
-float *couleurBrun(void) {
+float* Couleur::Brun(void) {
   return(brun);
 }
 
-float *couleurRose(void) {
+float* Couleur::Rose(void) {
   return(rose);
 }
 
-float *couleurRoseFonce(void) {
+float* Couleur::RoseFonce(void) {
   return(roseFonce);
 }
 
-float *couleurBleuCiel(void) {
+float* Couleur::BleuCiel(void) {
   return(bleuCiel);
 }
 
-float *couleurBleuCielFonce(void) {
+float* Couleur::BleuCielFonce(void) {
   return(bleuCielFonce);
 }
 
-float *couleurBleuCiel(float alpha) {
+float* Couleur::BleuCiel(float alpha) {
   static float coul[4];
   coul[0] = bleuCiel[0];
   coul[1] = bleuCiel[1];
@@ -133,7 +131,7 @@ float *couleurBleuCiel(float alpha) {
   return(coul);
 }
 
-float *couleurBleuCielFonce(float alpha) {
+float* Couleur::BleuCielFonce(float alpha) {
   static float coul[4];
   coul[0] = bleuCielFonce[0];
   coul[1] = bleuCielFonce[1];
@@ -142,7 +140,7 @@ float *couleurBleuCielFonce(float alpha) {
   return(coul);
 }
 
-float *couleurRose(float alpha) {
+float* Couleur::Rose(float alpha) {
   static float coul[4];
   coul[0] = rose[0];
   coul[1] = rose[1];
@@ -151,7 +149,7 @@ float *couleurRose(float alpha) {
   return(coul);
 }
 
-float *couleurRoseFonce(float alpha) {
+float* Couleur::RoseFonce(float alpha) {
   static float coul[4];
   coul[0] = roseFonce[0];
   coul[1] = roseFonce[1];
@@ -160,7 +158,7 @@ float *couleurRoseFonce(float alpha) {
   return(coul);
 }
 
-float *couleurGris(float niveau,float alpha) {
+float* Couleur::Gris(float niveau,float alpha) {
   static float coul[4];
   coul[0] = niveau;
   coul[1] = niveau;
@@ -169,7 +167,7 @@ float *couleurGris(float niveau,float alpha) {
   return(coul);
 }
 
-float *couleurGrisFonce(float alpha) {
+float* Couleur::GrisFonce(float alpha) {
   static float coul[4];
   coul[0] = grisFonce[0];
   coul[1] = grisFonce[1];
@@ -178,7 +176,7 @@ float *couleurGrisFonce(float alpha) {
   return(coul);
 }
 
-float *couleurGrisTresFonce(float alpha) {
+float* Couleur::GrisTresFonce(float alpha) {
   static float coul[4];
   coul[0] = grisTresFonce[0];
   coul[1] = grisTresFonce[1];
@@ -187,7 +185,7 @@ float *couleurGrisTresFonce(float alpha) {
   return(coul);
 }
 
-float *couleurGrisMoyen(float alpha) {
+float* Couleur::GrisMoyen(float alpha) {
   static float coul[4];
   coul[0] = grisMoyen[0];
   coul[1] = grisMoyen[1];
@@ -196,7 +194,7 @@ float *couleurGrisMoyen(float alpha) {
   return(coul);
 }
 
-float *couleurGrisClair(float alpha) {
+float* Couleur::GrisClair(float alpha) {
   static float coul[4];
   coul[0] = grisClair[0];
   coul[1] = grisClair[1];
@@ -205,7 +203,7 @@ float *couleurGrisClair(float alpha) {
   return(coul);
 }
 
-float *couleurBlanc(float alpha) {
+float* Couleur::Blanc(float alpha) {
   static float coul[4];
   coul[0] = blanc[0];
   coul[1] = blanc[1];
@@ -214,7 +212,7 @@ float *couleurBlanc(float alpha) {
   return(coul);
 }
 
-float *couleurJaune(float alpha) {
+float* Couleur::Jaune(float alpha) {
   static float coul[4];
   coul[0] = jaune[0];
   coul[1] = jaune[1];
@@ -223,7 +221,7 @@ float *couleurJaune(float alpha) {
   return(coul);
 }
 
-float *couleurCyan(float alpha) {
+float* Couleur::Cyan(float alpha) {
   static float coul[4];
   coul[0] = cyan[0];
   coul[1] = cyan[1];
@@ -232,7 +230,7 @@ float *couleurCyan(float alpha) {
   return(coul);
 }
 
-float *couleurMagenta(float alpha) {
+float* Couleur::Magenta(float alpha) {
   static float coul[4];
   coul[0] = magenta[0];
   coul[1] = magenta[1];
@@ -241,7 +239,7 @@ float *couleurMagenta(float alpha) {
   return(coul);
 }
 
-float *couleurNoir(float alpha) {
+float* Couleur::Noir(float alpha) {
   static float coul[4];
   coul[0] = noir[0];
   coul[1] = noir[1];
@@ -250,7 +248,7 @@ float *couleurNoir(float alpha) {
   return(coul);
 }
 
-float *couleurVert(float alpha) {
+float* Couleur::Vert(float alpha) {
   static float coul[4];
   coul[0] = vert[0];
   coul[1] = vert[1];
@@ -259,7 +257,7 @@ float *couleurVert(float alpha) {
   return(coul);
 }
 
-float *couleurRouge(float alpha) {
+float* Couleur::Rouge(float alpha) {
   static float coul[4];
   coul[0] = rouge[0];
   coul[1] = rouge[1];
@@ -268,7 +266,7 @@ float *couleurRouge(float alpha) {
   return(coul);
 }
 
-float *couleurBleu(float alpha) {
+float* Couleur::Bleu(float alpha) {
   static float coul[4];
   coul[0] = bleu[0];
   coul[1] = bleu[1];
@@ -277,7 +275,7 @@ float *couleurBleu(float alpha) {
   return(coul);
 }
 
-float *couleurJauneClair(float alpha) {
+float* Couleur::JauneClair(float alpha) {
   static float coul[4];
   coul[0] = jauneClair[0];
   coul[1] = jauneClair[1];
@@ -286,7 +284,7 @@ float *couleurJauneClair(float alpha) {
   return(coul);
 }
 
-float *couleurJauneFonce(float alpha) {
+float* Couleur::JauneFonce(float alpha) {
   static float coul[4];
   coul[0] = jauneFonce[0];
   coul[1] = jauneFonce[1];
@@ -295,7 +293,7 @@ float *couleurJauneFonce(float alpha) {
   return(coul);
 }
 
-float *couleurCyanFonce(float alpha) {
+float* Couleur::CyanFonce(float alpha) {
   static float coul[4];
   coul[0] = cyanFonce[0];
   coul[1] = cyanFonce[1];
@@ -304,7 +302,7 @@ float *couleurCyanFonce(float alpha) {
   return(coul);
 }
 
-float *couleurMagentaFonce(float alpha) {
+float* Couleur::MagentaFonce(float alpha) {
   static float coul[4];
   coul[0] = magentaFonce[0];
   coul[1] = magentaFonce[1];
@@ -313,7 +311,7 @@ float *couleurMagentaFonce(float alpha) {
   return(coul);
 }
 
-float *couleurVertFonce(float alpha) {
+float* Couleur::VertFonce(float alpha) {
   static float coul[4];
   coul[0] = vertFonce[0];
   coul[1] = vertFonce[1];
@@ -322,7 +320,7 @@ float *couleurVertFonce(float alpha) {
   return(coul);
 }
 
-float *couleurRougeFonce(float alpha) {
+float* Couleur::RougeFonce(float alpha) {
   static float coul[4];
   coul[0] = rougeFonce[0];
   coul[1] = rougeFonce[1];
@@ -331,7 +329,7 @@ float *couleurRougeFonce(float alpha) {
   return(coul);
 }
 
-float *couleurBleuFonce(float alpha) {
+float* Couleur::BleuFonce(float alpha) {
   static float coul[4];
   coul[0] = bleuFonce[0];
   coul[1] = bleuFonce[1];
@@ -341,7 +339,7 @@ float *couleurBleuFonce(float alpha) {
 }
 
 
-float *newCouleur(float r,float v,float b,float a) {
+float* Couleur::newCouleur(float r,float v,float b,float a) {
   static float coul[4];
   coul[0] = r;
   coul[1] = v;
@@ -350,8 +348,8 @@ float *newCouleur(float r,float v,float b,float a) {
   return(coul);
 }
 
-float *newCouleur(float *c) {
-  float *coul =(float *) calloc(4,sizeof(float));
+float* Couleur::newCouleur(float* c) {
+  float* coul =(float*) calloc(4,sizeof(float));
   coul[0] = c[0];
   coul[1] = c[1];
   coul[2] = c[2];
@@ -359,39 +357,39 @@ float *newCouleur(float *c) {
   return(coul);
 }
 
-void freeCouleur(float *c) {
+void freeCouleur(float* c) {
   free(c);
 }
 
-float **paletteColoree(void) {
+float** Couleur::paletteColoree(void) {
   int i;
-  float **p =(float **) calloc(256,sizeof(float *));
+  float **p =(float**) calloc(256,sizeof(float*));
   for ( i = 0 ; i <= 51 ; i++ ) {
-    p[i] =(float *) calloc(4,sizeof(float));
+    p[i] =(float*) calloc(4,sizeof(float));
     p[i][0] = 0.0F;
     p[i][1] = 1.0F;
     p[i][2] = i/51.0F;
     p[i][3] = 1.0F; }
   for ( ; i <= 102 ; i++ ) {
-    p[i] =(float *) calloc(4,sizeof(float));
+    p[i] =(float*) calloc(4,sizeof(float));
     p[i][0] = 0.0F;
     p[i][1] = 1.0F-(i-51)/51.0F;
     p[i][2] = 1.0F;
     p[i][3] = 1.0F; }
   for ( ; i <= 153 ; i++ ) {
-    p[i] =(float *) calloc(4,sizeof(float));
+    p[i] =(float*) calloc(4,sizeof(float));
     p[i][0] = (i-102)/51.0F;
     p[i][1] = 0.0F;
     p[i][2] = 1.0F;
     p[i][3] = 1.0F; }
   for ( ; i <= 204 ; i++ ) {
-    p[i] =(float *) calloc(4,sizeof(float));
+    p[i] =(float*) calloc(4,sizeof(float));
     p[i][0] = 1.0F;
     p[i][1] = 0.0F;
     p[i][2] = 1.0F-(i-153)/51.0F;
     p[i][3] = 1.0F; }
   for ( ; i <= 255 ; i++ ) {
-    p[i] =(float *) calloc(4,sizeof(float));
+    p[i] =(float*) calloc(4,sizeof(float));
     p[i][0] = 1.0F;
     p[i][1] = (i-204)/51.0F;
     p[i][2] = 0.0F;
@@ -399,11 +397,11 @@ float **paletteColoree(void) {
   return(p);
 }
 
-float **paletteGrisee(void) {
+float** Couleur::paletteGrisee(void) {
   int i;
-  float **p =(float **) calloc(256,sizeof(float *));
+  float **p =(float**) calloc(256,sizeof(float*));
   for ( i = 0 ; i <= 255 ; i++ ) {
-    p[i] =(float *) calloc(4,sizeof(float));
+    p[i] =(float*) calloc(4,sizeof(float));
     p[i][0] = p[i][1] = p[i][2] = i/255.0F;
     p[i][3] = 1.0F; }
   return(p);
