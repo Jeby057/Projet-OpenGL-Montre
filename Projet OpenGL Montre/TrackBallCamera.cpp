@@ -95,7 +95,7 @@ void TrackBallCamera::Look()
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity( );
     gluLookAt(_distance,0,0,0,0,0,0,1,0);
-	glTranslatef(0.0, _offsetZ, _offsetY);
+	glTranslatef(0.0, -_offsetZ, _offsetY);
     glRotated(-_angleY,0,0,1); 
     glRotated(_angleZ,0,1,0);
 }
