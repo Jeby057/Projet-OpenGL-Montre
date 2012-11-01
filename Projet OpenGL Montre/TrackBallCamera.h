@@ -14,6 +14,8 @@ class TrackBallCamera
     virtual void Look();
     virtual void SetMotionSensivity(double sensivity);
     virtual void SetScrollSensivity(double sensivity);
+	virtual void SetOffsetSensivity(double sensivity);
+	virtual void SetFrameSize(int width, int height);
 
     virtual ~TrackBallCamera();
 protected:
@@ -25,6 +27,7 @@ protected:
     double _angleY, _angleZ;
     double _oldX, _oldY;
     double _offsetZ, _offsetY;
+	int _width, _height;
 };
 
 #endif

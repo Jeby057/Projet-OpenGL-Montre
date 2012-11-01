@@ -16,20 +16,16 @@ CubeHeure* cubeHeure;
 void display()
 {
 	glClearColor(1.0,1.1,1.1,0.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity( );
 	camera->Look();
 
 	GLfloat material[] = {0.1f, 0.1f, 0.1f, 0.8f};
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, material); 
 
-	Piece* engrenage = new Engrenage(0.1, 0.1*50, 0.3, 3);
-	//engrenage->Build();
+	Piece* engrenage = new Engrenage(0.01, 0.01*30, 0.05, 3);
+	engrenage->Build();
 
 	//creer le cube heure
-	cubeHeure->Build();
+	//cubeHeure->Build();
 	
 	glLightfv(GL_LIGHT0,GL_POSITION,L0pos);
 	glLightfv(GL_LIGHT1,GL_POSITION,L1pos);
@@ -52,6 +48,11 @@ void mousemotion(int x,int y)
 
 void key(unsigned char key,int x,int y) {
 	camera->OnKeyboard(key, x, y);
+	glutPostRedisplay();
+}
+
+void myReshape(int w,int h) {
+	camera->SetFrameSize(w, h);
 	glutPostRedisplay();
 }
 
@@ -86,18 +87,13 @@ int main(int argc, char *argv[])
 	glEnable(GL_LIGHT1);
 	glLightfv(GL_LIGHT0,GL_DIFFUSE,L0dif);*/
 
-	// Perspective
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(45.0,1.0,0.1,10.0);
-	glMatrixMode(GL_MODELVIEW);
-
 	glutDisplayFunc(display) ;
 
 	// Création d'une trackball caméra
 	camera = new TrackBallCamera();
     camera->SetScrollSensivity(0.1);
     camera->SetMotionSensivity(0.1);
+	camera->SetOffsetSensivity(0.05);
 
 	//création d'un cubeHeur
 	cubeHeure = new CubeHeure(0,0,0);
@@ -106,6 +102,7 @@ int main(int argc, char *argv[])
 	glutMouseFunc(mouse);
     glutMotionFunc(mousemotion);
 	glutKeyboardFunc(key);
+  glutReshapeFunc(myReshape);
 	glutMainLoop() ;
 
 	return(0);

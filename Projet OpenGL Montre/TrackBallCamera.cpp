@@ -82,8 +82,20 @@ void TrackBallCamera::OnKeyboard(unsigned char key,int x,int y){
 
 void TrackBallCamera::Look()
 {
+	// Vidage de la frame	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Projection
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(60.0,1.0*(GLfloat)_width/(GLfloat)_height,1.0,30.0);
+	glMatrixMode(GL_MODELVIEW);
+
+	// Caméra
+	glMatrixMode( GL_MODELVIEW );
+	glLoadIdentity( );
     gluLookAt(_distance,0,0,0,0,0,0,0,1);
-	glTranslatef(0.0, -_offsetY, _offsetZ);
+	glTranslatef(0.0, _offsetY, -_offsetZ);
     glRotated(_angleY,0,1,0); 
     glRotated(_angleZ,0,0,1);
 }
@@ -94,4 +106,15 @@ void TrackBallCamera::SetMotionSensivity(double sensivity){
 
 void TrackBallCamera::SetScrollSensivity(double sensivity){
 	_scrollSensivity = sensivity;
+}
+
+void TrackBallCamera::SetOffsetSensivity(double sensivity){
+	_offsetSensivity = sensivity;
+}
+
+void TrackBallCamera::SetFrameSize(int width, int height)
+{
+	_width = width;
+	_height = height;
+	glViewport(0,0,_width,_height);
 }
