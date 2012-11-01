@@ -2,6 +2,7 @@
 #define CUBEHEURE_H
 
 #include "Include.h"
+#include "Piece.h"
 
 class CubeHeure : public Piece
 {

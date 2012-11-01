@@ -1,13 +1,17 @@
 #include "include.h"
 #include "Engrenage.h"
+#include "CubeHeure.h"
 #include "TrackBallCamera.h"
 
 GLfloat L0pos[]={ 0.0,1.0,-1.0};
+GLfloat L1pos[]={ 2.0,2.0,2.0};
+
 /* parametres diffus en R,V,B */
 GLfloat L0dif[]={ 1.0,0.5,0.4};
 GLfloat Mshiny=50;
 
 TrackBallCamera* camera;
+CubeHeure* cubeHeure;
 
 void display()
 {
@@ -22,8 +26,14 @@ void display()
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, material); 
 
 	Piece* engrenage = new Engrenage(0.1, 0.1*50, 0.3, 3);
-	engrenage->Build();
+	//engrenage->Build();
+
+	//creer le cube heure
+	cubeHeure->Build();
 	
+	glLightfv(GL_LIGHT0,GL_POSITION,L0pos);
+	glLightfv(GL_LIGHT1,GL_POSITION,L1pos);
+
 	glutSwapBuffers();
 
 }
@@ -88,6 +98,9 @@ int main(int argc, char *argv[])
 	camera = new TrackBallCamera();
     camera->SetScrollSensivity(0.1);
     camera->SetMotionSensivity(0.1);
+
+	//création d'un cubeHeur
+	cubeHeure = new CubeHeure(0,0,0);
 
 	// Aboonnement
 	glutMouseFunc(mouse);
