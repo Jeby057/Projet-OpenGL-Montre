@@ -7,9 +7,8 @@
 
 class CubeHeure : public Piece
 {
-	float _posX;
-	float _posY;
-	float _posZ;
+	float _taille;
+
 	float angleRotation;
 	float temps;
 
@@ -17,7 +16,7 @@ class CubeHeure : public Piece
 	GLuint _faceTexture[6];
 
 public:
-	CubeHeure(float x, float y, float z);
+	CubeHeure(float taille, char* namFace[6]);
 	virtual ~CubeHeure(void);
 
 	virtual void Build();
