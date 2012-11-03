@@ -38,7 +38,10 @@ void EntourantCube::Build()
 	Point3D * ptsTourExt = new Point3D[21], * ptsTourInt = new Point3D[15]; // points du tour intérieur et extérieur, dessus
 	Point3D * ptsTourExtS = new Point3D[16], * ptsTourIntS = new Point3D[10]; // points du tour intérieur et extérieur, dessous
 
+	/////////////////////////////////////
 	// remplissage des tableaux de points
+	/////////////////////////////////////
+
 	// moitié bas
 	
 	ptsTourExt[0] = Point3D(-_epaissG, _largeurG, 0.0);
@@ -130,7 +133,10 @@ void EntourantCube::Build()
 	for(int i = 11; i < 15; i++)
 		ptsTourIntS[i-5] = Point3D(ptsTourInt[i]._x, ptsTourInt[i]._y, - _hauteur);
 
-	// Construction de la pièce
+	/////////////////////////////////////
+	//////////// Construction de la pièce
+	/////////////////////////////////////
+
 	// faces du dessus, moitié du bas, gauche jusqu'aux extremités
 
 	glBegin(GL_TRIANGLE_FAN);
