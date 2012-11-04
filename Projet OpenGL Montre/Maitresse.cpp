@@ -172,7 +172,7 @@ void Maitresse::BuildAndDisplay()
 		glPushMatrix();
 			glRotatef(i*120, 0.0, 1.0, 0.0);
 			glTranslatef(0.0, 0.0, rCirc);
-			_brasMaitre->BuildAndSave();
+			_brasMaitre->FastDisplay();
 		glPopMatrix();
 	}
 
