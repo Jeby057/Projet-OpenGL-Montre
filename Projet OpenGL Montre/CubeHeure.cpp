@@ -17,7 +17,7 @@ CubeHeure::~CubeHeure(void)
 }
 
 
-void CubeHeure::Build()
+void CubeHeure::BuildAndDisplay()
 {
 	//glRotatef(angleRotation,1.0F,0.0F,0.0F); 
 	//décalage

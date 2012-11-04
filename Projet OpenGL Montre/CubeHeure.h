@@ -19,7 +19,7 @@ public:
 	CubeHeure(float taille, char* namFace[6]);
 	virtual ~CubeHeure(void);
 
-	virtual void Build();
+	virtual void BuildAndDisplay();
 	void idle();
 
 	void LoadTexture(char* face[6]);

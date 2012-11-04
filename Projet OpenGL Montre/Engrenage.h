@@ -17,7 +17,7 @@ public:
 	Engrenage(double module, double diametreTravail, double longueur, double coteCarre);
 	virtual ~Engrenage(void);
 
-	virtual void Build(); 
+	virtual void BuildAndDisplay(); 
 };
 
 #endif

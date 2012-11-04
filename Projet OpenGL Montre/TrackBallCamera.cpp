@@ -5,11 +5,11 @@ TrackBallCamera::TrackBallCamera(void)
 {
 	_tracked = false;
 	_moved = false;
-    _angleY = 0;
-    _angleZ = 0;
+    _angleY = 32;
+    _angleZ = -24;
 	_offsetZ = 0;
 	_offsetY = 0;
-    _distance = 2; 
+    _distance = 6; 
     _motionSensivity = 0.3;
     _scrollSensivity = 1;
     _offsetSensivity = 0.1;

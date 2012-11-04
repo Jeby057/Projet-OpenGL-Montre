@@ -14,16 +14,16 @@ Engrenage::~Engrenage(void)
 }
 
 
-void Engrenage::Build()
+void Engrenage::BuildAndDisplay()
 {
 	// Calcul de la longueur de l'arc entre 2 centres de dent
 	GLfloat pas = PI * _module;
 
-	// Calcul du diametre de tete
-	GLfloat diametreTete = _diametreTravail + 2 * _module;
-
 	// Calcul du diametre de pied
 	GLfloat diametrePied = _diametreTravail - 2.5 * _module;
+
+	// Calcul du diametre de tete
+	GLfloat diametreTete = _diametreTravail + 2 * _module;
 
 	// Angle des flans de denture
 	GLfloat angleDent = PI / 9; // 20°
@@ -74,52 +74,54 @@ void Engrenage::Build()
 
 	//Alimentation du tableau de points du profil en prenant le point
 	//à la case [courante -4] sur lequel on applique la rotation d'un pas
-	for (unsigned int i =1;i<_nbDents;i++){
-		for(unsigned int j=0;j<4;j++){
+	for (int i =1;i<_nbDents;i++){
+		for(int j=0;j<4;j++){
 			ptDenture[i*4+j] = Point3D(ptDenture[4*(i-1)+j]._x * cosf(anglePas) - ptDenture[4*(i-1)+j]._y * sinf(anglePas), ptDenture[4*(i-1)+j]._x * sinf(anglePas) + ptDenture[4*(i-1)+j]._y * cosf(anglePas), ptDenture[4*(i-1)+j]._z);
 		}
 	}
 
 	// Création de la roue dentée ( face avant)
-	Point3D ref = Point3D(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z);
-	glBegin(GL_TRIANGLE_FAN);
+	glPushMatrix();
+		glRotatef(90, 1, 0, 0);
+		glBegin(GL_TRIANGLE_FAN);
 	
-		glVertex3f(0.0, 0.0, ptDenture[0]._z);
-		for (unsigned int i =0;i<_nbDents*4;i++)
-		{
-			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z);
-		}
-		glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z);
-	glEnd();
+			glVertex3f(0.0, 0.0, ptDenture[0]._z);
+			for (int i =0;i<_nbDents*4;i++)
+			{
+				glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z);
+			}
+			glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z);
+		glEnd();
 
-	// Création de la roue dentée ( face arriere)
-	glBegin(GL_TRIANGLE_FAN);
-		glVertex3f(0.0, 0.0, ptDenture[0]._z + _longueur);
-		for (unsigned int i =0;i<_nbDents*4;i++)
-		{
-			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z + _longueur);
-		}
-		glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z + _longueur);
-	glEnd();
+		// Création de la roue dentée ( face arriere)
+		glBegin(GL_TRIANGLE_FAN);
+			glVertex3f(0.0, 0.0, ptDenture[0]._z + _longueur);
+			for (int i =0;i<_nbDents*4;i++)
+			{
+				glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z + _longueur);
+			}
+			glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z + _longueur);
+		glEnd();
 
-	// Création des sties des dents
-	glBegin(GL_TRIANGLE_STRIP);
-		for (unsigned int i =0;i<_nbDents*4;i++)
-		{
-			if(i%2==0)
-				glTexCoord2d(0.0,0.0);
-			else
-				glTexCoord2d(1.0,0.0);
-			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z);
-			if(i%2==0)
-				glTexCoord2d(0.0,1.0);
-			else
-				glTexCoord2d(1.0,1.0);
-			glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z + _longueur);
-		}
-		glTexCoord2d(0.0,0.0);
-		glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z);
-		glTexCoord2d(0.0,1.0);
-		glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z + _longueur);
-	glEnd();
+		// Création des sties des dents
+		glBegin(GL_TRIANGLE_STRIP);
+			for (int i =0;i<_nbDents*4;i++)
+			{
+				if(i%2==0)
+					glTexCoord2d(0.0,0.0);
+				else
+					glTexCoord2d(1.0,0.0);
+				glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z);
+				if(i%2==0)
+					glTexCoord2d(0.0,1.0);
+				else
+					glTexCoord2d(1.0,1.0);
+				glVertex3f(ptDenture[i]._x, ptDenture[i]._y, ptDenture[i]._z + _longueur);
+			}
+			glTexCoord2d(0.0,0.0);
+			glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z);
+			glTexCoord2d(0.0,1.0);
+			glVertex3f(ptDenture[0]._x, ptDenture[0]._y, ptDenture[0]._z + _longueur);
+		glEnd();
+	glPopMatrix();
 }
