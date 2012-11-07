@@ -35,7 +35,7 @@ public:
 		double longBas, double prcLargPoseTri, double hauteur);
 	virtual ~EntourantCube(void);
 
-	virtual void Build();
+	virtual void BuildAndDisplay();
 };
 
 #endif

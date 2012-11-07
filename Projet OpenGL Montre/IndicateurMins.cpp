@@ -15,7 +15,7 @@ IndicateurMins::~IndicateurMins()
 {
 }
 
-void IndicateurMins::Build()
+void IndicateurMins::BuildAndDisplay()
 {
 	Point3D * socleGauche = new Point3D[4]; // rectangle de gauche (socle)
 	Point3D * socleDroite = new Point3D[4]; // 4 points du haut du socle (milieu)

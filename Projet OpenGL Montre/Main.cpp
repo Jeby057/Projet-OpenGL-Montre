@@ -3,10 +3,12 @@
 #include "CubeHeure.h"
 #include "TrackBallCamera.h"
 #include "BrasMaitre.h"
-#include "Disque.h"
+#include "PartialDisque.h"
 #include "Maitresse.h"
 #include "Montre.h"
 #include "PartialCylinder.h"
+#include "CacheEngrenage.h"
+
 int LightPos[4] = {-1,2,-1,2};
 int MatSpec [4] = {1,1,1,1};
 
@@ -40,7 +42,7 @@ void display()
 	//creer le cube heure
 	//cubeHeure->BuildAndDisplay();
 
-	
+	/*
 	glBegin(GL_QUADS);
 	glColor3ub(114, 157, 187);
     glVertex3i(-10,0,-10);
@@ -48,11 +50,19 @@ void display()
     glVertex3i(10,0,10);
     glVertex3i(-10,0,10);
     glEnd();
-	
+	glPushMatrix();
+		glTranslatef(0, 1.5, 0);
+		glRotatef(100, 1, 0, 0);
+		CacheEngrenage c(0.8/3, 0.8, 50, 0.045, 240, 0.045/2, 0.045/2);
+	c.BuildAndDisplay();
+	glPopMatrix();
+	*/
 	glPushMatrix();
 		glTranslatef(0, 0.5, 0);
 		montre->BuildAndDisplay();
 	glPopMatrix();
+	
+
 	glutSwapBuffers();
 	glFlush();
 }
@@ -103,6 +113,7 @@ int main(int argc, char *argv[])
 
 	// Lumiere
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 

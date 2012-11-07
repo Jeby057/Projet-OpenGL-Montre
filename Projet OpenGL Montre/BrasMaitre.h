@@ -3,7 +3,8 @@
 
 #include "Include.h"
 #include "Piece.h"
-#include "Disque.h"
+#include "PartialDisque.h"
+#include "CacheEngrenage.h"
 
 class BrasMaitre : public Piece
 {
@@ -12,7 +13,7 @@ class BrasMaitre : public Piece
 	float _hauteur;
 	float _diametre;
 
-	Disque* _disque;
+	PartialDisque* _disque;
 public:
 	BrasMaitre(float longueur, float largeur, float hauteur, float diametre);
 	~BrasMaitre(void);

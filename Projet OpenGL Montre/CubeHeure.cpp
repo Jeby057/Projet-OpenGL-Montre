@@ -19,10 +19,6 @@ CubeHeure::~CubeHeure(void)
 
 void CubeHeure::BuildAndDisplay()
 {
-	//glRotatef(angleRotation,1.0F,0.0F,0.0F); 
-	//décalage
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	float tCalculer = _taille/6; 
 
 	for(int i = 0; i <4 ; i++)

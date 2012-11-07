@@ -1,31 +1,29 @@
-#include "Disque.h"
+#include "PartialDisque.h"
 
 
-Disque::Disque(float diametreInterieur, float diametreExterieur, float height, int slices, float angle)
+PartialDisque::PartialDisque(float diametreInterieur, float diametreExterieur, float height, int slices, float angle)
 	:_diametreInterieur(diametreInterieur),
 	_diametreExterieur(diametreExterieur),
 	_height(height),
 	_slices(slices),
 	_angle(angle)
 {
-	_cylExtPartiel = new PartialCylinder(_angle/2, 360-_angle/2, _slices, _diametreExterieur/2, _height);
+	_cylExtPartiel = new PartialCylinder(0, _angle, _slices, _diametreExterieur/2, _height);
 	_cylExtPartiel->BuildAndSave();
 }
 
 
-Disque::~Disque(void)
+PartialDisque::~PartialDisque(void)
 {
 	delete _cylExtPartiel;
 }
 
 
-void Disque::BuildAndDisplay()
+void PartialDisque::BuildAndDisplay()
 {
 	// Génération du cylindre partiel exterieur
-	glPushMatrix();
-		glRotatef(175-_angle, 0, 0, 1);
-		_cylExtPartiel->FastDisplay();
-	glPopMatrix();
+	_cylExtPartiel->FastDisplay();
+
 	// Génération du cylindre interieur
 	if(_diametreInterieur != 0){
 		GLUquadric* paramsCylInt = gluNewQuadric();
@@ -34,13 +32,13 @@ void Disque::BuildAndDisplay()
 
 	// Géréation des 2 disques
 	GLUquadric* paramsDiscH = gluNewQuadric();
-	gluPartialDisk(paramsDiscH,_diametreInterieur/2,_diametreExterieur/2,_slices,1, 180+_angle/2, 360-_angle);
+	gluPartialDisk(paramsDiscH,_diametreInterieur/2,_diametreExterieur/2,_slices,1, 0, _angle);
 	gluDisk(paramsDiscH,0,_diametreInterieur/2,_slices,1);
 
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, _height);
 		GLUquadric* paramsDiscB = gluNewQuadric();
-		gluPartialDisk(paramsDiscH,_diametreInterieur/2,_diametreExterieur/2,_slices,1, 180+_angle/2, 360-_angle);
+		gluPartialDisk(paramsDiscH,_diametreInterieur/2,_diametreExterieur/2,_slices,1, 0, _angle);
 		gluDisk(paramsDiscH,0,_diametreInterieur/2,_slices,1);
 	glPopMatrix();
 	

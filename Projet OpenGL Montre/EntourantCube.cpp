@@ -26,7 +26,7 @@ EntourantCube::~EntourantCube(void)
 {
 }
 
-void EntourantCube::Build()
+void EntourantCube::BuildAndDisplay()
 {
 	double angle = atanf((cosf(_angleCoinG)*_epaissG)/_longCoinG);
 	double diag = sqrt(cosf(_angleCoinG)*_epaissG*cosf(_angleCoinG)*_epaissG + _longCoinG*_longCoinG);

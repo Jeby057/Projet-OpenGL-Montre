@@ -3,7 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 
 using namespace std;

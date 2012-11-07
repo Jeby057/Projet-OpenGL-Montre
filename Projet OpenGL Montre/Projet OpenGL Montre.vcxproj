@@ -78,8 +78,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BrasMaitre.cpp" />
+    <ClCompile Include="CacheEngrenage.cpp" />
     <ClCompile Include="CubeHeure.cpp" />
-    <ClCompile Include="Disque.cpp" />
+    <ClCompile Include="EntourantCube.cpp" />
+    <ClCompile Include="IndicateurMins.cpp" />
+    <ClCompile Include="PartialDisque.cpp" />
     <ClCompile Include="Engrenage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Maitresse.cpp" />
@@ -93,8 +96,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BrasMaitre.h" />
+    <ClInclude Include="CacheEngrenage.h" />
     <ClInclude Include="CubeHeure.h" />
-    <ClInclude Include="Disque.h" />
+    <ClInclude Include="EntourantCube.h" />
+    <ClInclude Include="IndicateurMins.h" />
+    <ClInclude Include="PartialDisque.h" />
     <ClInclude Include="Engrenage.h" />
     <ClInclude Include="Include.h" />
     <ClInclude Include="Maitresse.h" />

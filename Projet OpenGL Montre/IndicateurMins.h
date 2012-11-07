@@ -17,7 +17,7 @@ public:
 	IndicateurMins(double largSocle, double epaissSocle, double hauteurSocle, double hauteurPyram, double largSmt, double hauteurSmt);
 	virtual ~IndicateurMins(void);
 
-	virtual void Build();
+	virtual void BuildAndDisplay();
 };
 
 #endif

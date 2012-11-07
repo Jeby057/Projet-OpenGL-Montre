@@ -4,7 +4,7 @@
 #include "Piece.h"
 #include "PartialCylinder.h"
 
-class Disque : public Piece
+class PartialDisque : public Piece
 {
 
 	float _diametreInterieur, _diametreExterieur;
@@ -15,8 +15,8 @@ class Disque : public Piece
 	PartialCylinder* _cylExtPartiel;
 
 public:
-	Disque(float diametreInterieur, float diametreExterieur, float height, int slices, float angle);
-	virtual ~Disque(void);
+	PartialDisque(float diametreInterieur, float diametreExterieur, float height, int slices, float angle);
+	virtual ~PartialDisque(void);
 
 	void BuildAndDisplay();
 };

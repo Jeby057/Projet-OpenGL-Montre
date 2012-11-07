@@ -17,12 +17,13 @@ PartialCylinder::~PartialCylinder(void)
 
 
 void PartialCylinder::BuildAndDisplay(){
+
 	const float lStep = (_end - _start) / (_subdiv - 1);
 	Point3D** pCylinder = new Point3D*[_subdiv];
-	Point3D pattern(_radius, 0, 0);
+	Point3D pattern(0, _radius, 0);
 
 	for (int k = 0 ; k < _subdiv ; k++)
-		pCylinder[k] = new Point3D(pattern._x * cosf(_start+k*DEGREES_TO_RADIANS(lStep)) - pattern._y * sinf(_start+k*DEGREES_TO_RADIANS(lStep)), pattern._x * sinf(_start+k*DEGREES_TO_RADIANS(lStep)) + pattern._y * cosf(_start+k*DEGREES_TO_RADIANS(lStep)), pattern._z);
+		pCylinder[k] = new Point3D(pattern._x * cosf(-k * DEGREES_TO_RADIANS(_start+lStep)) - pattern._y * sinf(-k * DEGREES_TO_RADIANS(lStep)), pattern._x * sinf(-k * DEGREES_TO_RADIANS(_start+lStep)) + pattern._y * cosf(-k * DEGREES_TO_RADIANS(_start+lStep)), pattern._z);
 
 	// Pourtour
 	glBegin(GL_TRIANGLE_STRIP);
