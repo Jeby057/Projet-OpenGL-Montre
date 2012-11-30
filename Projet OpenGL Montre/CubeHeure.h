@@ -3,8 +3,6 @@
 
 #include "Include.h"
 #include "Piece.h"
-#include "PPMImage.h"
-
 class CubeHeure : public Piece
 {
 	float _taille;
@@ -22,7 +20,6 @@ public:
 	virtual void BuildAndDisplay();
 	void idle();
 
-	void LoadTexture(char* face[6]);
 };
 
 #endif

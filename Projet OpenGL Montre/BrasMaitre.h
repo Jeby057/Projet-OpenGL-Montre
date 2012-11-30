@@ -12,7 +12,7 @@ class BrasMaitre : public Piece
 	float _largeur;
 	float _hauteur;
 	float _diametre;
-
+	int _angle;
 	PartialDisque* _disque;
 public:
 	BrasMaitre(float longueur, float largeur, float hauteur, float diametre);

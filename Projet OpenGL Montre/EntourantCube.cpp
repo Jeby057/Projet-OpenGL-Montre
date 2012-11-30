@@ -137,6 +137,10 @@ void EntourantCube::BuildAndDisplay()
 	//////////// Construction de la pièce
 	/////////////////////////////////////
 
+	Material mat = Material();
+	mat.ToChrome();
+	mat.Enable();
+
 	// faces du dessus, moitié du bas, gauche jusqu'aux extremités
 
 	glBegin(GL_TRIANGLE_FAN);

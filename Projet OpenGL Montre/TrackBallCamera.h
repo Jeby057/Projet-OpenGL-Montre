@@ -28,6 +28,7 @@ protected:
     double _oldX, _oldY;
     double _offsetZ, _offsetY;
 	int _width, _height;
+	double _maxDistance;
 };
 
 #endif

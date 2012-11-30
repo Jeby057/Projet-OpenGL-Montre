@@ -18,6 +18,8 @@ PartialCylinder::~PartialCylinder(void)
 
 void PartialCylinder::BuildAndDisplay(){
 
+	
+
 	const float lStep = (_end - _start) / (_subdiv - 1);
 	Point3D** pCylinder = new Point3D*[_subdiv];
 	Point3D pattern(0, _radius, 0);
@@ -48,4 +50,5 @@ void PartialCylinder::BuildAndDisplay(){
 	for(int i=0; i<_subdiv; i++)
 		delete[] pCylinder[i];
 	delete[] pCylinder;
+
 }

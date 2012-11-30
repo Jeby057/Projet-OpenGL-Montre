@@ -16,6 +16,11 @@ Engrenage::~Engrenage(void)
 
 void Engrenage::BuildAndDisplay()
 {
+
+	Material mat = Material();
+	mat.ToBlackReflect();
+	mat.Enable();
+
 	// Calcul de la longueur de l'arc entre 2 centres de dent
 	GLfloat pas = PI * _module;
 

@@ -21,6 +21,7 @@ PartialDisque::~PartialDisque(void)
 
 void PartialDisque::BuildAndDisplay()
 {
+
 	// Génération du cylindre partiel exterieur
 	_cylExtPartiel->FastDisplay();
 

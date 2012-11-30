@@ -8,7 +8,7 @@ CubeHeure::CubeHeure(float taille, char* namFace[6])
 	this->angleRotation = 360;
 	this->temps = 0;
 
-	this->LoadTexture(namFace);
+	this->LoadTexture(_faceTexture, namFace, 6);
 }
 
 
@@ -19,6 +19,12 @@ CubeHeure::~CubeHeure(void)
 
 void CubeHeure::BuildAndDisplay()
 {
+	
+	Material mat = Material();
+	mat.ToChrome();
+	mat.Enable();
+
+	glEnable(GL_TEXTURE_2D);
 	float tCalculer = _taille/6; 
 
 	for(int i = 0; i <4 ; i++)
@@ -148,7 +154,7 @@ void CubeHeure::BuildAndDisplay()
 		/**********************************************************************************************/
 		
 	}
-	
+	glDisable(GL_TEXTURE_2D);
 
 }
 
@@ -162,26 +168,4 @@ void CubeHeure::idle()
 		if(this->angleRotation == 0)
 			this->angleRotation = 360;
 	}
-}
-
-
-void CubeHeure::LoadTexture(char* face[6])
-{
-	glGenTextures(6, this->_faceTexture);
-	for(int i = 0; i <6; i++)
-	{
-		char buffer[256];
-		strcpy(buffer,"textures/");
-		PPMImage* image1 = new PPMImage(strcat(buffer,face[i]));
-		glBindTexture(GL_TEXTURE_2D, this->_faceTexture[i]);
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image1->GetSizeX(), image1->GetSizeY(),GL_RGB, GL_UNSIGNED_BYTE, image1->GetImage());
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-	}
-
 }

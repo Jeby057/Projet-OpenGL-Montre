@@ -23,7 +23,10 @@ Maitresse::~Maitresse(void)
 
 void Maitresse::BuildAndDisplay()
 {
-
+	Material mat = Material();
+	mat.ToSilver();
+	mat.Enable();
+	 
 	// Hauteur du triangle
 	float hauteur = cos(DEGREES_TO_RADIANS(60)) * (_hBras + _hMargeBrasEspace + _hEspace + _hBase);
 
@@ -175,5 +178,5 @@ void Maitresse::BuildAndDisplay()
 			_brasMaitre->FastDisplay();
 		glPopMatrix();
 	}
-
+	mat.Disable();
 }

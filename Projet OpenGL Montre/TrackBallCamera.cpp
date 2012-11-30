@@ -5,14 +5,15 @@ TrackBallCamera::TrackBallCamera(void)
 {
 	_tracked = false;
 	_moved = false;
-    _angleY = 32;
-    _angleZ = -24;
+    _angleY = 10;
+    _angleZ = -125;
 	_offsetZ = 0;
 	_offsetY = 0;
-    _distance = 6; 
+    _distance = 9.5; 
     _motionSensivity = 0.3;
     _scrollSensivity = 1;
     _offsetSensivity = 0.1;
+	_maxDistance = 9.5;
 }
 
 
@@ -64,6 +65,9 @@ void TrackBallCamera::OnMouseButton(int button, int state,int x,int y)
 }
 
 void TrackBallCamera::OnKeyboard(unsigned char key,int x,int y){
+
+	
+
 	// Si il y a un coup de molette vers le haut
 	if ( key == '+' )
     {
@@ -72,7 +76,7 @@ void TrackBallCamera::OnKeyboard(unsigned char key,int x,int y){
     }
 
 	// Si il y a un coup de molete vers le bas
-    else if (key == '-')
+    else if (key == '-' && abs(_distance) < _maxDistance)
     {
 		// Augmentation de la distance
         _distance += _scrollSensivity;
@@ -82,9 +86,6 @@ void TrackBallCamera::OnKeyboard(unsigned char key,int x,int y){
 
 void TrackBallCamera::Look()
 {
-	// Vidage de la frame	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	// Projection
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

@@ -3,6 +3,8 @@
 
 #include "Include.h"
 #include <map>
+#include "PPMImage.h"
+
 
 /**
  * La classe pièce représente un pattern (un moule) de construction pour une piece donnée
@@ -57,12 +59,18 @@ public:
 	 */
 	virtual void BuildAndDisplay() = 0;
 
+	void SetMaterial(const GLfloat* ambiant, const GLfloat* diffuse, const GLfloat* specular, const GLfloat shine);
+
 	/**
 	 * Permet de mettre à jour certaines informations de la pièce
 	 */
 	virtual void Update();
 
 	virtual void FastDisplay();
+
+	virtual void AddFlagToRebuild();
+
+	void LoadTexture(GLuint* _faceTexture, char** face, int nb);
 };
 
 #endif

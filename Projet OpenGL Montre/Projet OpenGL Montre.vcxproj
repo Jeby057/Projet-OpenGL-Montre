@@ -77,11 +77,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AiguillesSec.cpp" />
+    <ClCompile Include="Armature.cpp" />
+    <ClCompile Include="BlocMinute.cpp" />
     <ClCompile Include="BrasMaitre.cpp" />
     <ClCompile Include="CacheEngrenage.cpp" />
+    <ClCompile Include="Connector.cpp" />
+    <ClCompile Include="ContenantTurbine.cpp" />
     <ClCompile Include="CubeHeure.cpp" />
     <ClCompile Include="EntourantCube.cpp" />
     <ClCompile Include="IndicateurMins.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="PartialDisque.cpp" />
     <ClCompile Include="Engrenage.cpp" />
     <ClCompile Include="main.cpp" />
@@ -90,16 +97,29 @@
     <ClCompile Include="Montre.cpp" />
     <ClCompile Include="PartialCylinder.cpp" />
     <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="PieceCentreMontre.cpp" />
+    <ClCompile Include="PieceSeconde.cpp" />
+    <ClCompile Include="PieceVentilo.cpp" />
+    <ClCompile Include="PlaqueSeparation.cpp" />
     <ClCompile Include="PPMImage.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="TheRoom.cpp" />
     <ClCompile Include="TrackBallCamera.cpp" />
     <ClCompile Include="Utilitaire.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AiguillesSec.h" />
+    <ClInclude Include="Armature.h" />
+    <ClInclude Include="BlocMinute.h" />
     <ClInclude Include="BrasMaitre.h" />
     <ClInclude Include="CacheEngrenage.h" />
+    <ClInclude Include="Connector.h" />
+    <ClInclude Include="ContenantTurbine.h" />
     <ClInclude Include="CubeHeure.h" />
     <ClInclude Include="EntourantCube.h" />
     <ClInclude Include="IndicateurMins.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="PartialDisque.h" />
     <ClInclude Include="Engrenage.h" />
     <ClInclude Include="Include.h" />
@@ -108,7 +128,13 @@
     <ClInclude Include="Montre.h" />
     <ClInclude Include="PartialCylinder.h" />
     <ClInclude Include="Piece.h" />
+    <ClInclude Include="PieceCentreMontre.h" />
+    <ClInclude Include="PieceSeconde.h" />
+    <ClInclude Include="PieceVentilo.h" />
+    <ClInclude Include="PlaqueSeparation.h" />
     <ClInclude Include="PPMImage.h" />
+    <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="TheRoom.h" />
     <ClInclude Include="TrackBallCamera.h" />
     <ClInclude Include="Utilitaire.h" />
   </ItemGroup>

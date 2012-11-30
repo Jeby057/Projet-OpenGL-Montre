@@ -7,7 +7,8 @@ BrasMaitre::BrasMaitre(float longueur, float largeur, float hauteur, float diame
 	_hauteur(hauteur),
 	_diametre(diametre)
 {
-	_disque = new PartialDisque(_diametre/2, _diametre, _hauteur, 50, 300);
+	_angle = 290;
+	_disque = new PartialDisque(_diametre/2, _diametre, _hauteur, 50, _angle);
 	_disque->BuildAndSave();
 
 }
@@ -19,6 +20,11 @@ BrasMaitre::~BrasMaitre(void)
 }
 
 void BrasMaitre::BuildAndDisplay(){
+
+	Material mat = Material();
+	mat.ToBlackReflect();
+	mat.Enable();
+
 	float h = _hauteur/4*3;
 	float hMin = _hauteur/6;
 	glBegin(GL_QUADS);
@@ -49,10 +55,14 @@ void BrasMaitre::BuildAndDisplay(){
 		
     glEnd();
 	
+	mat = Material();
+	mat.ToWhiteReflect();
+	mat.Enable();
+
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, _longueur);
 		glRotatef(-90, 1.0, 0.0, 0.0);
-		glRotatef(165, 0.0, 0.0, 1.0);
+		glRotatef(_angle/2, 0.0, 0.0, 1.0);
 		_disque->FastDisplay();
 	glPopMatrix();
 }

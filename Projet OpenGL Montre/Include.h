@@ -19,5 +19,8 @@ using namespace std;
 
 #include "Utilitaire.h"
 #include "Couleurs.h"
+#include "Material.h"
+#include "Light.h"
+#include "SpotLight.h"
 
 #endif

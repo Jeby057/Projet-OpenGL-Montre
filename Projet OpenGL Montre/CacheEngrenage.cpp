@@ -23,6 +23,11 @@ CacheEngrenage::~CacheEngrenage(void)
 
 void CacheEngrenage::BuildAndDisplay()
 {
+	Material mat = Material();
+	mat.ToGreyReflect();
+	mat.Enable();
+
+
 	// Calcul de l'angle partiel
 	float anglePartH   =(_angle-180) / 2;
 	float anglePartB   = -anglePartH;
