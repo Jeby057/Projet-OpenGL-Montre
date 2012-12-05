@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BLOC_MINUTE_H
+#define BLOC_MINUTE_H
+
 #include "Include.h"
 #include "Piece.h"
 
@@ -11,4 +13,4 @@ public:
 	virtual ~BlocMinute(void);
 	virtual void BuildAndDisplay();
 };
-
+#endif

@@ -21,5 +21,4 @@ public:
 	void idle();
 
 };
-
 #endif

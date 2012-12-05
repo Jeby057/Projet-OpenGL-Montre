@@ -98,12 +98,14 @@
     <ClCompile Include="PartialCylinder.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PieceCentreMontre.cpp" />
+    <ClCompile Include="PieceChiffres.cpp" />
     <ClCompile Include="PieceSeconde.cpp" />
     <ClCompile Include="PieceVentilo.cpp" />
     <ClCompile Include="PlaqueSeparation.cpp" />
     <ClCompile Include="PPMImage.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="TheRoom.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="TrackBallCamera.cpp" />
     <ClCompile Include="Utilitaire.cpp" />
   </ItemGroup>
@@ -129,12 +131,14 @@
     <ClInclude Include="PartialCylinder.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="PieceCentreMontre.h" />
+    <ClInclude Include="PieceChiffres.h" />
     <ClInclude Include="PieceSeconde.h" />
     <ClInclude Include="PieceVentilo.h" />
     <ClInclude Include="PlaqueSeparation.h" />
     <ClInclude Include="PPMImage.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="TheRoom.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="TrackBallCamera.h" />
     <ClInclude Include="Utilitaire.h" />
   </ItemGroup>

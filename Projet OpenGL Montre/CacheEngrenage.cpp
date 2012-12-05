@@ -165,4 +165,3 @@ void CacheEngrenage::BuildAndDisplay()
 		//glVertex3f(pExtB._x + decal - _ljupe, pExtB._y + _ljupe, pExtB._z - _hjupe);
 	glEnd();
 }
-

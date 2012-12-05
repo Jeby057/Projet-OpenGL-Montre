@@ -1,12 +1,11 @@
 #include "Light.h"
 
 
-Light::Light(GLenum id, GLfloat radius, GLfloat color[4], GLfloat position[3], GLfloat ambiant[4], GLfloat diffuse[4], GLfloat specular[4])
-	:_id(id), _radius(radius)
+Light::Light(GLenum id, GLfloat position[3], GLfloat ambiant[4], GLfloat diffuse[4], GLfloat specular[4])
+	:_id(id)
 {
 	for(int i=0; i<4; i++)
 	{
-		_color[i] = color[i];
 		_ambiant[i] = ambiant[i];
 		_diffuse[i] = diffuse[i];
 		_specular[i] = specular[i];

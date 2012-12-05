@@ -3,6 +3,33 @@
 
 TheRoom::TheRoom(float taille): _taille(taille)
 {
+
+	GLuint texturesId[6];
+
+	char* nameFace[6];
+	 for(int i=0; i<6; i++)
+		nameFace[i] = new char[35];
+	 
+	 sprintf(nameFace[0],"%s", "the_room/sole.ppm");
+	 sprintf(nameFace[1],"%s", "the_room/plafond.ppm");
+	 sprintf(nameFace[2],"%s", "the_room/mur1.ppm");
+	 sprintf(nameFace[3],"%s", "the_room/mur2.ppm");
+	 sprintf(nameFace[4],"%s", "the_room/mur3.ppm");
+	 sprintf(nameFace[5],"%s", "the_room/mur4.ppm");
+	
+	//charger les texutre
+	this->LoadTexture(texturesId, nameFace, 6); 
+	 
+	 for(int i=0; i<6; i++)
+		delete nameFace[i];
+
+	 // Copie en attribut
+	 _sole = texturesId[0];
+	 _plafond = texturesId[1];
+	 _mur1 = texturesId[2];
+	 _mur2 = texturesId[3];
+	 _mur3 = texturesId[4];
+	 _mur4 = texturesId[5];
 }
 
 
@@ -33,19 +60,13 @@ void TheRoom::BuildAndDisplay()
 		this->Lustre(1.0,1.0);
 	glPopMatrix();
 
+
 }
 
 
 void TheRoom::TheMuseum()
 {
 	
-	//charger les texutre
-	this->LoadTexture("textures/the_room/sole.ppm", this->_sole);  //le sole
-	this->LoadTexture("textures/the_room/plafond.ppm", this->_plafond);  //le plafond
-	this->LoadTexture("textures/the_room/mur1.ppm", this->_mur1);  //le mure 1
-	this->LoadTexture("textures/the_room/mur2.ppm", this->_mur2);  //le mure 2
-	this->LoadTexture("textures/the_room/mur3.ppm", this->_mur3);  //le mure 3
-	this->LoadTexture("textures/the_room/mur4.ppm", this->_mur4);  //le mure 4
 
 	//dessiner la chambre
 	glPushMatrix();
@@ -427,21 +448,3 @@ void TheRoom::CylindreCrue(float epaisseur)
 			gluCylinder(gluNewQuadric(),0.5-epaisseur,0.5-epaisseur,0.5,100,100); 
 		glPopMatrix();
 }
-
-void TheRoom::LoadTexture(char* nom, GLuint &gLuint)
-{
-	glGenTextures(1, &gLuint);
-
-	PPMImage* image1 = new PPMImage(nom);
-	glBindTexture(GL_TEXTURE_2D, gLuint);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, image1->GetSizeX(), image1->GetSizeY(),GL_RGB, GL_UNSIGNED_BYTE, image1->GetImage());
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
-
-}
-

@@ -25,5 +25,4 @@ public:
 	virtual void FastDisplay();
 	void SetTransparency(float transparency);
 };
-
 #endif

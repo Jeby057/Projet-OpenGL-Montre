@@ -72,5 +72,4 @@ public:
 
 	void LoadTexture(GLuint* _faceTexture, char** face, int nb);
 };
-
 #endif

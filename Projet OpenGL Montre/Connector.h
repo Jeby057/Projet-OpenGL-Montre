@@ -10,5 +10,5 @@ public:
 	virtual void BuildAndDisplay();
 	virtual ~Connector(void);
 };
-
 #endif
+

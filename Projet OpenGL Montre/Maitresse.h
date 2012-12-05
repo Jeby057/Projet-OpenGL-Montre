@@ -20,5 +20,4 @@ public:
 	virtual ~Maitresse(void);
 	virtual void BuildAndDisplay();
 };
-
 #endif

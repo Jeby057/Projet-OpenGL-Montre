@@ -22,5 +22,4 @@ public:
 	virtual ~CacheEngrenage(void);
 	virtual void BuildAndDisplay();
 };
-
 #endif

@@ -15,5 +15,4 @@ public:
 	virtual void BuildAndDisplay();
 	void PiecePartielle();
 };
-
 #endif

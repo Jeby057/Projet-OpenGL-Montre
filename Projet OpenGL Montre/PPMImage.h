@@ -17,5 +17,4 @@ public:
 	int GetSizeY();
 	GLubyte* GetImage();
 };
-
 #endif

@@ -22,5 +22,4 @@ public:
 
 	void ConstrAig(Point3D * aiguille, float longPic);
 };
-
 #endif

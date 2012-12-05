@@ -20,7 +20,6 @@ public:
 	
 	virtual void BuildAndDisplay();
 
-	void LoadTexture(char* face, GLuint &gLuint);
 
 	void TheMuseum();
 	void VitrineExposition(float largeur, float hauteur);
@@ -31,5 +30,4 @@ public:
 	void CylindreRemplis();
 	void CylindreCrue(float epaisseur);
 };
-
 #endif

@@ -33,5 +33,4 @@ public:
 	void ToGold();
 	void ToRuby();
 };
-
 #endif

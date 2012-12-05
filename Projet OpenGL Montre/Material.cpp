@@ -115,7 +115,7 @@ void Material::ToBlackReflect()
 	_specular[0] = 0.656777;
 	_specular[1] = 0.837622;
 	_specular[2] = 0.686014;
-	_shininess = 8.0;
+	_shininess = 0.6;
 }
 
 

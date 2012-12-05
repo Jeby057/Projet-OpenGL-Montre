@@ -22,5 +22,4 @@ public:
 	void Tige();
 	void Cuve();
 };
-
 #endif

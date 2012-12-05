@@ -12,7 +12,7 @@ _hauteur(hauteur), _largeur(largeur), _longueur(longueur), _txReduction(txReduct
 
 PlaqueSeparation::~PlaqueSeparation(void)
 {
-	delete _faceTexture;
+	//delete[2] _faceTexture;
 }
 
 

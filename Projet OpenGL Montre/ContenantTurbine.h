@@ -18,5 +18,4 @@ public:
 	void Glace();
 	void MontureGlace();
 };
-
 #endif

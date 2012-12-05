@@ -14,6 +14,7 @@ TrackBallCamera::TrackBallCamera(void)
     _scrollSensivity = 1;
     _offsetSensivity = 0.1;
 	_maxDistance = 9.5;
+	_target = Point3D(0,0,0);
 }
 
 
@@ -89,7 +90,7 @@ void TrackBallCamera::Look()
 	// Projection
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60.0,1.0*(GLfloat)_width/(GLfloat)_height,1.0,30.0);
+	gluPerspective(60.0,1.0*(GLfloat)_width/(GLfloat)_height,0.5,30.0);
 	glMatrixMode(GL_MODELVIEW);
 
 	// Caméra
@@ -118,4 +119,9 @@ void TrackBallCamera::SetFrameSize(int width, int height)
 	_width = width;
 	_height = height;
 	glViewport(0,0,_width,_height);
+}
+
+void TrackBallCamera::Update()
+{
+
 }

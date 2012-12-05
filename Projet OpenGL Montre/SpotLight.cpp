@@ -1,8 +1,8 @@
 #include "SpotLight.h"
 
 
-SpotLight::SpotLight(GLenum id, GLfloat radius, GLfloat color[4], GLfloat position[3], GLfloat direction[3], GLfloat ambiant[4], GLfloat diffuse[4], GLfloat specular[4])
-	:Light(id, radius, color, position, ambiant, diffuse, specular)
+SpotLight::SpotLight(GLenum id, GLfloat position[3], GLfloat direction[3], GLfloat ambiant[4], GLfloat diffuse[4], GLfloat specular[4], double cutoff, double exponent)
+	:Light(id, position, ambiant, diffuse, specular), _cutoff(cutoff), _exponent(exponent)
 {
 	for(int i=0; i<3; i++)
 	{
@@ -17,7 +17,7 @@ SpotLight::~SpotLight(void)
 
 
 void SpotLight::Display()
-{
+{/*
 	float dx = _direction[0];
 	float dy = _direction[1];
 	float dz = _direction[2];
@@ -43,11 +43,15 @@ void SpotLight::Display()
 			glutSolidCone(0.05, 0.1, 50, 50);
 		glPopMatrix();
 	glPopMatrix();
+	*/
+	Light::Display();
 }
 
 void SpotLight::Enable()
 {
 	glLightfv(_id, GL_SPOT_DIRECTION, _direction);
+	glLightf(_id,GL_SPOT_CUTOFF,_cutoff);
+	glLightf(_id,GL_SPOT_EXPONENT,_exponent);
 	Light::Enable();
 }
 

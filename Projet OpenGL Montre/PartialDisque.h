@@ -20,6 +20,4 @@ public:
 
 	void BuildAndDisplay();
 };
-
 #endif
-

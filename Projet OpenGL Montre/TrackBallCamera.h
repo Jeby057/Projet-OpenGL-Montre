@@ -16,7 +16,7 @@ class TrackBallCamera
     virtual void SetScrollSensivity(double sensivity);
 	virtual void SetOffsetSensivity(double sensivity);
 	virtual void SetFrameSize(int width, int height);
-
+	virtual void Update();
     virtual ~TrackBallCamera();
 protected:
     double _motionSensivity;
@@ -29,6 +29,6 @@ protected:
     double _offsetZ, _offsetY;
 	int _width, _height;
 	double _maxDistance;
+	Point3D _target;
 };
-
 #endif

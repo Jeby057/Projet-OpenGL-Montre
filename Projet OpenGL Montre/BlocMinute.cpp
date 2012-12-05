@@ -152,4 +152,3 @@ void BlocMinute::BuildAndDisplay()
 
 	delete pts;
 }
-

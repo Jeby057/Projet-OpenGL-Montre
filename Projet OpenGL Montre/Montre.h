@@ -31,7 +31,9 @@
 #include "Armature.h"
 #include "ContenantTurbine.h"
 #include "BlocMinute.h"
+#include "PieceChiffres.h"
 #include "windows.h"
+#include "Time.h"
 
 // Définition des angles de rotations pour chaque période horaire
 #define DELTA_HEURE 120.0
@@ -127,22 +129,11 @@ class Montre : public Piece
 	// Bloc permettant d'afficher l'ensemble des minutes
 	BlocMinute* _blocMinute;
 
+	// Piècse représentants les chiffres des minutes
+	PieceChiffres* _chiffre0, *_chiffre15, *_chiffre30, *_chiffre45, *_chiffre60;
+
 	// Temps actuel
-	SYSTEMTIME _time;
-
-	// Ancien temps (Mis à jours toutes les millisecondes)
-	// Permet une manipulation des secondes douce et de mettre à jour la montre à chaque modification horraire
-	SYSTEMTIME _oldMilliSecondsTime;
-
-	// Ancien temps (Mis à jours toutes les secondes)
-	// Permet de calculer les rotations et sens des turbines
-	SYSTEMTIME _oldSecondsTime;
-
-	// SacleTime permet d'accélérer ou de ralentir le temps
-	// Le temps s'écoule normalement avec un scaletime à 1
-	// >1 : le temps s'accélère
-	// <1 : le temps diminue
-	float _scaleTime;
+	Time* _time;
 
 	// Permet de savoir si l'utilisateur effectue une modification sur l'horraire
 	// Arret donc des secondes
@@ -151,13 +142,20 @@ class Montre : public Piece
 	// Vrai si seul le mécanisme doit être affiché
 	// Sinon, toute la montre est affiché
 	bool _displayMecanismeOnly;
+	int _displayMecanismeOnlyProcessing;
+
+	// Timer permettant la rotation des turbines
+	Time _turbineTime;
+
+	float _fractal;
+
 
 public:
 	/**
 	 * Constructeur de la montre
 	 * Construit et sauvegarde tous les composants de la montre dans la carte graphique
 	 */
-	Montre(void);
+	Montre(Time*);
 
 	/**
 	 * Destruction de la montre
@@ -209,10 +207,9 @@ public:
 	void Remonter(bool reverse = false);
 
 	/*
-	 * 
+	 * Permet de changer 
 	 */
 	void SetBackground(int id);
-	void SetScaleTime(int scale);
 	void SetArmatureTransparency(float transparency);
 	void ShowMecanisme(bool show);
 	bool IsUserChanging();
@@ -220,7 +217,9 @@ public:
 
 private:
 	float GetCurrentHourRotation(int cubeAxe);
-	void BuildStructureSuperieur(float rotation);
+	void BuildStructureSuperieure(float rotation);
+	void BuildStructureSecondesInferieure(float rotation);
+	void BuildStructureTurbineInferieure(float rotation);
+	void BuildStructureIntermediaire();
 };
-
 #endif

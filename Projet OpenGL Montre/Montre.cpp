@@ -1,20 +1,22 @@
 #include "Montre.h"
 
 
-Montre::Montre(void)
+Montre::Montre(Time* time)
 {
+	// On pointe sur le timer
+	_time = time;
+
 	// Récupértion de l'heure systeme
-	GetSystemTime(&_oldMilliSecondsTime);
-	GetSystemTime(&_oldSecondsTime);
+	SYSTEMTIME systemTime = Time::GetSystemGMTTime();
 
 	// Initialisation de la montre à l'heure du système
-	SetHeure(_oldMilliSecondsTime.wHour, _oldMilliSecondsTime.wMinute, _oldMilliSecondsTime.wSecond);
-
-	// Set scale à 1 (montre en temps réel)
-	_scaleTime = 2;
+	SetHeure(systemTime.wHour, systemTime.wMinute, systemTime.wSecond);
 
 	//L'utilisateur n'est pas en train de changer l'heure
 	_inUserChanging = false;
+
+	_fractal = 0;
+	_displayMecanismeOnlyProcessing = false;
 
 	_displayMecanismeOnly = false;
 
@@ -81,7 +83,7 @@ Montre::Montre(void)
 	 _pointeurHorraire->BuildAndSave();
 
 	 // Indicateur des minutes
-	 _indicateurMin = new IndicateurMins(0.35, 0.085, 0.085, 0.55, 0.01, 0.01);
+	 _indicateurMin = new IndicateurMins(0.265, 0.085, 0.085, 0.35, 0.01, 0.01);
 	 _indicateurMin->BuildAndSave();
 
 	 // Rotor Engrenage final
@@ -116,6 +118,18 @@ Montre::Montre(void)
 	 _blocMinute = new BlocMinute(4.6/3.35, 2, 1.8, 0.9, 0.9, 0.3);
 	 _blocMinute->BuildAndSave();
 
+	 _chiffre0 = new PieceChiffres(0.15, 0);
+	 _chiffre15 = new PieceChiffres(0.15, 1, 5);
+	 _chiffre30 = new PieceChiffres(0.15, 3, 0);
+	 _chiffre45 = new PieceChiffres(0.15, 4, 5);
+	 _chiffre60 = new PieceChiffres(0.15, 6, 0);
+	 _chiffre0->BuildAndSave();
+	 _chiffre15->BuildAndSave();
+	 _chiffre30->BuildAndSave();
+	 _chiffre45->BuildAndSave();
+	 _chiffre60->BuildAndSave();
+
+
 	 // Cube heure
 	 for(int cube=0; cube<3; cube++)
 	 {
@@ -143,6 +157,9 @@ Montre::Montre(void)
 
 	 _connectorCubeHeure = new Connector(0.17/3, 0.17/1.2);
 	 _connectorCubeHeure->BuildAndDisplay();
+
+	 // On lance l'annimation des turbines
+	 _turbineTime.Start();
 }
 
 
@@ -175,9 +192,13 @@ Montre::~Montre(void)
 	delete _armature;
 	delete _contenantTurbine;
 	delete _blocMinute;
-	for(int cube=0; cube<3; cube++)
-		delete _cubeHeure[cube];
-	delete _cubeHeure[3];
+	delete _chiffre0;
+	delete _chiffre15;
+	delete _chiffre30; 
+	delete _chiffre45; 
+	delete _chiffre60;
+	for(int i=0; i<3; i++)
+		delete _cubeHeure[i];
 }
 
 void Montre::BuildAndDisplay()
@@ -206,322 +227,89 @@ void Montre::FastDisplay()
 	glPushMatrix();
 		// Structure supérieur
 		glPushMatrix();
-			glTranslatef(0, 0.05, 0);
-
-			// Boite minute
-			if(!_displayMecanismeOnly){
-				glPushMatrix();
-					glRotatef(180, 0, 1, 0);
-					glTranslatef(0.325, 0.0, 0.0);
-					_blocMinute->FastDisplay();
-				glPopMatrix();
-			}
-
-			BuildStructureSuperieur(_rotation);
+			glTranslatef(0, 0.05 + _fractal, 0);
+			BuildStructureSuperieure(_rotation);
 		glPopMatrix();
 
 		// Structure inférieure
 		glPushMatrix();
 
 			// Plaque de séparation
-			glTranslatef(0.2, -0.045 -0.025, 0);
-			
-			if(!_displayMecanismeOnly){
-				glPushMatrix();
-					glTranslatef(-0.35, 0, 0);
-					glRotatef(180, 0, 1, 0);
-					_plaqueSeparation->FastDisplay();
-				glPopMatrix();
-			}
+			glTranslatef(0, -0.045 -0.025, 0);
+			glPushMatrix();
+				glTranslatef(0.2, 0, 0);
+				if(!_displayMecanismeOnly && !_displayMecanismeOnlyProcessing)
+					BuildStructureIntermediaire();
+			glPopMatrix();
 
-			// Pilier de soutien
-			for(int i=0; i<4; i++)
-			{
-				Material mat = Material();
-				mat.ToBlackReflect();
-				mat.Enable();
-				glPushMatrix();
-					glTranslatef((i%2?1:-1)*1.15, 0.02, (i%3?1:-1)*1.15);
-					glRotatef(90, 1, 0, 0);
-					_rotorInferieur->FastDisplay();
-				glPopMatrix();
-			}
 			// Translation pour positionner les engrenages
 			glTranslatef(0, -0.01 * 2 -0.045, 0);
 
 			glPushMatrix();
-				// Sous engrenage (3H) -> Vers secondes
-				glPushMatrix();
-					glRotatef(_rotation, 0, 1, 0);
-					_engrenage_M0p01_0p75->FastDisplay();
-				glPopMatrix();
-
-				glPushMatrix();
-					glTranslatef(75*0.01/2 +25*0.01/2, 0, 0);
-					float reduction = ratio_0p75_0p25;
-
-					// Rotor de l'engrenage de réduction
-					glPushMatrix();
-						glRotatef(-90, 1, 0, 0);
-						_rotorEngrenageReductionHeureMin->FastDisplay();
-					glPopMatrix();
-
-					// Engrenage de réduction (1H)
-					glPushMatrix();
-						glRotatef(-_rotation * reduction, 0, 1, 0);
-						_engrenage_M0p01_0p25->FastDisplay();
-					glPopMatrix();
-
-					glPushMatrix();
-						glTranslatef(25*0.01, -0.01, 0);
-
-						// Rotor de l'engrenage conjoint de réduction
-						glPushMatrix();
-							glRotatef(-90, 1, 0, 0);
-							_rotorEngrenageReductionHeureMin->FastDisplay();
-						glPopMatrix();
-
-						// Engrenage conjoint de réduction (1H)
-						glPushMatrix();
-							glRotatef(_rotation * reduction, 0, 1, 0);
-							_engrenage_M0p01_0p25->FastDisplay();
-						glPopMatrix();
-
-						glPushMatrix();
-							glTranslatef(0, - 0.045, 0);
-						
-							// Sous engrenage (Réduction 1H)
-							glPushMatrix();
-								glRotatef(_rotation * reduction, 0, 1, 0);
-								_engrenage_M0p01_0p75->FastDisplay();
-							glPopMatrix();
-
-							glPushMatrix();
-								glTranslatef(75*0.01/2 +15*0.01/2, 0, 0);
-								reduction *= ratio_0p75_0p15;
-							
-								// Engrenange de réduction (12min)
-								glPushMatrix();
-									glTranslatef(0, 0.045 + 0.01 * 2, 0);
-									glRotatef(-_rotation * reduction, 0, 1, 0);
-									_engrenage_M0p01_0p15G->FastDisplay();
-								glPopMatrix();
-
-								glPushMatrix();
-									glTranslatef(0, (0.045 + 0.01)*2, 0);
-								
-									// Sur Engrenange de réduction (12min)
-									glPushMatrix();
-										glRotatef(-_rotation * reduction, 0, 1, 0);
-										_engrenage_M0p01_0p60->FastDisplay();
-									glPopMatrix();
-
-								
-									glPushMatrix();
-										reduction *= ratio_0p60_0p5;
-										glTranslatef(-60*0.01/2 - 5*0.01/2, 0, 0);
-									
-										// Engrenange de réduction (1min) (sens horraire)
-										glPushMatrix();
-
-											// Disque des secondes
-											glPushMatrix();
-												glTranslatef(0,0.025,0);
-												_disqueSecondes->FastDisplay();
-											glPopMatrix();
-
-
-											glRotatef(_rotation * reduction + 3.5, 0, 1, 0);
-											_engrenage_M0p01_0p5->FastDisplay();
-										
-											// Rotor des secondes
-											glTranslatef(0,-0.045 + 0.01,0);
-											glPushMatrix();
-												glRotatef(-90, 1, 0, 0);
-												_rotorEngrenageSecondes->FastDisplay();
-											glPopMatrix();
-
-											// Aiguilles des secondes
-											glPushMatrix();
-												glTranslatef(0,(0.045 + 0.01 * 1.5) + 0.025,0);
-												_aiguillesSecondes->FastDisplay();
-											glPopMatrix();
-										glPopMatrix();
-									glPopMatrix();
-								glPopMatrix();
-							glPopMatrix();
-						glPopMatrix();
-					glPopMatrix();
-				glPopMatrix();
-
-				// Etage inférieur -> Engrenages vers turbines
-				glPushMatrix();
-					glTranslatef(0, -(0.045 + 0.01)*2, 0);
-
-					// Sous engrenage (3H) -> Vers turbines
-					glPushMatrix();
-						glRotatef(_rotation, 0, 1, 0);
-						_engrenage_M0p01_0p255->FastDisplay();
-					glPopMatrix();
-
-					// Déplacement vers le mécanisme des turbines
-					glPushMatrix();
-						glTranslatef(-255*0.01/2 - 60*0.01/2, 0, 0);
-
-						// Engrenage turbine central
-						glPushMatrix();
-							glRotatef(-_rotation * ratio_0p255_0p60, 0, 1, 0);
-							_engrenage_M0p01_0p60->FastDisplay();
-						glPopMatrix();
-
-						// Engrenages supérieurs turbines
-						glPushMatrix();
-							glTranslatef(0, (0.045 + 0.01)*3 -0.01, 0);
-
-							// Engrenage turbine central
-							glPushMatrix();
-								glRotatef(-_rotation * ratio_0p255_0p60, 0, 1, 0);
-								_engrenage_M0p01_0p60->FastDisplay();
-								glPushMatrix();
-									glTranslatef(0, 0.045 , 0);
-									glRotatef(90, 1, 0, 0);
-									_rotorInferieur->FastDisplay();
-								glPopMatrix();
-							glPopMatrix();
-
-							// Engrenage turbine gauche
-							glPushMatrix();
-								glTranslatef(0, 0, - 60*0.01);
-								glRotatef(_rotation * ratio_0p255_0p60 - 2.5, 0, 1, 0);
-								_engrenage_M0p01_0p60->FastDisplay();
-
-								// Turbine
-								glPushMatrix();
-									glRotatef(-_rotation * ratio_0p255_0p60 + 2.5, 0, 1, 0);
-									glTranslatef(0, (-0.045 - 0.01)*2, 0);
-									glPushMatrix();
-										glRotatef(_rotationTurbine, 0, 1, 0);
-										_turbine->FastDisplay();
-									glPopMatrix();
-									
-									// Vitre turbine
-									glPushMatrix();
-										glTranslatef(0, (-0.045 )*4, 0);
-										glRotatef(-90, 1, 0, 0);
-										_contenantTurbine->FastDisplay();
-									glPopMatrix();
-
-								glPopMatrix();
-							glPopMatrix();
-
-							// Engrenage turbine droit
-							glPushMatrix();
-								glTranslatef(0, 0, 60*0.01);	
-								glRotatef(_rotation * ratio_0p255_0p60 + 2.5, 0, 1, 0);
-								_engrenage_M0p01_0p60->FastDisplay();
-								
-								// Turbine
-								glPushMatrix();
-									glRotatef(-_rotation * ratio_0p255_0p60 + 2.5, 0, 1, 0);
-									glTranslatef(0, (-0.045 - 0.01)*2, 0);
-									glPushMatrix();
-										glRotatef(_rotationTurbine, 0, 1, 0);
-										_turbine->FastDisplay();
-									glPopMatrix();
-									
-									// Vitre turbine
-									glPushMatrix();
-										glTranslatef(0, (-0.045 )*4, 0);
-										glRotatef(-90, 1, 0, 0);
-										_contenantTurbine->FastDisplay();
-									glPopMatrix();
-								glPopMatrix();
-							glPopMatrix();
-
-						glPopMatrix();
-					glPopMatrix();
-				glPopMatrix();
-
-
+				BuildStructureSecondesInferieure(_rotation);
+				
+				glTranslatef(0, -_fractal, 0);
+				BuildStructureTurbineInferieure(_rotation);
 			glPopMatrix();
 		glPopMatrix();
 
 		// Armature
-		if(!_displayMecanismeOnly){
+		if(!_displayMecanismeOnly && !_displayMecanismeOnlyProcessing){
 			glPushMatrix();
 				glRotatef(-90, 1, 0, 0);
 				glRotatef(180, 0, 0, 1);
 				_armature->FastDisplay();
 			glPopMatrix();
-
 		}
 	glPopMatrix();
 }
 
-
-void Montre::Update()
-{
-	// La mise à jour de la montre s'effectue uniquement si l'utilisateur 
-	// n'est pas en train de modifier l'heure lui même
-	if(!_inUserChanging)
-	{
-		// Calcul du nombre de tours effectués
-		float nbTours = abs(_rotation)/360.0;
-	
-		// Récupération de l'heure actuelle
-		GetSystemTime(&_time);
-
-
-		// On tourne dans le sens horraire
-		float diffTime = 0;
-		diffTime += (_time.wMilliseconds - _oldMilliSecondsTime.wMilliseconds) * DELTA_MILLISECONDE;
-		diffTime += (_time.wSecond - _oldMilliSecondsTime.wSecond) * DELTA_SECONDE;
-		diffTime += (_time.wMinute - _oldMilliSecondsTime.wMinute) * DELTA_MINUTE;
-		diffTime += (_time.wHour - _oldMilliSecondsTime.wHour) * DELTA_HEURE;
-
-		_rotation -= diffTime * _scaleTime;
-		_oldMilliSecondsTime = _time;
-
-		// Rotation de la turbine
-		float diffTurbineTime = 0;
-		diffTurbineTime += (_time.wMilliseconds - _oldSecondsTime.wMilliseconds) * DELTA_MILLISECONDE;
-		diffTurbineTime += (_time.wSecond - _oldSecondsTime.wSecond) * DELTA_SECONDE;
-		diffTurbineTime += (_time.wMinute - _oldSecondsTime.wMinute) * DELTA_MINUTE;
-		diffTurbineTime += (_time.wHour - _oldSecondsTime.wHour) * DELTA_HEURE;
-
-		if(diffTurbineTime >= DELTA_SECONDE * 2){
-			_sensTurbine = !_sensTurbine;
-			_oldSecondsTime = _time;
-		}
-		
-		float scaleTurbinePass = 30;
-
-		if(diffTurbineTime >= DELTA_SECONDE && diffTurbineTime <= DELTA_SECONDE * 1.9 )
-			scaleTurbinePass = 20;
-
-		if((diffTurbineTime >= DELTA_SECONDE * 0.9 && diffTurbineTime <= DELTA_SECONDE) || diffTurbineTime >= DELTA_SECONDE * 1.9)
-			scaleTurbinePass = (_sensTurbine?-1:-0) * 20;
-		
-		_rotationTurbine += (_sensTurbine?1:-1) * scaleTurbinePass;
-
-		// Quand l'on a fait 4 fois le tours : 12h en tout!
-		if(nbTours >= 4)
-			_rotation = 0;
-	}
-	else
-	{
-		_oldMilliSecondsTime = _time;
-		_oldSecondsTime = _time;
-	}
-}
-
-void Montre::BuildStructureSuperieur(float rotation)
+void Montre::BuildStructureSuperieure(float rotation)
 {
 	// Ratio engrenage principale vers bras des heures
 	float ratio_0p85_0p25 = 85.0 / 25.0;
 
 	// Structure complète
 	glPushMatrix();
+	
+		// Boite minute
+		if(!_displayMecanismeOnly && !_displayMecanismeOnlyProcessing){
+			glPushMatrix();
+				glRotatef(180, 0, 1, 0);
+				glTranslatef(0.325, 0.0, 0.0);
+				_blocMinute->FastDisplay();
+
+				glPushMatrix();
+					glRotatef(-90, 1, 0, 0);
+
+					glPushMatrix();
+						glTranslatef(0.95, 1.6, 0.3);
+						_chiffre0->FastDisplay();
+					glPopMatrix();
+
+					glPushMatrix();
+						glTranslatef(1.7, 0.95, 0.3);
+						_chiffre15->FastDisplay();
+					glPopMatrix();
+
+					glPushMatrix();
+						glTranslatef(1.95, 0.0, 0.26);
+						_chiffre30->FastDisplay();
+					glPopMatrix();
+
+					glPushMatrix();
+						glTranslatef(1.7, -0.95, 0.3);
+						_chiffre45->FastDisplay();
+					glPopMatrix();
+
+					glPushMatrix();
+						glTranslatef(0.95, -1.6, 0.3);
+						_chiffre60->FastDisplay();
+					glPopMatrix();
+				glPopMatrix();
+			glPopMatrix();
+		}
+
 
 		// Engrenage principal
 		glPushMatrix();
@@ -665,6 +453,235 @@ void Montre::BuildStructureSuperieur(float rotation)
 	glPopMatrix();
 }
 
+void Montre::BuildStructureSecondesInferieure(float rotation)
+{
+	float ratio_0p75_0p25 = 75.0 / 25.0;
+	float ratio_0p75_0p15 = 75.0 / 15.0;
+	float ratio_0p60_0p5 = 60.0 / 5.0;
+
+	// Sous engrenage (3H) -> Vers secondes
+	glPushMatrix();
+		glRotatef(_rotation, 0, 1, 0);
+		_engrenage_M0p01_0p75->FastDisplay();
+	glPopMatrix();
+
+	glPushMatrix();
+		glTranslatef(75*0.01/2 +25*0.01/2, 0, 0);
+		float reduction = ratio_0p75_0p25;
+
+		// Rotor de l'engrenage de réduction
+		glPushMatrix();
+			glRotatef(-90, 1, 0, 0);
+			_rotorEngrenageReductionHeureMin->FastDisplay();
+		glPopMatrix();
+
+		// Engrenage de réduction (1H)
+		glPushMatrix();
+			glRotatef(-_rotation * reduction, 0, 1, 0);
+			_engrenage_M0p01_0p25->FastDisplay();
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(25*0.01, -0.01, 0);
+
+			// Rotor de l'engrenage conjoint de réduction
+			glPushMatrix();
+				glRotatef(-90, 1, 0, 0);
+				_rotorEngrenageReductionHeureMin->FastDisplay();
+			glPopMatrix();
+
+			// Engrenage conjoint de réduction (1H)
+			glPushMatrix();
+				glRotatef(_rotation * reduction, 0, 1, 0);
+				_engrenage_M0p01_0p25->FastDisplay();
+			glPopMatrix();
+
+			glPushMatrix();
+				glTranslatef(0, - 0.045, 0);
+						
+				// Sous engrenage (Réduction 1H)
+				glPushMatrix();
+					glRotatef(_rotation * reduction, 0, 1, 0);
+					_engrenage_M0p01_0p75->FastDisplay();
+				glPopMatrix();
+
+				glPushMatrix();
+					glTranslatef(75*0.01/2 +15*0.01/2, 0, 0);
+					reduction *= ratio_0p75_0p15;
+							
+					// Engrenange de réduction (12min)
+					glPushMatrix();
+						glTranslatef(0, 0.045 + 0.01 * 2, 0);
+						glRotatef(-_rotation * reduction, 0, 1, 0);
+						_engrenage_M0p01_0p15G->FastDisplay();
+					glPopMatrix();
+
+					glPushMatrix();
+						glTranslatef(0, (0.045 + 0.01)*2, 0);
+								
+						// Sur Engrenange de réduction (12min)
+						glPushMatrix();
+							glRotatef(-_rotation * reduction, 0, 1, 0);
+							_engrenage_M0p01_0p60->FastDisplay();
+						glPopMatrix();
+
+								
+						glPushMatrix();
+							reduction *= ratio_0p60_0p5;
+							glTranslatef(-60*0.01/2 - 5*0.01/2, 0, 0);
+									
+							// Engrenange de réduction (1min) (sens horraire)
+							glPushMatrix();
+
+								// Disque des secondes
+								glPushMatrix();
+									glTranslatef(0,0.025,0);
+									_disqueSecondes->FastDisplay();
+								glPopMatrix();
+
+
+								glRotatef(_rotation * reduction + 3.5, 0, 1, 0);
+								_engrenage_M0p01_0p5->FastDisplay();
+										
+								// Rotor des secondes
+								glTranslatef(0,-0.045 + 0.01,0);
+								glPushMatrix();
+									glRotatef(-90, 1, 0, 0);
+									_rotorEngrenageSecondes->FastDisplay();
+								glPopMatrix();
+
+								// Aiguilles des secondes
+								glPushMatrix();
+									glTranslatef(0,(0.045 + 0.01 * 1.5) + 0.025,0);
+									_aiguillesSecondes->FastDisplay();
+								glPopMatrix();
+							glPopMatrix();
+						glPopMatrix();
+					glPopMatrix();
+				glPopMatrix();
+			glPopMatrix();
+		glPopMatrix();
+	glPopMatrix();
+}
+
+void Montre::BuildStructureTurbineInferieure(float rotation)
+{
+	// Ratio sous engrenage (3H) principale vers engrenage de réduction (1H)
+	float ratio_0p255_0p60 = 255.0 / 60.0;
+	
+	// Etage inférieur -> Engrenages vers turbines
+	glPushMatrix();
+		glTranslatef(0, -(0.045 + 0.01)*2, 0);
+
+		// Sous engrenage (3H) -> Vers turbines
+		glPushMatrix();
+			glRotatef(_rotation, 0, 1, 0);
+			_engrenage_M0p01_0p255->FastDisplay();
+		glPopMatrix();
+
+		// Déplacement vers le mécanisme des turbines
+		glPushMatrix();
+			glTranslatef(-255*0.01/2 - 60*0.01/2, 0, 0);
+
+			// Engrenage turbine central
+			glPushMatrix();
+				glRotatef(-_rotation * ratio_0p255_0p60, 0, 1, 0);
+				_engrenage_M0p01_0p60->FastDisplay();
+			glPopMatrix();
+
+			// Engrenages supérieurs turbines
+			glPushMatrix();
+				glTranslatef(0, (0.045 + 0.01)*3 -0.01, 0);
+
+				// Engrenage turbine central
+				glPushMatrix();
+					glRotatef(-_rotation * ratio_0p255_0p60, 0, 1, 0);
+					_engrenage_M0p01_0p60->FastDisplay();
+					glPushMatrix();
+						glTranslatef(0, 0.045 , 0);
+						glRotatef(90, 1, 0, 0);
+						_rotorInferieur->FastDisplay();
+					glPopMatrix();
+				glPopMatrix();
+
+				// Engrenage turbine gauche
+				glPushMatrix();
+					glTranslatef(0, 0, - 60*0.01);
+					glRotatef(_rotation * ratio_0p255_0p60 - 2.5, 0, 1, 0);
+					_engrenage_M0p01_0p60->FastDisplay();
+
+					// Turbine
+					glPushMatrix();
+						glRotatef(-_rotation * ratio_0p255_0p60 + 2.5, 0, 1, 0);
+						glTranslatef(0, (-0.045 - 0.01)*2, 0);
+						glPushMatrix();
+							glRotatef(_rotationTurbine, 0, 1, 0);
+							_turbine->FastDisplay();
+						glPopMatrix();
+									
+						// Vitre turbine
+						glPushMatrix();
+							glTranslatef(0, (-0.045 )*4, 0);
+							glRotatef(-90, 1, 0, 0);
+							_contenantTurbine->FastDisplay();
+						glPopMatrix();
+
+					glPopMatrix();
+				glPopMatrix();
+
+				// Engrenage turbine droit
+				glPushMatrix();
+					glTranslatef(0, 0, 60*0.01);	
+					glRotatef(_rotation * ratio_0p255_0p60 + 2.5, 0, 1, 0);
+					_engrenage_M0p01_0p60->FastDisplay();
+								
+					// Turbine
+					glPushMatrix();
+						glRotatef(-_rotation * ratio_0p255_0p60 + 2.5, 0, 1, 0);
+						glTranslatef(0, (-0.045 - 0.01)*2, 0);
+						glPushMatrix();
+							glRotatef(_rotationTurbine, 0, 1, 0);
+							_turbine->FastDisplay();
+						glPopMatrix();
+									
+						// Vitre turbine
+						glPushMatrix();
+							glTranslatef(0, (-0.045 )*4, 0);
+							glRotatef(-90, 1, 0, 0);
+							_contenantTurbine->FastDisplay();
+						glPopMatrix();
+					glPopMatrix();
+				glPopMatrix();
+
+			glPopMatrix();
+		glPopMatrix();
+	glPopMatrix();
+}
+
+
+void Montre::BuildStructureIntermediaire()
+{
+	// Plaque
+	glPushMatrix();
+		glTranslatef(-0.35, 0, 0);
+		glRotatef(180, 0, 1, 0);
+		_plaqueSeparation->FastDisplay();
+	glPopMatrix();
+
+	// Pilier de soutien
+	for(int i=0; i<4; i++)
+	{
+		Material mat = Material();
+		mat.ToBlackReflect();
+		mat.Enable();
+		glPushMatrix();
+			glTranslatef((i%2?1:-1)*1.15, 0.02, (i%3?1:-1)*1.15);
+			glRotatef(90, 1, 0, 0);
+			_rotorInferieur->FastDisplay();
+		glPopMatrix();
+	}
+}
+
 float Montre::GetCurrentHourRotation(int cubeAxe)
 {
 	// Calcul de la rotation relative
@@ -694,6 +711,69 @@ float Montre::GetCurrentHourRotation(int cubeAxe)
 	return ((int)nbToursCubeHeure) * 90 + (90 * txRotationHeure);
 }
 
+
+
+
+void Montre::Update()
+{
+	// La mise à jour de la montre s'effectue uniquement si l'utilisateur 
+	// n'est pas en train de modifier l'heure lui même
+	if(!_inUserChanging)
+	{
+		// Récupération de l'heure actuelle
+		SYSTEMTIME interval = _time->GetInterval();
+
+		// Calcul du nombre de tours effectués
+		float nbTours = abs(_rotation)/360.0;
+	
+		// On tourne dans le sens horraire
+		float diffTime = 0;
+		diffTime += interval.wMilliseconds * DELTA_MILLISECONDE;
+		diffTime += interval.wSecond  * DELTA_SECONDE;
+		diffTime += interval.wMinute * DELTA_MINUTE;
+		diffTime += interval.wHour * DELTA_HEURE;
+		_rotation -= diffTime;
+
+
+		// Rotation de la turbine
+		SYSTEMTIME intervalTurbineTime = _turbineTime.GetInterval();
+		float diffTurbineTime = interval.wMilliseconds * DELTA_MILLISECONDE + interval.wSecond  * DELTA_SECONDE;
+
+		// Reset de la rotation des turbines
+		if(intervalTurbineTime.wSecond >= 2){
+			_sensTurbine = !_sensTurbine;
+			_turbineTime.Update();
+		}
+		
+		float scaleTurbinePass = 30;
+
+		if(diffTurbineTime >= DELTA_SECONDE && diffTurbineTime <= DELTA_SECONDE * 1.9 )
+			scaleTurbinePass = 20;
+
+		if((diffTurbineTime >= DELTA_SECONDE * 0.9 && diffTurbineTime <= DELTA_SECONDE) || diffTurbineTime >= DELTA_SECONDE * 1.9)
+			scaleTurbinePass = (_sensTurbine?-1:-0) * 20;
+		
+		_rotationTurbine += (_sensTurbine?1:-1) * scaleTurbinePass;
+
+		// Quand l'on a fait 4 fois le tours : 12h en tout!
+		if(nbTours >= 4)
+			_rotation = 0;
+	}
+
+	if(_displayMecanismeOnlyProcessing)
+	{
+		_fractal += (_displayMecanismeOnly?1.0:-1.0) * 0.01;
+		if(_fractal < 0){
+			_fractal = 0;
+			_displayMecanismeOnlyProcessing = false;
+		}
+		else if(_fractal > 0.6){
+			_fractal = 0.6;
+			_displayMecanismeOnlyProcessing = false;
+		}
+	}
+}
+
 void Montre::SetHeure(int heure, int minute, int seconde)
 {
 	_rotation = -(heure%12 * DELTA_HEURE + minute * DELTA_MINUTE + seconde * DELTA_SECONDE);
@@ -702,6 +782,12 @@ void Montre::SetHeure(int heure, int minute, int seconde)
 void Montre::Remonter(bool reverse)
 {
 	_rotation -= DELTA_MINUTE * (reverse?-1:1);
+
+	// Cas particulier
+	// La rotation doit toujours être négative
+	if( _rotation >= 0) {
+		_rotation = - 360.0 * 4 + _rotation;
+	}
 }
 
 
@@ -709,12 +795,6 @@ void Montre::SetBackground(int id)
 {
 	_plaqueSeparation->SetTexture(id);
 }
-
-void Montre::SetScaleTime(int scale)
-{
-	_scaleTime = scale;
-}
-
 
 void Montre::SetArmatureTransparency(float transparency)
 {
@@ -724,6 +804,7 @@ void Montre::SetArmatureTransparency(float transparency)
 
 void Montre::ShowMecanisme(bool show){
 	_displayMecanismeOnly = show;
+	_displayMecanismeOnlyProcessing = true;
 }
 
 

@@ -104,7 +104,7 @@ void Armature::BuildAndDisplay()
 	// face dessus
 
 	Material mat = Material();
-	mat.ToBlackRubber();
+	mat.ToBlackReflect();
 	mat.Enable();
 
 	float posZ;
@@ -136,7 +136,7 @@ void Armature::BuildAndDisplay()
 
 	// face dessous
 
-	mat.ToBlackRubber();
+	mat.ToBlackReflect();
 	mat.Enable();
 
 	glBegin(GL_TRIANGLE_FAN);

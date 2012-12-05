@@ -11,7 +11,7 @@ Piece::Piece(void)
 
 Piece::~Piece(void)
 {
-
+	
 }
 
 void Piece::Update()

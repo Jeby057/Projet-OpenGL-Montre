@@ -47,5 +47,4 @@ public:
 private:
 	static const double EpsDistance;
 };
-
 #endif
