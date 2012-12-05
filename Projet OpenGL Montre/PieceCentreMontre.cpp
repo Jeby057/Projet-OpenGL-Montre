@@ -1,7 +1,7 @@
 #include "PieceCentreMontre.h"
 
-//constructeur de la classe, il initialise les variable membre avec les parametre recu
-PieceCentreMontre::PieceCentreMontre(float taille, float hauteur):_taille(taille), _hauteur(hauteur)
+// Constructeur de la classe, il initialise les variable membre avec les parametre recu
+PieceCentreMontre::PieceCentreMontre(float taille, float hauteur) : _taille(taille), _hauteur(hauteur)
 {
 }
 
@@ -10,10 +10,10 @@ PieceCentreMontre::~PieceCentreMontre(void)
 {
 }
 
-//méthode contstruction et affichage de la piece
+//méthode construction et affichage de la pièce
 void PieceCentreMontre::BuildAndDisplay()
 {
-	//dessiner les trois face
+	//dessiner les trois faces
 	for(int i = 0; i <3; i++)
 	{
 		this->PiecePartielle();
@@ -21,10 +21,10 @@ void PieceCentreMontre::BuildAndDisplay()
 	}
 }
 
-//méthode qui dessine la pice spéciale
+//méthode qui dessine la pièce spéciale
 void PieceCentreMontre::PiecePartielle()
 {
-	//Couleur de la piece
+	//Couleur de la pièce
 	Material mat = Material();
 	mat.ToChrome();
 	mat.Enable();
@@ -61,7 +61,7 @@ void PieceCentreMontre::PiecePartielle()
 			glVertex3f(0, 0, z + decalageZ);
 		glEnd();
 
-		//face de deriere
+		//face de derriere
 		glBegin(GL_QUADS);
 			glVertex3f(-20*x/100, 1.15*y/2 +decalageY, -z + decalageZ);
 			glVertex3f(x*20*x/100, 1.15*y/2 +decalageY, -z + decalageZ);
@@ -156,7 +156,7 @@ void PieceCentreMontre::PiecePartielle()
 			glVertex3f(-20*x/100, 0.6*y/2 +decalageY, -1.1*decalageZ);
 			glVertex3f(-20*x/100, 0.7*y/2 +decalageY, -decalageZ);
 		glEnd();
-		//***************************fine Piece laterale****************************************************
+		//***************************Fin Piece laterale****************************************************
 		
 		//***************************Piece de bas****************************************************
 		//face de devant

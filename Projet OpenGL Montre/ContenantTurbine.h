@@ -1,12 +1,12 @@
 /**
  * Classe ContenantTurbine
- * *************
- * Cette classe construit glace qui servera comme cache vitre aux deux turbine
- * Elle est constituer d'une galce ronde et une monture
+ * ***********************
+ * Cette classe construit la vitre qui est mise au-dessus des deux turbines
+ * Elle est constituée d'une vitre ronde et d'une monture
  * Elle sera repositionnée par la suite selon l'emplacement souhaité.
  *
  * Auteurs : GUENDOUL Samir, PIERSON Cyril, SCHEIBEL Jean-Baptiste
- * Modifié le : 25 Décembre 2012
+ * Modifié le : 25 Novembre 2012
  * Version : 1
  */
 
@@ -21,36 +21,36 @@ class ContenantTurbine : public Piece
 {
 	/**
 	 * Largeur de la piece
-	 * Elle représente 2 fois le rayon de rond
+	 * Elle représente 2 fois le rayon du rond
 	 */
 	float _largeur;
 
 	/**
-	 * Epesseur de la piece
-	 * il est interessant de controler l'epesseur de la piece, pour nous permetre de la parametrer par la suite selon nos besoin
+	 * Epaisseur de la piece
+	 * il est interessant de contrôler l'epaisseur de la piece, pour nous permettre de la parametrer par la suite selon nos besoins
 	 */
-	float _epesseur;
+	float _epaisseur;
 
 public:
 
 	/**
-	 * Constructeur de la piece
+	 * Constructeur de la pièce
 	 * Ce constructeur dessine le contenant turbine au centre de la scène
 	 * Il initialise les variable de la classe
-	 * Il demande deux paramettres : 
-	 * @largeur : largeur de la piece
-	 * @epesseur : l'epesseur de la piece
+	 * Il demande deux paramètres : 
+	 * @largeur : largeur de la pièce
+	 * @epaisseur : l'epaisseur de la pièce
 	 */
-	ContenantTurbine(float largeur, float epesseur);
+	ContenantTurbine(float largeur, float epaisseur);
 
 	/**
 	 * Destruction de la montre
-	 * Désalocation de tous les composants
+	 * Désallocation de tous les composants
 	 */
 	~ContenantTurbine(void);
 
 	/**
-	 * Méthode surcharger de la classe mère Piece.
+	 * Méthode surchargée de la classe mère Piece.
 	 * Permet d'afficher la pièce dans la scène
 	 * On peut par la suite effectuer des transformations : Translation, Rotation, Transformation
 	 */
@@ -58,13 +58,13 @@ public:
 
 	/**
 	 * Méthode Glace
-	 * Permet de dessiner une glace ronde de rayon : _largeur/2 et d'une epesseur : _epesseur
+	 * Permet de dessiner une vitre (glace) ronde de rayon : _largeur/2 et d'une epaisseur : _epaisseur
 	 */
 	void Glace();
 
 	/**
 	 * Méthode MontureGlace
-	 * Cette methode dessine une monture qui entoure la galce avec une epesseur _epesseur et d'un rayon : _largeur/2 +  epesseur
+	 * Cette methode dessine une monture qui entoure la vitre (glace) avec une epaisseur _epaisseur et d'un rayon : _largeur/2 +  epaisseur
 	 */
 	void MontureGlace();
 };

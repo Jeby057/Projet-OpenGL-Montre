@@ -4,7 +4,7 @@
 //constructeur de la classe qui dessine un seul chiffre entre 0 et 1
 PieceChiffres::PieceChiffres(float taille, int chiffre): _taille(taille), _chiffre1(chiffre)
 {
-	//mettre la variable _unChiffre à true et _unNombre à false pour dire a la classe qu'on veut dessiner un seul chiffre
+	//mettre la variable _unChiffre à true et _unNombre à false pour dire à la classe qu'on veut dessiner un seul chiffre
 	_unChiffre = true;
 	_unNombre = false;
 }
@@ -12,7 +12,7 @@ PieceChiffres::PieceChiffres(float taille, int chiffre): _taille(taille), _chiff
 //constructeur de la classe qui dessine un nombre entre 10 et 99
 PieceChiffres::PieceChiffres(float taille, int chiffre1, int chiffre2): _taille(taille), _chiffre1(chiffre1), _chiffre2(chiffre2)
 {
-	//mettre la variable _unChiffre à false et _unNombre à true pour dire a la classe qu'on veut dessiner un nombre composer de deux chiffre
+	//mettre la variable _unChiffre à false et _unNombre à true pour dire à la classe qu'on veut dessiner un nombre composé de deux chiffre
 	_unChiffre = false;
 	_unNombre = true;
 }
@@ -22,25 +22,23 @@ PieceChiffres::~PieceChiffres(void)
 {
 }
 
-//méthode contstruction et affichage des chiffre
+//méthode contstruction et affichage des chiffres
 void PieceChiffres::BuildAndDisplay()
 {
 
-	//Déffinir la couleur qu'on va utiliser pour dessiner les chiffres
+	//Définir la couleur qu'on va utiliser pour dessiner les chiffres
 	glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Rouge());
 	
-	//si on veux dessiner un chiffre on appel la méthode Chiffre et on lui passe en paramettre le chiffre qu'on va dessienr
+	//si on veut dessiner un chiffre on appelle la méthode Chiffre et on lui passe en paramètre le chiffre qu'on va dessiner
 	if(_unChiffre)
 		this->Chiffre(_chiffre1);
 
-	//si on veux dessiner un nombre on appel la méthode Nombre et on lui passe en paramettre les chiffres qu'on va dessienr
+	//si on veut dessiner un nombre on appelle la méthode Nombre et on lui passe en paramètre les chiffres qu'on va dessiner
 	if(_unNombre)
 		this->Nombre(_chiffre1, _chiffre2);
-
-	
 }
 
-//choisir un chiffre a dessiner
+//choisir un chiffre à dessiner
 void PieceChiffres::DrawChiffre(int chiffre)
 {
 	switch(chiffre){
@@ -52,7 +50,7 @@ void PieceChiffres::DrawChiffre(int chiffre)
 		case 5 : this->ChiffreCinq(); break;
 		case 6 : this->ChiffreSix(); break;
 		case 7 : this->ChiffreSept(); break;
-		case 8 : this->ChiffreHuite(); break;
+		case 8 : this->ChiffreHuit(); break;
 		case 9 : this->ChiffreNeuf(); break;
 	}
 }
@@ -167,7 +165,7 @@ void PieceChiffres::ChiffreUn()
 		glEnd();
 	glPopMatrix();
 
-	//piec de bas
+	//piece de bas
 	glPushMatrix();
 		glTranslated(0.0,-0.6,0.0);
 		glScaled(0.6,0.2,0.1);
@@ -243,7 +241,7 @@ void PieceChiffres::ChiffreTrois()
 		glutSolidCube(1);
 	glPopMatrix();
 
-	//guache bas
+	//gauche bas
 	glPushMatrix();
 		glTranslated(0.25,-0.3,0.0);
 		glScaled(0.2,0.4,0.1);
@@ -278,7 +276,7 @@ void PieceChiffres::ChiffreQuatre()
 			glVertex3f(0.05,0.7,0.05);
 		glEnd();
 
-		//face de deriere
+		//face de derriere
 		glBegin(GL_QUADS);
 			glVertex3f(-0.35,-0.0,-0.05);
 			glVertex3f(-0.15,-0.0,-0.05);
@@ -410,7 +408,7 @@ void PieceChiffres::ChiffreSept()
 			glEnd();
 		glPopMatrix();
 
-		//face deriere
+		//face derriere
 		glBegin(GL_QUADS);
 			glVertex3f(0.15,0.5,-0.05);
 			glVertex3f(0.35,0.5,-0.05);
@@ -444,8 +442,8 @@ void PieceChiffres::ChiffreSept()
 	glPopMatrix();
 }
 
-//chiffre Huite
-void PieceChiffres::ChiffreHuite()
+//chiffre Huit
+void PieceChiffres::ChiffreHuit()
 {
 	//haut
 	glPushMatrix();

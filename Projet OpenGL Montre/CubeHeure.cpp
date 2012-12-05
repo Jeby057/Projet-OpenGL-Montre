@@ -1,21 +1,20 @@
 #include "CubeHeure.h"
 
-
-//Constructeur de la piece
-CubeHeure::CubeHeure(float taille, char* namFace[6]):_taille(taille)
+//Constructeur de la pièce
+CubeHeure::CubeHeure(float taille, char* namFace[6]) : _taille(taille)
 {
 	/**
-	 * Chargement des texture necessaire pour afficher le cube
+	 * Chargement des textures necessaires pour afficher le cube
 	 */
 	this->LoadTexture(_faceTexture, namFace, 6);
 }
 
-//distructeur de la pices
+//destructeur de la pièce
 CubeHeure::~CubeHeure(void)
 {
 }
 
-//méthode contstruction et affichage des composant
+//méthode construction et affichage des composants
 void CubeHeure::BuildAndDisplay()
 {
 	/**
@@ -25,7 +24,7 @@ void CubeHeure::BuildAndDisplay()
 	mat.ToChrome();
 	mat.Enable();
 
-	//accepté l'affichage des textures
+	//accepter l'affichage des textures
 	glEnable(GL_TEXTURE_2D);
 
 	//calculer le décalage des points
@@ -153,7 +152,8 @@ void CubeHeure::BuildAndDisplay()
 
 		/**********************************************************************************************/
 	}
-	//une fois terminer désactiver l'affichage des textures
+
+	//une fois terminé, désactiver l'affichage des textures
 	glDisable(GL_TEXTURE_2D);
 	mat.Disable();
 }

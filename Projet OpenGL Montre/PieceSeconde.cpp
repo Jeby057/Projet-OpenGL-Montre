@@ -1,6 +1,6 @@
 #include "PieceSeconde.h"
 
-//constructeur de la classe, il initialise les variable membre avec les parametre recu
+//constructeur de la classe, il initialise les variables membres avec les paramètres reçus
 PieceSeconde::PieceSeconde(float rayon, float epaisseur):_rayon(rayon), _epaisseur(epaisseur)
 {
 }
@@ -10,10 +10,10 @@ PieceSeconde::~PieceSeconde(void)
 {
 }
 
-//méthode contstruction et affichage de cylendre seconde aisin que des 12 tiges
+//méthode construction et affichage du cylindre seconde ainsi que des 12 tiges
 void PieceSeconde::BuildAndDisplay()
 {
-	//le cylendre*****************************************************
+	//le cylindre*****************************************************
 	glPushMatrix();
 		glRotatef(-90,1.0,0.0,0.0);
 		//la couleur
@@ -93,7 +93,7 @@ void PieceSeconde::Tige()
 			glVertex3f(x + decalageX, y + decalageY, z);
 		glEnd();
 
-		//derière
+		//derrière
 		glBegin(GL_QUADS);
 			glVertex3f(-x + decalageX, y + decalageY, -z);
 			glVertex3f(-x + decalageX, -y + decalageY, -z);

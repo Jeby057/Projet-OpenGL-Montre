@@ -1,6 +1,6 @@
 #include "PieceVentilo.h"
 
-//constructeur de la classe, il initialise les variable membre avec les parametre recu
+//constructeur de la classe, il initialise les variables membres avec les paramètres reçu
 PieceVentilo::PieceVentilo(float diametreInterieur, float diametreExterieur, float hauteur):_diametreInterieur(diametreInterieur),_diametreExterieur(diametreExterieur),_hauteur(hauteur)
 {
 }
@@ -10,15 +10,15 @@ PieceVentilo::~PieceVentilo(void)
 {
 }
 
-//méthode contstruction et affichage de la turbine
+//méthode construction et affichage de la turbine
 void PieceVentilo::BuildAndDisplay()
 {
-	//le ventilo
-	glMaterialfv(GL_FRONT,GL_DIFFUSE,couluer->Gris(1,1));
+	//la turbine (ventilo)
+	glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Gris(1,1));
 	this->EnsembleTige();
 	
-	glMaterialfv(GL_FRONT,GL_DIFFUSE,couluer->Gris(1,1));
-	this->CylendreCentre();
+	glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Gris(1,1));
+	this->CylindreCentre();
 }
 
 //methode qui dessine les 9 tiges
@@ -43,7 +43,7 @@ void PieceVentilo::EnsembleTige()
 	glPopMatrix();
 }
 
-//Methode qui dessine une seul tige
+//Methode qui dessine une seule tige
 void PieceVentilo::UneTige()
 {	
 	float taille = _diametreExterieur;
@@ -124,30 +124,29 @@ void PieceVentilo::UneTige()
 	glPopMatrix();
 }
 
-//Methode qui dessine un cylendre
-void PieceVentilo::CylendreCentre()
+//Methode qui dessine un cylindre
+void PieceVentilo::CylindreCentre()
 {
 	glPushMatrix();
-		float PourcentageEpesseur = 1.2;
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couluer->Gris(1,1));
+		float PourcentageEpaisseur = 1.2;
+		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Gris(1,1));
 		glRotated(-90,1.0,0.0,0.0);
 
 		glPushMatrix();
 			glTranslated(0, 0, this->_hauteur/2);
-			gluDisk(gluNewQuadric(),this->_diametreInterieur,this->_diametreInterieur*PourcentageEpesseur,100,100);
+			gluDisk(gluNewQuadric(),this->_diametreInterieur,this->_diametreInterieur*PourcentageEpaisseur,100,100);
 		glPopMatrix();
 
 		glPushMatrix();
 			glTranslated(0, 0, -this->_hauteur/2);
-			gluDisk(gluNewQuadric(),this->_diametreInterieur,this->_diametreInterieur*PourcentageEpesseur,100,100);
+			gluDisk(gluNewQuadric(),this->_diametreInterieur,this->_diametreInterieur*PourcentageEpaisseur,100,100);
 		glPopMatrix();
 
-		
 		glPushMatrix();
 			glTranslated(0, 0, -this->_hauteur/2);
 			glShadeModel(GL_SMOOTH);
 			gluCylinder(gluNewQuadric(),this->_diametreInterieur,this->_diametreInterieur,this->_hauteur,100,100);
-			gluCylinder(gluNewQuadric(),this->_diametreInterieur*PourcentageEpesseur,this->_diametreInterieur*PourcentageEpesseur,this->_hauteur,100,100); 
+			gluCylinder(gluNewQuadric(),this->_diametreInterieur*PourcentageEpaisseur,this->_diametreInterieur*PourcentageEpaisseur,this->_hauteur,100,100); 
 		glPopMatrix();
 		
 	glPopMatrix();

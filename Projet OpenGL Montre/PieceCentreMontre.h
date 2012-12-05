@@ -1,13 +1,13 @@
 /**
  * Classe PieceCentreMontre
- * *************
- * Cette classe construit une piece qui sera poser au centre de la montre
- * Cette piece est la juste pour le décours, elle donne aucune information utile
- * Elle est constituer de 3 sous-piece identique
+ * ************************
+ * Cette classe construit une pièce qui sera posée au centre de la montre
+ * Cette piece sert uniquement à la décoration, elle ne donne aucune information utile
+ * Elle est constituée de 3 sous-pièces identiques
  * Elle sera repositionnée par la suite selon l'emplacement souhaité.
  *
  * Auteurs : GUENDOUL Samir, PIERSON Cyril, SCHEIBEL Jean-Baptiste
- * Modifié le : 21 Décembre 2012
+ * Modifié le : 21 Novembre 2012
  * Version : 1
  */
 
@@ -20,23 +20,23 @@ class PieceCentreMontre : public Piece
 {
 	/**
 	 * Taille de la piece
-	 * C'est à partir de cette variable qu'on calcule les dimension de la piece : largeur et epesseur
+	 * C'est à partir de cette variable qu'on calcule les dimensions de la pièce : largeur et epaisseur
 	 */
 	float _taille;
 
 	/**
-	 * Hauteur de la piece
-	 * cette variable est necessaire pour parametrer l'hauteur de la piece
+	 * Hauteur de la pièce
+	 * Cette variable est necessaire pour parametrer la hauteur de la piece
 	 */
 	float _hauteur;
 
 public:
 
 	/**
-	 * Constructeur de la piece
-	 * Ce constructeur dessine une piece au centre de la scène
-	 * Il initialise les variable de la classe
-	 * Il demande deux paramettres : 
+	 * Constructeur de la pièce
+	 * Ce constructeur dessine une pièce au centre de la scène
+	 * Il initialise les variables de la classe
+	 * Il demande deux paramètres : 
 	 * @taille : taille de la piece
 	 * @hauteur : hauteur de la piece
 	 */
@@ -45,12 +45,12 @@ public:
 	
 	/**
 	 * Destruction de la montre
-	 * Désalocation de tous les composants
+	 * Désallocation de tous les composants
 	 */
 	virtual ~PieceCentreMontre(void);
 
 	/**
-	 * Méthode surcharger de la classe mère Piece.
+	 * Méthode surchargée de la classe mère Piece.
 	 * Permet d'afficher la pièce dans la scène
 	 * On peut par la suite effectuer des transformations : Translation, Rotation, Transformation
 	 */
@@ -58,8 +58,8 @@ public:
 
 	/**
 	 * Méthode PiecePartielle
-	 * Cette méthode dessine une piece spécial qui va etre utiliser pour dessiner la piece souhaité
-	 * en bouclant 3 fois sur cette piece on construit notre piece
+	 * Cette méthode dessine une piece spéciale qui va être utilisée pour dessiner la piece souhaitée
+	 * en bouclant 3 fois sur cette pièce on construit notre pièce finale
 	 */
 	void PiecePartielle();
 };
