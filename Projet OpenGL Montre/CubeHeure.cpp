@@ -1,40 +1,43 @@
 #include "CubeHeure.h"
 
 
-CubeHeure::CubeHeure(float taille, char* namFace[6])
+//Constructeur de la piece
+CubeHeure::CubeHeure(float taille, char* namFace[6]):_taille(taille)
 {
-	this->_taille = taille;
-
-	this->angleRotation = 360;
-	this->temps = 0;
-
+	/**
+	 * Chargement des texture necessaire pour afficher le cube
+	 */
 	this->LoadTexture(_faceTexture, namFace, 6);
 }
 
-
+//distructeur de la pices
 CubeHeure::~CubeHeure(void)
 {
 }
 
-
+//méthode contstruction et affichage des composant
 void CubeHeure::BuildAndDisplay()
 {
-	
+	/**
+	* définir la couleur de cube
+	*/
 	Material mat = Material();
 	mat.ToChrome();
 	mat.Enable();
 
+	//accepté l'affichage des textures
 	glEnable(GL_TEXTURE_2D);
+
+	//calculer le décalage des points
 	float tCalculer = _taille/6; 
 
+	//boucler 4 fois sur chaque face pour construire un cube
 	for(int i = 0; i <4 ; i++)
 	{
-		
 		glRotatef(90,1.0F,0.0F,0.0F);
 
-		
 		/**********************************************************************************************/
-		//face chiffre devant
+		//face cube exterieur, face de chiffre
 		glBindTexture(GL_TEXTURE_2D, this->_faceTexture[i]);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3f(-_taille*1.5, _taille-tCalculer, _taille);
@@ -43,7 +46,7 @@ void CubeHeure::BuildAndDisplay()
 		glTexCoord2f(1.0, 0.0); glVertex3f(_taille*1.5, _taille-tCalculer, _taille);
 		glEnd();
 
-		//face chiffre derriere
+		//face cube Interieur
 		glBindTexture(GL_TEXTURE_2D, this->_faceTexture[4]);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3f(-_taille*1.5, _taille-tCalculer, _taille-tCalculer);
@@ -52,12 +55,10 @@ void CubeHeure::BuildAndDisplay()
 		glTexCoord2f(1.0, 0.0); glVertex3f(_taille*1.5, _taille-tCalculer, _taille-tCalculer);
 		glEnd();
 		
-		
 		/**********************************************************************************************/
 
-
 		/**********************************************************************************************/
-		//face chiffre entre face gauche
+		//face cube entre face gauche
 		glBindTexture(GL_TEXTURE_2D, this->_faceTexture[4]);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3f(-_taille*1.5, _taille-tCalculer, _taille);
@@ -66,7 +67,7 @@ void CubeHeure::BuildAndDisplay()
 		glTexCoord2f(1.0, 0.0); glVertex3f(-_taille*1.5, _taille-tCalculer, _taille-tCalculer);
 		glEnd();
 
-		//face chiffre entre face droite
+		//face cube entre face droite
 		glBindTexture(GL_TEXTURE_2D, this->_faceTexture[4]);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3f(_taille*1.5, _taille-tCalculer, _taille);
@@ -76,7 +77,7 @@ void CubeHeure::BuildAndDisplay()
 		glEnd();
 
 		
-		//face latérale chiffre 1 et 2
+		//face cube latérale 1 et 2
 		glBindTexture(GL_TEXTURE_2D, this->_faceTexture[5]);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3f(-_taille*1.5, -_taille, _taille-tCalculer);
@@ -85,7 +86,7 @@ void CubeHeure::BuildAndDisplay()
 		glTexCoord2f(1.0, 0.0); glVertex3f(_taille*1.5, -_taille, _taille-tCalculer);
 		glEnd();
 
-		//face latérale triangle gauche
+		//face cube latérale triangle gauche
 		glBindTexture(GL_TEXTURE_2D, this->_faceTexture[5]);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3f(_taille*1.5, -_taille, _taille-tCalculer);
@@ -94,7 +95,7 @@ void CubeHeure::BuildAndDisplay()
 		glTexCoord2f(1.0, 0.0); glVertex3f(_taille*1.5, -_taille, _taille-tCalculer);
 		glEnd();
 
-		//face latérale triangle droite
+		//face cube latérale triangle droite
 		glBindTexture(GL_TEXTURE_2D, this->_faceTexture[5]);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3f(-_taille*1.5, -_taille, _taille-tCalculer);
@@ -104,7 +105,6 @@ void CubeHeure::BuildAndDisplay()
 		glEnd();
 		
 		/**************************************************************************************************/
-		
 		
 		/**********************************************************************************************/
 		//face de face de 1.1
@@ -152,20 +152,8 @@ void CubeHeure::BuildAndDisplay()
 		glEnd();
 
 		/**********************************************************************************************/
-		
 	}
+	//une fois terminer désactiver l'affichage des textures
 	glDisable(GL_TEXTURE_2D);
-
-}
-
-void CubeHeure::idle()
-{
-	this->temps++;
-	if(this->temps == 10)
-	{
-		this->angleRotation -=1;
-		this->temps = 0;
-		if(this->angleRotation == 0)
-			this->angleRotation = 360;
-	}
+	mat.Disable();
 }

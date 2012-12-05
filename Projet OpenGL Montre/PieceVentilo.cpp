@@ -1,41 +1,33 @@
 #include "PieceVentilo.h"
 
-
+//constructeur de la classe, il initialise les variable membre avec les parametre recu
 PieceVentilo::PieceVentilo(float diametreInterieur, float diametreExterieur, float hauteur):_diametreInterieur(diametreInterieur),_diametreExterieur(diametreExterieur),_hauteur(hauteur)
 {
 }
 
-
+//destructeur de la classe
 PieceVentilo::~PieceVentilo(void)
 {
 }
 
+//méthode contstruction et affichage de la turbine
 void PieceVentilo::BuildAndDisplay()
 {
-	
 	//le ventilo
 	glMaterialfv(GL_FRONT,GL_DIFFUSE,couluer->Gris(1,1));
-	this->PiecePartielle();
+	this->EnsembleTige();
 	
 	glMaterialfv(GL_FRONT,GL_DIFFUSE,couluer->Gris(1,1));
-	this->Cuve();
-	
+	this->CylendreCentre();
 }
 
-void PieceVentilo::PiecePartielle()
+//methode qui dessine les 9 tiges
+void PieceVentilo::EnsembleTige()
 {
-	float x, y, z;
-	x =  10*this->_diametreExterieur/100;
-	y = 40*this->_hauteur/100;
-	z = this->_taille/60;
-	
-	float decalageX = this->_diametreInterieur;
-
-	
 	glPushMatrix(); 	
 	for(int i = 0; i < 9; i++)
 	{
-		this->Tige();
+		this->UneTige();
 		glRotatef(40,0.0,1.0,0.0);
 	}
 	glPopMatrix();
@@ -46,31 +38,28 @@ void PieceVentilo::PiecePartielle()
 		float magenta[] = { 1.0F,0.0F,1.0F,0.4F };
 		glMaterialfv(GL_FRONT,GL_DIFFUSE,magenta);
 		glScaled(1, this->_hauteur*1.4, 1);
-		glutSolidSphere(decalageX,100,100);
+		glutSolidSphere(this->_diametreInterieur,100,100);
 	glDisable(GL_BLEND); 
 	glPopMatrix();
-	
 }
 
-//la tige
-void PieceVentilo::Tige()
+//Methode qui dessine une seul tige
+void PieceVentilo::UneTige()
 {	
-	
-	_taille = _diametreExterieur;
+	float taille = _diametreExterieur;
 	float x, y, z;
 	x =  this->_diametreInterieur;
 	y = 40*this->_hauteur/100;
-	z = this->_taille/60;
+	z = taille/60;
 	float decalageX = this->_diametreInterieur + 10*this->_diametreExterieur/100;
-	
 	
 	glPushMatrix();
 		//tige 1************************************************
 		glBegin(GL_QUADS);
 			glVertex3f(0 + decalageX, y, z);
 			glVertex3f(0 + decalageX, -y, z);
-			glVertex3f(x + decalageX-15*this->_taille/100, -y, z);
-			glVertex3f(x + decalageX-15*this->_taille/100, y, z);
+			glVertex3f(x + decalageX-15*taille/100, -y, z);
+			glVertex3f(x + decalageX-15*taille/100, y, z);
 		glEnd();
 		
 		glBegin(GL_QUADS);
@@ -84,14 +73,14 @@ void PieceVentilo::Tige()
 			glVertex3f(0+ decalageX, -y, z);
 			glVertex3f(0 + decalageX, -y, -z);
 			glVertex3f(x + decalageX, -y, -z);
-			glVertex3f(x + decalageX-15*this->_taille/100, -y, z);
+			glVertex3f(x + decalageX-15*taille/100, -y, z);
 		glEnd();
 
 		glBegin(GL_QUADS);
 			glVertex3f(0 + decalageX, y, z);
 			glVertex3f(0 + decalageX, y, -z);
 			glVertex3f(x + decalageX, y, -z);
-			glVertex3f(x + decalageX-15*this->_taille/100, y, z);
+			glVertex3f(x + decalageX-15*taille/100, y, z);
 		glEnd();
 		
 		glBegin(GL_QUADS);
@@ -106,28 +95,28 @@ void PieceVentilo::Tige()
 		glBegin(GL_QUADS);
 			glVertex3f(x + decalageX, y, -z);
 			glVertex3f(x + decalageX, -y, -z);
-			glVertex3f(x + decalageX+20*this->_taille/100, -y, z+30*this->_taille/100);
-			glVertex3f(x + decalageX+20*this->_taille/100, y, z+30*this->_taille/100);
+			glVertex3f(x + decalageX+20*taille/100, -y, z+30*taille/100);
+			glVertex3f(x + decalageX+20*taille/100, y, z+30*taille/100);
 		glEnd();
 
 		glBegin(GL_QUADS);
-			glVertex3f(x + decalageX-15*this->_taille/100, y, z);
-			glVertex3f(x + decalageX-15*this->_taille/100, -y, z);
-			glVertex3f(x + decalageX+20*this->_taille/100, -y, z+30*this->_taille/100);
-			glVertex3f(x + decalageX+20*this->_taille/100, y, z+30*this->_taille/100);
+			glVertex3f(x + decalageX-15*taille/100, y, z);
+			glVertex3f(x + decalageX-15*taille/100, -y, z);
+			glVertex3f(x + decalageX+20*taille/100, -y, z+30*taille/100);
+			glVertex3f(x + decalageX+20*taille/100, y, z+30*taille/100);
 		glEnd();
 
 		glBegin(GL_QUADS);
-			glVertex3f(x + decalageX-15*this->_taille/100, y, z);
-			glVertex3f(x + decalageX+20*this->_taille/100, y, z+30*this->_taille/100);
-			glVertex3f(x + decalageX+20*this->_taille/100, y, z+30*this->_taille/100);
+			glVertex3f(x + decalageX-15*taille/100, y, z);
+			glVertex3f(x + decalageX+20*taille/100, y, z+30*taille/100);
+			glVertex3f(x + decalageX+20*taille/100, y, z+30*taille/100);
 			glVertex3f(x + decalageX, y, -z);
 		glEnd();
 
 		glBegin(GL_QUADS);
-			glVertex3f(x + decalageX-15*this->_taille/100, -y, z);
-			glVertex3f(x + decalageX+20*this->_taille/100, -y, z+30*this->_taille/100);
-			glVertex3f(x + decalageX+20*this->_taille/100, -y, z+30*this->_taille/100);
+			glVertex3f(x + decalageX-15*taille/100, -y, z);
+			glVertex3f(x + decalageX+20*taille/100, -y, z+30*taille/100);
+			glVertex3f(x + decalageX+20*taille/100, -y, z+30*taille/100);
 			glVertex3f(x + decalageX, -y, -z);
 		glEnd();
 		//fin tige 1********************************************
@@ -135,8 +124,8 @@ void PieceVentilo::Tige()
 	glPopMatrix();
 }
 
-//dessiner la cuve
-void PieceVentilo::Cuve()
+//Methode qui dessine un cylendre
+void PieceVentilo::CylendreCentre()
 {
 	glPushMatrix();
 		float PourcentageEpesseur = 1.2;

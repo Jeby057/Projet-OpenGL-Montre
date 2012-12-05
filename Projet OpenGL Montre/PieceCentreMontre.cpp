@@ -1,33 +1,30 @@
 #include "PieceCentreMontre.h"
 
-
+//constructeur de la classe, il initialise les variable membre avec les parametre recu
 PieceCentreMontre::PieceCentreMontre(float taille, float hauteur):_taille(taille), _hauteur(hauteur)
 {
 }
 
-
+//destructeur de la classe
 PieceCentreMontre::~PieceCentreMontre(void)
 {
 }
 
-
+//méthode contstruction et affichage de la piece
 void PieceCentreMontre::BuildAndDisplay()
 {
-
-	//glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Gris(1,0));
-
 	//dessiner les trois face
 	for(int i = 0; i <3; i++)
 	{
 		this->PiecePartielle();
 		glRotatef(120,0.0,0.0,1.0);
 	}
-	
 }
 
+//méthode qui dessine la pice spéciale
 void PieceCentreMontre::PiecePartielle()
 {
-
+	//Couleur de la piece
 	Material mat = Material();
 	mat.ToChrome();
 	mat.Enable();
@@ -199,4 +196,5 @@ void PieceCentreMontre::PiecePartielle()
 		glEnd();
 		//***************************fin Piece de bas****************************************************
 	glPopMatrix();
+	mat.Disable();
 }
