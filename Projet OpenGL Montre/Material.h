@@ -42,5 +42,10 @@ public:
 	void ToCopper();
 	void ToGold();
 	void ToRuby();
+
+	void ToVertPistache();
+	void ToOrange();
+	void ToViolet();
+	void ToMarronDark();
 };
 #endif

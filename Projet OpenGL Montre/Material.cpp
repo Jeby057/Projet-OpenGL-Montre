@@ -218,3 +218,64 @@ void Material::ToRuby()
 	_specular[2] = 0.626959;
 	_shininess = 0.6;
 }
+
+
+//vert pistache, utiliser pour paindre le oiseau
+void Material::ToVertPistache()
+{
+	_ambiant[0] = 0.1745;
+	_ambiant[1] = 0.01175;
+	_ambiant[2] = 0.01175;
+	_diffuse[0] = 0.72;
+	_diffuse[1] = 0.83;
+	_diffuse[2] = 0.06;
+	_specular[0] = 0.727811;
+	_specular[1] = 0.626959;
+	_specular[2] = 0.626959;
+	_shininess = 0.6;
+}
+
+//vert Orange, utiliser pour paindre le oiseau
+void Material::ToOrange()
+{
+	_ambiant[0] = 0.1745;
+	_ambiant[1] = 0.01175;
+	_ambiant[2] = 0.01175;
+	_diffuse[0] = 1.0;
+	_diffuse[1] = 0.48;
+	_diffuse[2] = 0.15;
+	_specular[0] = 0.727811;
+	_specular[1] = 0.626959;
+	_specular[2] = 0.626959;
+	_shininess = 0.6;
+}
+
+//vert Violet, utiliser pour paindre le oiseau
+void Material::ToViolet()
+{
+	_ambiant[0] = 0.1745;
+	_ambiant[1] = 0.01175;
+	_ambiant[2] = 0.01175;
+	_diffuse[0] = 0.67;
+	_diffuse[1] = 0.83;
+	_diffuse[2] = 0.91;
+	_specular[0] = 0.727811;
+	_specular[1] = 0.626959;
+	_specular[2] = 0.626959;
+	_shininess = 0.6;
+}
+
+//vert Marron foncer, utiliser pour paindre le oiseau
+void Material::ToMarronDark()
+{
+	_ambiant[0] = 0.1745;
+	_ambiant[1] = 0.01175;
+	_ambiant[2] = 0.01175;
+	_diffuse[0] = 0.68;
+	_diffuse[1] = 0.28;
+	_diffuse[2] = 0.08;
+	_specular[0] = 0.727811;
+	_specular[1] = 0.626959;
+	_specular[2] = 0.626959;
+	_shininess = 0.6;
+}
