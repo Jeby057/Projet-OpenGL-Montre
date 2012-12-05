@@ -21,10 +21,6 @@ GLfloat light1_specular[] = { 0, 0, 0, 1 };
 
 GLfloat posDayLight[4] = {0.0,7,0.0,1.0};
 GLfloat posNightLight[4] = {0.0,4,0.0,1.0};
-// Propriétés générales de l’éclairage
-
-/* parametres diffus en R,V,B */
-GLfloat Mshiny=50;
 
 TrackBallCamera* camera;
 ScenarioDemonstration* _scenario;
@@ -36,7 +32,7 @@ Montre* montre;
 
 Light *_nightLight, *_dayLight;
 
-	GLuint texName[2];
+GLuint texName[2];
 
 
 Time* _time;
@@ -75,36 +71,20 @@ void display()
 	Material mat = Material();
 	mat.ToWhiteReflect();
 	
-	
 	mat.Enable();
 	glPushMatrix();
 		glRotatef(-45.0, 1.0, 0.0, 0.0);
-		glScalef(0.4, 0.4, 0.4);
+		glScalef(0.2, 0.2, 0.2);
 		montre->FastDisplay();
 	glPopMatrix();
 
 	mat.Enable();
 	glPushMatrix();
-		glTranslatef(0, -3, 0);
+		glTranslatef(0, -1.8, 0);
 		glRotatef(-90, 1.0, 0.0, 0.0);
 		room->FastDisplay();
 		room->BuildAndDisplayHorlogePorte();
 	glPopMatrix();
-	//BlocMinute bloc = BlocMinute(0.5, 1, 1, 0.2, 0.2, 0.5);
-	//bloc.BuildAndDisplay();
-	
-	
-	GLfloat p[4] = {0.0,7,0.0,1.0};
-	GLfloat p2[4] = {0.0,-1,0.0,1.0};
-	float Light1Dir[3] = {0.0f, -1.0f, 0.0f}; 
-	Light l0 = Light(GL_LIGHT0, p, light_ambient, Couleur::Blanc(), light_specular);
-	Light l1 = Light(GL_LIGHT1, p, light1_ambient ,Couleur::RougeFonce(), light1_specular);
-	
-	//Light l1 = Light(GL_LIGHT0, 5.0, Couleur::Jaune(), p2, light_ambient, light_diffuse, light_specular);
-	
-	//l0.Display();
-	//l1.Enable();
-
 
 	glutSwapBuffers();
 	glFlush();

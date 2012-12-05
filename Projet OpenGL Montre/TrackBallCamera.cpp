@@ -17,7 +17,7 @@ TrackBallCamera::TrackBallCamera(void)
 	_targetMovedSensivity = 0.1;
 	_maxDistance = 9.5;
 	_target = Point3D(0,0,0);
-	_locked = true;
+	_locked = false;
 }
 
 
@@ -84,6 +84,7 @@ void TrackBallCamera::OnKeyboard(unsigned char key,int x,int y){
     {
 		// On diminue la distance
         _distance -= _scrollSensivity;
+		_distanceDesired -= _scrollSensivity;
     }
 
 	// Si il y a un coup de molete vers le bas
@@ -91,6 +92,7 @@ void TrackBallCamera::OnKeyboard(unsigned char key,int x,int y){
     {
 		// Augmentation de la distance
         _distance += _scrollSensivity;
+		_distanceDesired += _scrollSensivity;
     }
 }
 

@@ -83,7 +83,7 @@ void TheRoom::BuildAndDisplay()
 	//la table d'exposition
 	glPushMatrix();
 		glRotated(90,1.0,0.0,0.0);
-		this->VitrineExposition(this->_taille/10, this->_taille/10);
+		this->VitrineExposition(this->_taille/8, this->_taille/8);
 	glPopMatrix();
 	
 
@@ -669,9 +669,9 @@ void TheRoom::TheMuseum()
 void TheRoom::VitreTransparante()
 {
 	glPushMatrix();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.3));
+		Material mat(0.1);
+		mat.ToBlueDark();
+		mat.Enable();
 		
 		//**********************les faces**********************************************
 		//face deriere
@@ -723,7 +723,7 @@ void TheRoom::VitreTransparante()
 		glEnd();
 		//************************fin des face****************************************/
 
-		glDisable(GL_BLEND); 
+		mat.Disable();
 	glPopMatrix();
 }
 
@@ -1243,13 +1243,18 @@ void TheRoom::MurPorte()
 			glPopMatrix();
 
 			glPushMatrix();
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Vert(0.1));
-				glScaled(0.4,0.19,0.05);
-				glTranslated(0.75,0.0,0.0);
-				glutSolidCube(1.0);
-				glDisable(GL_BLEND);
+				
+				Material mat = Material(0.01);
+				mat.ToBlackRubber();
+				mat.Enable();
+					glScaled(0.4,0.19,0.005);
+					glTranslated(0.75,0.0,0.0);
+					glutSolidCube(1.0);
+				mat.Disable();
+
+				mat = Material();
+				mat.ToWhiteReflect();
+				mat.Enable();
 			glPopMatrix();
 
 			glBindTexture(GL_TEXTURE_2D, this->_mur3);
