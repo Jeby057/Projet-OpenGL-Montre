@@ -1,8 +1,19 @@
+/**
+ * Classe Utilitaire
+ * *****************
+ *  Permet d'éxécuter quelques algorithmes mathémtiques
+ *  Ces algorithmes ont été récupérés du projet "modelisation 2D 3D" 2011 de SCHEIBEL Jean-Baptiste
+ *
+ * Auteurs : GUENDOUL Samir, PIERSON Cyril, SCHEIBEL Jean-Baptiste
+ * Modifié le : 2 Décembre 2012
+ * Version : 1
+ */
 #ifndef UTILITAIRE_H
 #define UTILITAIRE_H
 
 #include "Include.h"
 
+// Structure Point3D
 struct Point3D
 {
 	GLfloat _x, _y, _z;
@@ -25,8 +36,7 @@ struct Point3D
 class Utilitaire
 {
 public:
-	Utilitaire(void);
-	virtual ~Utilitaire(void);
+
 
 	static void EquationDroite (double x1, double y1, double x2, double y2,
 								double *Pa, double *Pb, double *Pc) ;

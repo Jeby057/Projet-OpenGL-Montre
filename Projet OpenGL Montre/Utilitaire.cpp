@@ -2,14 +2,6 @@
 
 const double Utilitaire::EpsDistance = 0.001 ;            // Distance sous laquelle deux points sont considérés superposés
 
-Utilitaire::Utilitaire(void)
-{
-}
-
-
-Utilitaire::~Utilitaire(void)
-{
-}
 
 // Calcule l'équation d'une droite passant par les points (x1,y1) et (x2,y2), // supposés DIFFERENTS !!
 void Utilitaire::EquationDroite (double x1, double y1, double x2, double y2, double *Pa, double *Pb, double *Pc) 

@@ -1,3 +1,14 @@
+/**
+ * Classe Piece
+ * ************
+ *  Classe abstraite pour toutes les pièces
+ *  Permet de les construires et de les sauvegarder automatiquement dans la carte graphique
+ *  Et de les rappeler sans reconstruire les patterns créé précédement
+ *
+ * Auteurs : GUENDOUL Samir, PIERSON Cyril, SCHEIBEL Jean-Baptiste
+ * Modifié le : 29 novembre 2012
+ * Version : 1
+ */
 #ifndef PIECE_H
 #define PIECE_H
 
