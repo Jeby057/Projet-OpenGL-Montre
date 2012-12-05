@@ -64,7 +64,7 @@ void SetMaterial(const GLfloat* ambiant, const GLfloat* diffuse, const GLfloat* 
 
 void Piece::LoadTexture(GLuint* faceTexture, char** face, int nb)
 {
-	glGenTextures(6, faceTexture);
+	glGenTextures(nb, faceTexture);
 	for(int i = 0; i <nb; i++)
 	{
 		char buffer[256];

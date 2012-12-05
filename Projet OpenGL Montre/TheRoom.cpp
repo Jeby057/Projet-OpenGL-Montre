@@ -1,6 +1,3 @@
-
-
-
 #include "TheRoom.h"
 
 
@@ -11,7 +8,7 @@ TheRoom::TheRoom(float taille): _taille(taille)
 
 	char* nameFace[10];
 	 for(int i=0; i<10; i++)
-		nameFace[i] = new char[35];
+		nameFace[i] = new char[60];
 	 
 	 sprintf(nameFace[0],"%s", "the_room/sole.ppm");
 	 sprintf(nameFace[1],"%s", "the_room/plafond.ppm");
@@ -40,9 +37,13 @@ TheRoom::TheRoom(float taille): _taille(taille)
 	 _mur4 = texturesId[5]; //le mur 4
 
 	 _plaqueHorloge = texturesId[6];  //la plaque horloge
-	_noticeEmploi = texturesId[7];  //la plaque notice d'emploi
-	_murTunnel = texturesId[8]; //la mur tunnel
-	_porte = texturesId[9]; //la porte
+	 _noticeEmploi = texturesId[7];  //la plaque notice d'emploi
+	 _murTunnel = texturesId[8]; //la mur tunnel
+	 _porte = texturesId[9]; //la porte
+
+
+
+
 
 	this->_angleSeconde = -10;
 	this->_angleMinute = -354;
@@ -104,18 +105,20 @@ void TheRoom::BuildAndDisplay()
 void TheRoom::BuildAndDisplayHorlogePorte()
 {
 	glPushMatrix();
-		this->HorlogeComplete(0.8*12/10);
-	glPopMatrix();
+		glPushMatrix();
+			this->HorlogeComplete(0.8*12/10);
+		glPopMatrix();
 
-	glPushMatrix();
-		this->MurPorte();
+		glPushMatrix();
+			this->MurPorte();
+		glPopMatrix();
 	glPopMatrix();
 }
 
-//la fonciton update qui mis a jour l'horloge
+//la fonction update qui mis a jour l'horloge
 void TheRoom::Update()
 {
-	//rotation des equiailles
+	//rotation des aiguilles
 	this->_angleSeconde -=1;
 	if(this->_angleSeconde == -360)
 	{
@@ -1223,7 +1226,7 @@ void TheRoom::MurPorte()
 {
 	glEnable(GL_TEXTURE_2D);
 	glPushMatrix();
-	glScaled(1.5*this->_taille, 1.5*this->_taille,this->_taille);
+		glScaled(1.5*this->_taille, 1.5*this->_taille,this->_taille);
 		//dessiner le mur 3 vers z
 		glPushMatrix();
 			glTranslated(0.0, 0.5, 0.5);

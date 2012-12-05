@@ -88,6 +88,7 @@ void display()
 		glTranslatef(0, -3, 0);
 		glRotatef(-90, 1.0, 0.0, 0.0);
 		room->FastDisplay();
+		room->BuildAndDisplayHorlogePorte();
 	glPopMatrix();
 	//BlocMinute bloc = BlocMinute(0.5, 1, 1, 0.2, 0.2, 0.5);
 	//bloc.BuildAndDisplay();
@@ -157,9 +158,11 @@ void update()
 		montre->Update();
 		_time->Update();
 		camera->Update();
-		_scenario->Update();
+		//_scenario->Update();
 		glutPostRedisplay();
 	}
+
+	room->Update();
 }
 
 void ArrierePlanMenu(int selection) {
@@ -292,6 +295,7 @@ int main(int argc, char *argv[])
     camera->SetScrollSensivity(0.1);
     camera->SetMotionSensivity(0.1);
 	camera->SetOffsetSensivity(0.05);
+	camera->SetLocked(false);
 
 	// on abonne le scénario de démonstration à la caméra
 	_scenario = new ScenarioDemonstration(camera);
