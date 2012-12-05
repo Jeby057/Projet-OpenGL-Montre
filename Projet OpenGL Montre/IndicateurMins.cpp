@@ -13,6 +13,7 @@ IndicateurMins::IndicateurMins(double largSocle, double epaissSocle, double haut
 
 IndicateurMins::~IndicateurMins()
 {
+
 }
 
 void IndicateurMins::BuildAndDisplay()
