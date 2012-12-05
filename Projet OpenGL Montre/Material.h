@@ -1,3 +1,13 @@
+/**
+ * Classe Maitresse
+ * ****************
+ * Pièce maitresse en 3 bras de la montre.
+ * Permet de maintenir les bras tenant les cubes des heures
+ * 
+ * Auteurs : GUENDOUL Samir, PIERSON Cyril, SCHEIBEL Jean-Baptiste
+ * Modifié le : 29 novembre 2012
+ * Version : 1
+ */
 #ifndef MATERIAL_H
 #define MATERIAL_H
 

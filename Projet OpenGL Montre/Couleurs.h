@@ -1,3 +1,12 @@
+/**
+ * Classe Couleur
+ * ****************
+ * Permet de récupérer une couleur
+ * 
+ * Auteurs : GUENDOUL Samir, PIERSON Cyril, SCHEIBEL Jean-Baptiste
+ * Modifié le : 29 novembre 2012
+ * Version : 1
+ */
 #ifndef MODULE_COULEURS_H
 #define MODULE_COULEURS_H
 

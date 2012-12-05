@@ -147,6 +147,9 @@ class Montre : public Piece
 	// Timer permettant la rotation des turbines
 	Time _turbineTime;
 
+	// Fractal permet de décomposer la montre
+	// C'est le facteur de décomposition
+	// A 1, la montre n'est pas décomposé
 	float _fractal;
 
 
@@ -207,18 +210,57 @@ public:
 	void Remonter(bool reverse = false);
 
 	/*
-	 * Permet de changer 
+	 * Permet de changer le fond
+	 * id : Identifiant de la texture
 	 */
 	void SetBackground(int id);
+
+	/** 
+	 * Permet d'afficher uniquement le mécanisme
+	 */
 	void ShowMecanisme(bool show);
+
+	/**
+	 * Permet de savoir si l'utilisateur est en train de remonter la montre
+	 * Retourne Vrai si il la remonte
+	 */
 	bool IsUserChanging();
+
+	/**
+	 * Permet de'activer la modification de la montre par l'utilisateur
+	 */
 	void SetUserChanging(bool val);
 
 private:
+
+	/**
+	 * Retourne la rotation d'un cube heure en fonction de la rotation global
+	 * cubeAxe : numéro du cube
+	 */
 	float GetCurrentHourRotation(int cubeAxe);
+
+	/**
+	 * Construit la base supérieur
+	 * rotation : Rotation globale
+	 */
 	void BuildStructureSuperieure(float rotation);
+
+	/**
+	 * Construit la base inférieur, jusquau secondes
+	 * rotation : Rotation globale
+	 */
 	void BuildStructureSecondesInferieure(float rotation);
+
+	/**
+	 * Construit la base inférieur, jusquau turbine
+	 * rotation : Rotation globale
+	 */
 	void BuildStructureTurbineInferieure(float rotation);
+
+	/**
+	 * Construit la structure intermédiaire
+	 * rotation : Rotation globale
+	 */
 	void BuildStructureIntermediaire();
 };
 #endif

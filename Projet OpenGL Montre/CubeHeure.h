@@ -1,5 +1,5 @@
 /**
- * Classe CubeHeur
+ * Classe CubeHeure
  * *************
  * Cette classe construit les cubes qui indique l'heur dans la montre (que l'heur par les minutes et les secondes) .
  * Le construction de la pièce dessine un cube au centre du monde.
