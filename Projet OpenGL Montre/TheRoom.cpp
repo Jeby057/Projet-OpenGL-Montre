@@ -1,6 +1,6 @@
 #include "TheRoom.h"
 
-
+//Le constructeur de la classe, il charge les textures et initialise les variables
 TheRoom::TheRoom(float taille): _taille(taille)
 {
 
@@ -60,62 +60,57 @@ TheRoom::TheRoom(float taille): _taille(taille)
 	this->_anglePorte = 0.0;
 }
 
-
+//destructeur de la classe TheRoom
 TheRoom::~TheRoom(void)
 {
 }
 
+//methode qui construit toute la chambre avec tous les composant
 void TheRoom::BuildAndDisplay()
 {
-	//le tunnel
-	glPushMatrix();
-		this->Tunnel();
-	glPopMatrix();
 	
+	//la chambre de musée
+	Material mat(1.0);
+	mat.ToWhiteReflect();
+	mat.Enable();
+	glEnable(GL_TEXTURE_2D);
+	this->TheMuseum();
+	glDisable(GL_TEXTURE_2D);
+//	mat.Disable();
+
 	glPushMatrix();
 		glTranslated(0.0,-this->_taille/1.5,0.01); //decalage sur l'axe z pour la faire monté, puis décalage sur l'ax y pour la collé sur le mur
 		glRotated(90,0.0,1.0,0.0); //rotation sur l'axe y
 		glRotated(90,0.0,0.0,1.0); //rotation sur l'axe z
 		glRotated(90,0.0,1.0,0.0); //rotation sur l'axe x
 		this->TableComande(this->_taille/9);
-	glPopMatrix();
+	glPopMatrix();	
 	
-	//la table d'exposition
-	glPushMatrix();
-		glRotated(90,1.0,0.0,0.0);
-		this->VitrineExposition(this->_taille/8, this->_taille/8);
-	glPopMatrix();
 	
-
 	//le lustre
 	glPushMatrix();
 		glTranslated(0.0, 0.0, this->_taille);
 		glRotated(180,1.0,0.0,0.0);
 		this->Lustre(this->_taille/10,this->_taille/10);
 	glPopMatrix();
-	
 
-	//la chambre de musée
-	glEnable(GL_TEXTURE_2D);
-	this->TheMuseum();
-	glDisable(GL_TEXTURE_2D);
+	//la table d'exposition
+	glPushMatrix();
+		glRotated(90,1.0,0.0,0.0);
+		this->VitrineExposition(this->_taille/8, this->_taille/8);
+	glPopMatrix();
 
 }
 
+//methode qui va etre appelée dans le main pour mettre a jour l'horloge
 void TheRoom::BuildAndDisplayHorlogePorte()
 {
 	glPushMatrix();
-		glPushMatrix();
-			this->HorlogeComplete(0.8*12/10);
-		glPopMatrix();
-
-		glPushMatrix();
-			this->MurPorte();
-		glPopMatrix();
+		this->HorlogeComplete(0.8*12/10);
 	glPopMatrix();
 }
 
-//la fonction update qui mis a jour l'horloge
+//Methode qui met à jour l'horloge
 void TheRoom::Update()
 {
 	//rotation des aiguilles
@@ -226,69 +221,90 @@ void TheRoom::HorlogeComplete(float taille)
 	glPopMatrix();
 }
 
+//methode qui construit un oiseau qui va etre placer dans l'horloge
 void TheRoom::Oiseau()
 {
 	//début oiseau****************************************
 	//le corp
 	glPushMatrix();
-		GLfloat VertPistache[] = {0.72f, 0.83f, 0.06f, 1.0f};
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,VertPistache);
+		Material mat(1.0);
+		mat.ToVertPistache();
+		mat.Enable();
 		glScaled(1.0,0.5,1.5);
 		glutSolidSphere(1.0,25,25);
+		mat.Disable();
 	glPopMatrix();
 
 	//le coup
 	glPushMatrix();
-		GLfloat Orange[] = {1.0f, 0.48f, 0.15f, 1.0f};
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,Orange);
+		Material mat1(1.0);
+		mat1.ToOrange();
+		mat1.Enable();
 		glTranslated(0.0,0.7,1.0);
 		glScaled(0.5,1.0,0.5);
 		glRotated(110,1.0,0.0,0.0);
 		this->CylindreRemplis();
+		mat1.Disable();
 	glPopMatrix();
 
 	//la tete
 	glPushMatrix();
-		GLfloat Viole[] = {0.67f, 0.83f, 0.91f, 1.0f};
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,Viole);
+		Material mat2(1.0);
+		mat2.ToViolet();
+		mat2.Enable();
 		glTranslated(0.0,1.0,1.2);
 		glutSolidSphere(0.5,25,25);
+		mat2.Disable();
 	glPopMatrix();
 
 	//la nez
 	glPushMatrix();
-		GLfloat Marron[] = {0.68f, 0.28f, 0.08f, 1.0f};
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,Marron);
+		Material mat3(1.0);
+		mat3.ToMarronDark();
+		mat3.Enable();
 		glTranslated(0.0,0.85,1.6);
 		glScaled(1.0,0.5,1.0);
 		glutSolidCone(0.25,0.35,15,15);
+		mat3.Disable();
 	glPopMatrix();
 
 	//les yeux
 	glPushMatrix(); //gauche
+
+		Material mat4(1.0);
+		mat4.ToRedReflect();
+		mat4.Enable();
 		glTranslated(0.2,1.15,1.6);
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Rouge());
 		glutSolidSphere(0.05,15,15);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.3));
+		mat4.Disable();
+
+		Material mat5(0.1);
+		mat5.ToBlueDark();
+		mat5.Enable();
 		glutSolidSphere(0.1,15,15);
-		glDisable(GL_BLEND);
+		mat5.Disable();
 	glPopMatrix();
 	glPushMatrix(); //droite
+
+		Material mat6(1.0);
+		mat6.ToRedReflect();
+		mat6.Enable();
 		glTranslated(-0.2,1.15,1.6);
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Rouge());
 		glutSolidSphere(0.05,15,15);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.3));
+		mat6.Disable();
+
+		Material mat7(0.1);
+		mat7.ToBlueDark();
+		mat7.Enable();
 		glutSolidSphere(0.1,15,15);
-		glDisable(GL_BLEND);
+		mat7.Disable();
 	glPopMatrix();
 
 	//les soursille
+	Material mat8(1.0);
+	mat8.ToBlackReflect();
+	mat8.Enable();
 	glPushMatrix();//gauche
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Noir());
 		glTranslated(0.18,1.32,1.6);
 		glRotated(30,0.0,0.0,1.0);
 		glPushMatrix();
@@ -298,7 +314,6 @@ void TheRoom::Oiseau()
 	glPopMatrix();
 	//les soursille
 	glPushMatrix(); //droite
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Noir());
 		glTranslated(-0.18,1.32,1.6);
 		glRotated(-30,0.0,0.0,1.0);
 		glPushMatrix();
@@ -306,11 +321,14 @@ void TheRoom::Oiseau()
 		glutSolidCube(0.1);
 		glPopMatrix();
 	glPopMatrix();
+	mat8.Disable();
 	//fin oiseu********************************************
 
 	//début bras oiseau************************************
+	Material mat9(1.0);
+	mat9.ToChrome();
+	mat9.Enable();
 	glPushMatrix(); 
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->GrisClair());
 		glTranslated(0.0,-0.45,0.0);
 		glScaled(0.2,1.0,0.2);
 		glRotated(90,1.0,0.0,0.0);
@@ -322,12 +340,17 @@ void TheRoom::Oiseau()
 		glScaled(0.2,0.2,10.0);
 		this->CylindreRemplis();
 	glPopMatrix();
+	mat9.Disable();
 	//fin bras oiseau**************************************
 }
 
+//methode qui construit un cadre horloge et position une orloge par la suite
 void TheRoom::CadreHorloge()
 {
 	//premiere partie de la petit maison******************************************
+	Material mat10(1.0);
+	mat10.ToWhiteReflect();
+	mat10.Enable();
 	glEnable(GL_TEXTURE_2D);
 	glPushMatrix();
 	glScaled(1.0,1.5,1.0);
@@ -392,74 +415,91 @@ void TheRoom::CadreHorloge()
 		glEnd();
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
+	mat10.Disable();
 	//***fin de la petit maison**************************
 	
 	//le pendule
 	glPushMatrix();
 		glRotated(this->_anglePondule, 0.0,0.0,1.0); //rotation de pondule sur l'ax z
+
+		//sphère transparente de pendule
 		glPushMatrix();
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.2));
+			Material mat(1.0);
+			mat.ToCopper();
+			mat.Enable();
 			glTranslated(0.0,-2.20,0.0);
 			glScaled(1.0,0.8,0.25);
 			glutSolidSphere(0.25,25,25);
-			glDisable(GL_BLEND);
+			mat.Disable();
 		glPopMatrix();
+
+		Material mat1(1.0);
+		mat.ToGold();
+		mat.Enable();
+		//la sphère de pendule
 		glPushMatrix();
-			glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Jaune());
 			glTranslated(0.0,-1.0,0.0);
 			glScaled(0.15,2.0,0.05);
 			glutSolidCube(1.0);
 		glPopMatrix();
+		//tige de pendule
 		glPushMatrix();
-			glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Jaune());
 			glTranslated(0.0,-2.20,0.0);
 			glScaled(1.0,0.8,0.1);
 			glutSolidSphere(0.4,25,25);
 		glPopMatrix();
+		mat.Enable();
 	glPopMatrix();
 
 	
 	//le trou de oiseau
 	glPushMatrix();
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Brun());
 		glTranslated(0.0,1.0,0.48);
 		glScaled(0.35,0.35,1.0);
 			glPushMatrix();
+				Material mat2(1.0);
+				mat2.ToMarronDark();
+				mat2.Enable();
 				glScaled(1.0,1.0,0.1);
 				this->CylindreCrue(0.02);
+				mat2.Disable();
 			glPopMatrix();
 			glPushMatrix();
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.1));
+				Material mat3(0.1);
+				mat3.ToBlueDark();
+				mat3.Enable();
 				glScaled(0.98,0.98,0.1);
 				this->CylindreRemplis();
-				glDisable(GL_BLEND);
+				mat3.Disable();
 			glPopMatrix();
 	glPopMatrix();
 
 	//la bouche
 	glPushMatrix();
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Brun());
 		glTranslated(0.0,-0.5,0.48);
 		glScaled(0.8,0.15,1.0);
 			glPushMatrix();
+				Material mat4(1.0);
+				mat4.ToMarronDark();
+				mat4.Enable();
 				glScaled(1.0,1.0,0.1);
 				this->CylindreCrue(0.02);
+				mat4.Disable();
 			glPopMatrix();
 			glPushMatrix();
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-				glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.1));
+				Material mat5(0.1);
+				mat5.ToBlueDark();
+				mat5.Enable();
 				glScaled(0.98,0.98,0.1);
 				this->CylindreRemplis();
-				glDisable(GL_BLEND);
+				mat5.Disable();
 			glPopMatrix();
 	glPopMatrix();
 	
 	//deuxieme partie de la petit maison******************************************
+	Material mat11(1.0);
+	mat11.ToWhiteReflect();
+	mat11.Enable();
 	glEnable(GL_TEXTURE_2D);
 	glPushMatrix();
 	glScaled(1.0,1.5,1.0);
@@ -479,29 +519,36 @@ void TheRoom::CadreHorloge()
 		glEnd();
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
+	mat11.Disable();
 	//***fin de la petit maison**************************
 }
 
+//methode qui construit une horloge simple
 void TheRoom::Horloge()
 {
 	//le cylendre
 	glPushMatrix();
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Brun());
+		Material mat(1.0);
+		mat.ToCopper();
+		mat.Enable();
 		glScaled(2.0, 2.0, 0.4);
 		this->CylindreCrue(0.05);
 	glPopMatrix();
 
 	//le cache deriere cylendre
+	mat.ToBlueDark();
 	glPushMatrix();
 		glTranslated(0.0,0.0,-0.025);
 		glScaled(2.0, 2.0, 0.05);
 		this->CylindreRemplis();
 	glPopMatrix();
-
+	mat.Disable();
 
 	//les tige
 	glPushMatrix();
-	glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Jaune());
+	Material mat1(1.0);
+	mat1.ToGold();
+	mat1.Enable();
 	for(int i = 0; i <=60; i++)
 	{
 		if(i%5==0){			
@@ -520,17 +567,24 @@ void TheRoom::Horloge()
 		glRotated(6.0, 0.0, 0.0, 1.0);
 	}
 	glPopMatrix();
-
+	mat1.Disable();
 
 	//**********************les aiguilles *******************************/
 	glPushMatrix();
 		glTranslated(0.0,0.0,0.1);
 		//la sphère
 		glPushMatrix();
-			glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->GrisClair());
+			Material mat2(1.0);
+			mat2.ToGreyReflect();
+			mat2.Enable();
 			glutSolidSphere(0.08,15,15);
+			mat2.Disable();
 		glPopMatrix();
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Jaune());
+
+		//les trois aiguilles
+		Material mat3(1.0);
+		mat3.ToGold();
+		mat3.Enable();
 		//heur
 		glPushMatrix();
 			glRotated(this->_angleHeure, 0.0,0.0,1.0);  //rotation des heurs sur l'axe z
@@ -576,22 +630,24 @@ void TheRoom::Horloge()
 			glPopMatrix();
 		glPopMatrix();
 	glPopMatrix();
+	mat3.Disable();
 	//**********************fin des aiguilles *******************************/
 
 	
 	//la vitre avant
 	glPushMatrix();
-	glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.2));
+		Material mat4(0.1);
+		mat4.ToBlueDark();
+		mat4.Enable();
 		glTranslated(0.0,0.0,0.2);
 		glScaled(2.0, 2.0, 0.05);
 		this->CylindreRemplis();
-		glDisable(GL_BLEND);
+		mat4.Disable();
 	glPopMatrix();
 	
 }
 
+//Methode qui construit la chambre de musée
 void TheRoom::TheMuseum()
 {
 	//dessiner la chambre
@@ -648,6 +704,21 @@ void TheRoom::TheMuseum()
 			glEnd();
 		glPopMatrix();
 	
+		//dessiner le mur 3 vers z
+		glPushMatrix();
+			glTranslated(0.0, 0.5, 0.5);
+			glRotated(90,0.0,1.0,0.0);
+			glRotated(90,1.0,0.0,0.0);
+
+			glBindTexture(GL_TEXTURE_2D, this->_mur3);
+				glBegin(GL_QUADS);
+				glTexCoord2f(0.0, 0.0); glVertex3f(-0.5, 0.5, 0.0);
+				glTexCoord2f(0.0, 1.0); glVertex3f(0.5, 0.5, 0.0);
+				glTexCoord2f(1.0, 1.0); glVertex3f(0.5, -0.5, 0.0);
+				glTexCoord2f(1.0, 0.0); glVertex3f(-0.5, -0.5, 0.0);
+			glEnd();
+		glPopMatrix();
+
 		//dessiner le mur 4 vers -z
 		glPushMatrix();
 			glTranslated(0.0, -0.5, 0.5);
@@ -666,13 +737,15 @@ void TheRoom::TheMuseum()
 	
 }
 
+//Methode qui construit une vitre simple
 void TheRoom::VitreTransparante()
 {
 	glPushMatrix();
+		//couleur de la vitre
 		Material mat(0.1);
 		mat.ToBlueDark();
 		mat.Enable();
-		
+
 		//**********************les faces**********************************************
 		//face deriere
 		glBegin(GL_QUADS);
@@ -727,13 +800,15 @@ void TheRoom::VitreTransparante()
 	glPopMatrix();
 }
 
+//methode qui construit une table et une vitre où va etre exposer la montre
 void TheRoom::VitrineExposition(float largeur, float hauteur)
 {
 	glPushMatrix();
-	glScaled(largeur, hauteur, largeur);
+		glScaled(largeur, hauteur, largeur);
 		//******************les pieds********************************/
-		float couleurTable[] = { 0.35F,0.176F,0.0F,1.0F };
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleurTable);
+		Material mat10(1.0);
+		mat10.ToWhiteReflect();
+		mat10.Enable();
 		//pied gauche bas
 		glPushMatrix();
 			glTranslated(0.5, 0.075, 0.5);;
@@ -798,28 +873,29 @@ void TheRoom::VitrineExposition(float largeur, float hauteur)
 			glScaled(1.1,0.1,1.1);
 			this->CubeTexture();
 		glPopMatrix();
+		mat10.Disable();
 		//************************fin des plaques laterale******************/
 
 		//***************************vert de la table***********************/
 		glPushMatrix();
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.4));
+			Material mat(0.1);
+			mat.ToBlueDark();
+			mat.Enable();
 			glTranslated(0.0, 0.1+0.25+0.05+0.25+0.05, 0.0);
 			glScaled(1.1,0.025,1.1);
 			glutSolidCube(1.0);
 			glDisable(GL_BLEND); 
+			mat.Disable();
 		glPopMatrix();
 		//*********************fin vert de la table*************************/
 
 		//***********************vitre d'exposition************************/
 		glPushMatrix();
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.3));
 			glTranslated(0.0, 0.1+0.25+0.05+0.25+0.05+0.025+0.5, 0.0);
 			glScaled(1.0,1.0,1.0);
+
 			glPushMatrix();
+				//faire les 4 premier faces de cotés
 				glPushMatrix();
 				for(int i = 0; i <4; i++)
 				{
@@ -831,6 +907,7 @@ void TheRoom::VitrineExposition(float largeur, float hauteur)
 				}
 				glPopMatrix();
 
+				//faire les deux faces de haut et de bas
 				glPushMatrix();
 				for(int i = 0; i <2; i++)
 				{
@@ -843,33 +920,43 @@ void TheRoom::VitrineExposition(float largeur, float hauteur)
 				}
 				glPopMatrix();
 			glPopMatrix();
-			glDisable(GL_BLEND); 
+
 		glPopMatrix();
 		//********************fin exposition********************************/
 	glPopMatrix();
 }
 
+//méthode qui contruit un lustre et le place au plafont de la chambre
 void TheRoom::Lustre(float largeur, float hauteur)
 {
 	glPushMatrix();
-	glScaled(largeur, hauteur, largeur);
+		//taille de lustre
+		glScaled(largeur, hauteur, largeur);
 		glPushMatrix();
-			glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Brun());
-			//cache lustre
+		
+			//cache fil****************************************
+			Material mat(1.0);
+			mat.ToGold();
+			mat.Enable();
 			glPushMatrix();
 				glScaled(0.5,0.5,1.0);
 				this->CylindreRemplis();
 			glPopMatrix();
+			mat.Disable();
+			//fin cache Fil*************************************
 
-			//Le fil
-			glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Blanc());
+			//Le fil**********************************************
+			Material mat2(1.0);
+			mat2.ToChrome();
+			mat2.Enable();
 			glPushMatrix();
 				glTranslated(0.0,0.0,0.5);
 				glScaled(0.05,0.05,2.0);
 				this->CylindreRemplis();
 			glPopMatrix();
+			//fin fil**********************************************
 
-			//les tigre de lustre
+			//les tigre de lustre**********************************
 			//tige 1
 			glPushMatrix();
 				glTranslated(0.0,0.4975,0.5+1.0);
@@ -885,54 +972,68 @@ void TheRoom::Lustre(float largeur, float hauteur)
 				glScaled(0.05,0.05,1.95);
 				this->CylindreRemplis();
 			glPopMatrix();
+			mat2.Disable();
+			//fin tige*******************************************
 
-			//lampe
+			//lampe**********************************************
 			glPushMatrix();
+				Material mat3(1.0);
+				mat3.ToGreyReflect();
+				mat3.Enable();
 				glTranslated(0.0,0.0,0.5+1.0+0.05-0.05);
-				glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Noir());
 				glPushMatrix();
 					glScaled(0.2,0.2,0.3);
 					this->CylindreRemplis();
 				glPopMatrix();
+				mat3.Disable();
+
 				glPushMatrix();
-					glEnable(GL_BLEND);
-					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-					glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.4));
+					Material mat4(0.01);
+					mat4.ToBlackReflect();
+					mat4.Enable();
 					glTranslated(0.0,0.0,0.25);
 					glScaled(0.6,0.6,1.2);
 					glutSolidSphere(0.2,25,25);
-					glDisable(GL_BLEND); 
+					mat4.Disable(); 
 				glPopMatrix();
 			glPopMatrix();
+			//la lampe***********************************************
 
-			//le cache lampe
+			//le cache lampe*************************************************
 			glPushMatrix();
 				glTranslated(0.0,0.0,0.5+1.0-0.05);
 				glPushMatrix();
-					glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Rouge());
+					Material mat5(1.0);
+					mat5.ToRuby();
+					mat5.Enable();
 					glScaled(1.0,1.0,0.2);
 					this->CylindreCrue(0.04);
+					mat5.Disable();
 				glPopMatrix();
 				glPushMatrix();
-					glEnable(GL_BLEND);
-					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-					glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Rouge(0.6));
+					Material mat6(0.6);
+					mat6.ToRuby();
+					mat6.Enable();
 					glScaled(1.0,1.0,1.51);
 					this->CylindreCrue(0.01);
-					glDisable(GL_BLEND); 
+					mat6.Disable();
 				glPopMatrix();
 			glPopMatrix();
 			glPushMatrix();
 			glTranslated(0.0,0.0,0.5+1.0+0.75-0.05);
-				glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->Rouge());
+				Material mat7(1.0);
+				mat7.ToRuby();
+				mat7.Enable();
 				glScaled(1.0,1.0,0.1);
 				this->CylindreCrue(0.04);
+				mat7.Disable();
 			glPopMatrix();
-		
+			//fin cache lampe****************************************************
 		glPopMatrix();
 	glPopMatrix();
 }
 
+//Methode qui construit un Cylindre Remplis
 void TheRoom::CylindreRemplis()
 {
 		glPushMatrix();
@@ -948,6 +1049,7 @@ void TheRoom::CylindreRemplis()
 		glPopMatrix();
 }
 
+//Methode qui construit un Cylindre non remplis (avec un trou)
 void TheRoom::CylindreCrue(float epaisseur)
 {
 	glPushMatrix();
@@ -999,7 +1101,9 @@ void TheRoom::TableComande(float taille)
 		glPopMatrix();
 
 		//les deux tige
-		glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->GrisClair());
+		Material mat(1.0);
+		mat.ToGold();
+		mat.Enable();
 		glPushMatrix();//tige1
 			glTranslated(0.25,1.55,-0.2);
 			glRotated(-90,1.0,0.0,0.0);
@@ -1012,13 +1116,17 @@ void TheRoom::TableComande(float taille)
 			glScaled(0.05,0.05,1.18);
 			this->CylindreRemplis();
 		glPopMatrix();
-	
+		mat.Disable();
+
 		//la vitre transparente
 		glPushMatrix();
 			glTranslated(0.0,1.95,0.0);
 			glRotated(45,1.0,0.0,0.0);
-		
+
 			//la texture***************************************
+			Material mat10(1.0);
+			mat10.ToWhiteReflect();
+			mat10.Enable();
 			glEnable(GL_TEXTURE_2D);
 			glPushMatrix();
 				glBindTexture(GL_TEXTURE_2D, this->_noticeEmploi);
@@ -1030,22 +1138,24 @@ void TheRoom::TableComande(float taille)
 				glEnd();
 			glPopMatrix();
 			glDisable(GL_TEXTURE_2D);
+			mat10.Disable();
 			//**********************************************
 		
 			//la vigtre d'exposition*************************
 			glPushMatrix();
-				glEnable(GL_BLEND);
-					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-					glMaterialfv(GL_FRONT,GL_DIFFUSE,couleur->BleuCiel(0.3));
+					Material mat2(0.1);
+					mat2.ToBlueDark();
+					mat2.Enable();
 					glScaled(0.8,0.05,1.0);
 					glutSolidCube(1.0);
-				glDisable(GL_BLEND); 
+					mat2.Disable();
 			glPopMatrix();
 			//*************************************************
 		glPopMatrix();
 	glPopMatrix();
 }
 
+//methode qui contruit un cube avec une texture
 void TheRoom::CubeTexture()
 {
 	glEnable(GL_TEXTURE_2D);
@@ -1103,168 +1213,6 @@ void TheRoom::CubeTexture()
 			glTexCoord2f(1.0, 0.0); glVertex3f(-0.5,0.5,0.5);
 		glEnd();
 		
-	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
-}
-
-//le tunnel
-void TheRoom::Tunnel()
-{
-	glPushMatrix();
-	glRotated(90, 0.0,0.0,1.0);
-	glTranslated(0.75*this->_taille, 0.0, 0.0);
-	glRotated(90,1.0,0.0,0.0);
-	glScaled(this->_taille, 0.5*this->_taille, 0.5*this->_taille);
-	glTranslated(0.0, 0.51, 0.0);
-	glEnable(GL_TEXTURE_2D);
-	glPushMatrix();
-		//face de devant
-		glBindTexture(GL_TEXTURE_2D, this->_murTunnel);
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(1.0,0.5,0.5);
-			glTexCoord2f(0.0, 1.0); glVertex3f(1.0,-0.5,0.5);
-			glTexCoord2f(1.0, 1.0); glVertex3f(0.0,-0.5,0.5);
-			glTexCoord2f(1.0, 0.0); glVertex3f(0.0,0.5,0.5);
-		glEnd();
-				//face de deriere
-		glBindTexture(GL_TEXTURE_2D, this->_murTunnel);
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(1.0,0.5,-0.5);
-			glTexCoord2f(0.0, 1.0); glVertex3f(1.0,-0.5,-0.5);
-			glTexCoord2f(1.0, 1.0); glVertex3f(0.0,-0.5,-0.5);
-			glTexCoord2f(1.0, 0.0); glVertex3f(0.0,0.5,-0.5);
-		glEnd();
-		
-		//face de haut 
-		glBindTexture(GL_TEXTURE_2D, this->_murTunnel);
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(0.0,0.5,-0.5);
-			glTexCoord2f(0.0, 1.0); glVertex3f(1.0,0.5,-0.5);
-			glTexCoord2f(1.0, 1.0); glVertex3f(1.0,0.5,0.5);
-			glTexCoord2f(1.0, 0.0); glVertex3f(0.0,0.5,0.5);
-		glEnd();
-
-		//face de bas
-		glBindTexture(GL_TEXTURE_2D, this->_murTunnel);
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0); glVertex3f(0.0,-0.5,-0.5);
-			glTexCoord2f(0.0, 1.0); glVertex3f(1.0,-0.5,-0.5);
-			glTexCoord2f(1.0, 1.0); glVertex3f(1.0,-0.5,0.5);
-			glTexCoord2f(1.0, 0.0); glVertex3f(0.0,-0.5,0.5);
-		glEnd();		
-	glPopMatrix();
-	glDisable(GL_TEXTURE_2D);
-	glPopMatrix();
-}
-
-void TheRoom::Porte()
-{
-	glPushMatrix();
-		glPushMatrix();
-			glRotated(-this->_anglePorte,0.0,1.0,0.0);
-			glTranslated(-0.01,0.0,-0.2);
-			//face de devant
-			glPushMatrix();
-			glBindTexture(GL_TEXTURE_2D, this->_porte);
-			glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(0.025,0.3,0.2);
-				glTexCoord2f(0.0, 1.0); glVertex3f(0.025,-0.5,0.2);
-				glTexCoord2f(1.0, 1.0); glVertex3f(0.0,-0.5,0.2);
-				glTexCoord2f(1.0, 0.0); glVertex3f(0.0,0.3,0.2);
-			glEnd();
-
-			//face de deriere
-			glBindTexture(GL_TEXTURE_2D, this->_porte);
-			glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(0.025,0.3,-0.2);
-				glTexCoord2f(0.0, 1.0); glVertex3f(0.025,-0.5,-0.2);
-				glTexCoord2f(1.0, 1.0); glVertex3f(0.0,-0.5,-0.2);
-				glTexCoord2f(1.0, 0.0); glVertex3f(0.0,0.3,-0.2);
-			glEnd();
-		
-			//face de haut 
-			glBindTexture(GL_TEXTURE_2D, this->_porte);
-			glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(0.0,0.3,-0.2);
-				glTexCoord2f(0.0, 1.0); glVertex3f(0.025,0.3,-0.2);
-				glTexCoord2f(1.0, 1.0); glVertex3f(0.025,0.3,0.2);
-				glTexCoord2f(1.0, 0.0); glVertex3f(0.0,0.3,0.2);
-			glEnd();
-
-			//face de bas
-			glBindTexture(GL_TEXTURE_2D, this->_porte);
-			glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(0.0,-0.5,-0.2);
-				glTexCoord2f(0.0, 1.0); glVertex3f(0.025,-0.5,-0.2);
-				glTexCoord2f(1.0, 1.0); glVertex3f(0.025,-0.5,0.2);
-				glTexCoord2f(1.0, 0.0); glVertex3f(0.0,-0.5,0.2);
-			glEnd();
-
-			//face de gauche
-			glBindTexture(GL_TEXTURE_2D, this->_porte);
-			glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(0.0,0.3,0.2);
-				glTexCoord2f(0.0, 1.0); glVertex3f(0.0,-0.5,0.2);
-				glTexCoord2f(1.0, 1.0); glVertex3f(0.0,-0.5,-0.2);
-				glTexCoord2f(1.0, 0.0); glVertex3f(0.0,0.3,-0.2);
-			glEnd();
-
-			//face de droite
-			glBindTexture(GL_TEXTURE_2D, this->_porte);
-			glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(0.025,0.3,0.2);
-				glTexCoord2f(0.0, 1.0); glVertex3f(0.025,-0.5,0.2);
-				glTexCoord2f(1.0, 1.0); glVertex3f(0.025,-0.5,-0.2);
-				glTexCoord2f(1.0, 0.0); glVertex3f(0.025,0.3,-0.2);
-			glEnd();
-			glPopMatrix();
-		glPopMatrix();
-	glPopMatrix();
-}
-
-void TheRoom::MurPorte()
-{
-	glEnable(GL_TEXTURE_2D);
-	glPushMatrix();
-		glScaled(1.5*this->_taille, 1.5*this->_taille,this->_taille);
-		//dessiner le mur 3 vers z
-		glPushMatrix();
-			glTranslated(0.0, 0.5, 0.5);
-			glRotated(90,0.0,1.0,0.0);
-			glRotated(90,1.0,0.0,0.0);
-
-			glPushMatrix();
-				//glTranslated(0.0,0.0,0.2);
-				glRotated(90, 0.0,0.0,1.0);
-				glRotated(90, 0.0,1.0,0.0);
-				glScaled(0.5,0.5,0.5);
-				glTranslated(0.0,-0.5,0.2);
-				this->Porte();
-			glPopMatrix();
-
-			glPushMatrix();
-				
-				Material mat = Material(0.01);
-				mat.ToBlackRubber();
-				mat.Enable();
-					glScaled(0.4,0.19,0.005);
-					glTranslated(0.75,0.0,0.0);
-					glutSolidCube(1.0);
-				mat.Disable();
-
-				mat = Material();
-				mat.ToWhiteReflect();
-				mat.Enable();
-			glPopMatrix();
-
-			glBindTexture(GL_TEXTURE_2D, this->_mur3);
-				glBegin(GL_QUADS);
-				glTexCoord2f(0.0, 0.0); glVertex3f(-0.5, 0.5, 0.0);
-				glTexCoord2f(0.0, 1.0); glVertex3f(0.5, 0.5, 0.0);
-				glTexCoord2f(1.0, 1.0); glVertex3f(0.5, -0.5, 0.0);
-				glTexCoord2f(1.0, 0.0); glVertex3f(-0.5, -0.5, 0.0);
-			glEnd();
-		glPopMatrix();
 	glPopMatrix();
 	glDisable(GL_TEXTURE_2D);
 }

@@ -36,7 +36,7 @@ class TheRoom : public Piece
 	 * Objet couleur
 	 * cette variable est utiliser pour spécifier les couleurs utiliser dans la chambre, comme par exemple les couleur de lustre
 	 */
-	Couleur *couleur;
+	//Couleur *couleur;
 
 	/**
 	 * Les angles qui controle les eguailles de l'horloge acroché au mur.
@@ -107,10 +107,6 @@ public:
 
 	void TableComande(float taille);
 	void CubeTexture();
-
-	void Tunnel();
-	void Porte();
-	void MurPorte();
 
 	void BuildAndDisplayHorlogePorte();
 
