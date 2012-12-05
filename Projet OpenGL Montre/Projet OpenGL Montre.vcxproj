@@ -103,6 +103,8 @@
     <ClCompile Include="PieceVentilo.cpp" />
     <ClCompile Include="PlaqueSeparation.cpp" />
     <ClCompile Include="PPMImage.cpp" />
+    <ClCompile Include="ScenarioCamera.cpp" />
+    <ClCompile Include="ScenarioDemonstration.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="TheRoom.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -136,6 +138,8 @@
     <ClInclude Include="PieceVentilo.h" />
     <ClInclude Include="PlaqueSeparation.h" />
     <ClInclude Include="PPMImage.h" />
+    <ClInclude Include="ScenarioCamera.h" />
+    <ClInclude Include="ScenarioDemonstration.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="TheRoom.h" />
     <ClInclude Include="Time.h" />

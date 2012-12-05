@@ -553,6 +553,7 @@ void Montre::BuildStructureSecondesInferieure(float rotation)
 								// Aiguilles des secondes
 								glPushMatrix();
 									glTranslatef(0,(0.045 + 0.01 * 1.5) + 0.025,0);
+									glRotatef(180, 0, 1, 0);
 									_aiguillesSecondes->FastDisplay();
 								glPopMatrix();
 							glPopMatrix();

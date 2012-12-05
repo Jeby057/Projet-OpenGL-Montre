@@ -11,7 +11,7 @@
 #include "BlocMinute.h"
 #include "TheRoom.h"
 #include "Time.h"
-
+#include "ScenarioDemonstration.h"
 
 // Propriétés de la source lumineuse
 GLfloat light_ambient[] = {1, 1, 1, 1 };
@@ -27,6 +27,7 @@ GLfloat posNightLight[4] = {0.0,4,0.0,1.0};
 GLfloat Mshiny=50;
 
 TrackBallCamera* camera;
+ScenarioDemonstration* _scenario;
 CubeHeure* cubeHeure;
 
 
@@ -57,7 +58,6 @@ void ExitApp()
 		exit(0);
 	}
 }
-
 
 void display()
 {
@@ -156,6 +156,8 @@ void update()
 	{
 		montre->Update();
 		_time->Update();
+		camera->Update();
+		_scenario->Update();
 		glutPostRedisplay();
 	}
 }
@@ -228,9 +230,15 @@ void ModeMenu(int selection) {
 
 void GeneralMenu(int selection) {
 
-	if(selection == 0)
-		_exitRequest = true;
-
+	switch (selection) {
+		case 0  : 
+			_exitRequest = true;
+		break;
+		case 1  : 
+			SYSTEMTIME sTime = Time::GetSystemGMTTime();
+			montre->SetHeure(sTime.wHour, sTime.wMinute, sTime.wSecond);
+		break;
+	}
 	_time->Start();
 	glutPostRedisplay();
 }
@@ -285,6 +293,9 @@ int main(int argc, char *argv[])
     camera->SetMotionSensivity(0.1);
 	camera->SetOffsetSensivity(0.05);
 
+	// on abonne le scénario de démonstration à la caméra
+	_scenario = new ScenarioDemonstration(camera);
+
 	//création d'un cubeHeur
 	_time = new Time();
 	_time->Start();
@@ -325,8 +336,10 @@ int main(int argc, char *argv[])
 	  glutAddSubMenu("Remontoire", menuMode);
 	  glutAddSubMenu("Lumière", lumiereMode);
 
+
   glutCreateMenu(GeneralMenu);
        glutAddSubMenu("Paramètres",menuMontre);
+	   glutAddMenuEntry("Mettre à l'heure système",1);
        glutAddMenuEntry("Quitter",0);
        
   /* On associe le choix du bouton gauche de la souris */

@@ -9,12 +9,15 @@ TrackBallCamera::TrackBallCamera(void)
     _angleZ = -125;
 	_offsetZ = 0;
 	_offsetY = 0;
-    _distance = 9.5; 
+    _distance = 1; 
+	_distanceDesired = 1;
     _motionSensivity = 0.3;
     _scrollSensivity = 1;
     _offsetSensivity = 0.1;
+	_targetMovedSensivity = 0.1;
 	_maxDistance = 9.5;
 	_target = Point3D(0,0,0);
+	_locked = true;
 }
 
 
@@ -25,6 +28,9 @@ TrackBallCamera::~TrackBallCamera(void)
 
 void TrackBallCamera::OnMouseMotion(const int x, const int y)
 {
+	if(_locked)
+		return;
+
 	// Si le drag est en cours
     if (_tracked)
     {
@@ -44,6 +50,9 @@ void TrackBallCamera::OnMouseMotion(const int x, const int y)
 
 void TrackBallCamera::OnMouseButton(int button, int state,int x,int y)
 {
+	if(_locked)
+		return;
+
 	// On change le boolean en fonction de l'état de la sourie
 	if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
@@ -67,7 +76,8 @@ void TrackBallCamera::OnMouseButton(int button, int state,int x,int y)
 
 void TrackBallCamera::OnKeyboard(unsigned char key,int x,int y){
 
-	
+	if(_locked)
+		return;
 
 	// Si il y a un coup de molette vers le haut
 	if ( key == '+' )
@@ -96,7 +106,7 @@ void TrackBallCamera::Look()
 	// Caméra
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity( );
-    gluLookAt(_distance,0,0,0,0,0,0,1,0);
+    gluLookAt(_distance,0,0,_target._x, _target._y, _target._z,0,1,0);
 	glTranslatef(0.0, -_offsetZ, _offsetY);
     glRotated(-_angleY,0,0,1); 
     glRotated(_angleZ,0,1,0);
@@ -114,6 +124,22 @@ void TrackBallCamera::SetOffsetSensivity(double sensivity){
 	_offsetSensivity = sensivity;
 }
 
+void TrackBallCamera::SetTargetMoveSensivity(double sensivity){
+	_targetMovedSensivity = sensivity;
+}
+
+void TrackBallCamera::Rotate(double x, double y)
+{
+	_angleZ += y;
+	_angleY += x;
+}
+
+void TrackBallCamera::Translate(double x, double y)
+{
+	_offsetZ += y;
+	_offsetY += x;
+}
+
 void TrackBallCamera::SetFrameSize(int width, int height)
 {
 	_width = width;
@@ -123,5 +149,27 @@ void TrackBallCamera::SetFrameSize(int width, int height)
 
 void TrackBallCamera::Update()
 {
+	// Animation de la distance
+	if(!IsDistanceJoined())
+		_distance += (_distance >_distanceDesired) ? -_targetMovedSensivity : +_targetMovedSensivity;
+}
 
+void TrackBallCamera::SetTarget(Point3D target)
+{
+	_target = target;
+}
+
+void TrackBallCamera::SetLocked(bool locked)
+{
+	_locked = locked;
+}
+
+void TrackBallCamera::SetDesiredDistance(double distance)
+{
+	_distanceDesired = distance;
+}
+
+bool TrackBallCamera::IsDistanceJoined()
+{
+	return(_distanceDesired <= _distance + 0.1 && _distanceDesired >= _distance - 0.1);
 }
