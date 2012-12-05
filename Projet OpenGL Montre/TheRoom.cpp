@@ -52,12 +52,8 @@ TheRoom::TheRoom(float taille): _taille(taille)
 	this->alpha = 1;
 	this->_zOiseau = 0.0;
 	this->_oiseauOk = false;
-	this->_heurOieau = 11;
+	this->_heurOiseau = 11;
 	this->_heurOiseauControle = 0;
-
-	this->_fermerPorte = false;
-	this->_OuvrirPorte = true;
-	this->_anglePorte = 0.0;
 }
 
 //destructeur de la classe TheRoom
@@ -83,7 +79,7 @@ void TheRoom::BuildAndDisplay()
 		glRotated(90,0.0,1.0,0.0); //rotation sur l'axe y
 		glRotated(90,0.0,0.0,1.0); //rotation sur l'axe z
 		glRotated(90,0.0,1.0,0.0); //rotation sur l'axe x
-		this->TableComande(this->_taille/9);
+		this->TableInformation(this->_taille/9);
 	glPopMatrix();	
 	
 	
@@ -102,14 +98,6 @@ void TheRoom::BuildAndDisplay()
 
 }
 
-//methode qui va etre appelée dans le main pour mettre a jour l'horloge
-void TheRoom::BuildAndDisplayHorlogePorte()
-{
-	glPushMatrix();
-		this->HorlogeComplete(0.8*12/10);
-	glPopMatrix();
-}
-
 //Methode qui met à jour l'horloge
 void TheRoom::Update()
 {
@@ -126,7 +114,7 @@ void TheRoom::Update()
 			this->_angleHeure -= 30;
 			this->_oiseauOk = true;
 			this->_heurOiseauControle = 0;
-			this->_heurOieau++;
+			this->_heurOiseau++;
 			if(this->_angleHeure == -360)
 			{
 				this->_angleHeure  = 0;
@@ -149,7 +137,7 @@ void TheRoom::Update()
 	//*****************************************************
 
 	//traitement de oiseau*********************************
-		if(this->_zOiseau < 1.0 && this->_oiseauOk && this->_heurOieau > this->_heurOiseauControle)
+		if(this->_zOiseau < 1.0 && this->_oiseauOk && this->_heurOiseau > this->_heurOiseauControle)
 		{
 			this->_zOiseau += 0.1;
 		}
@@ -166,37 +154,16 @@ void TheRoom::Update()
 		{
 			this->_heurOiseauControle++;
 			this->_oiseauOk = true;
-			if(this->_heurOieau == 12 && this->_heurOiseauControle == 12)
-				this->_heurOieau = 0;
+			if(this->_heurOiseau == 12 && this->_heurOiseauControle == 12)
+				this->_heurOiseau = 0;
 		}
 	//*************************************************
-
-	//controle de la porte*********************************
-	if(this->_OuvrirPorte)
-	{
-		if(this->_anglePorte <= 90.0)
-			this->_anglePorte += 0.5;
-		else
-		{
-			this->_fermerPorte = true;
-			this->_OuvrirPorte = false;
-		}
-	}
-	if(this->_fermerPorte)
-	{
-		if(this->_anglePorte >= 0.0)
-			this->_anglePorte -= 0.5;
-		else
-		{
-			this->_fermerPorte = false;
-			this->_OuvrirPorte = true;
-		}
-	}
-	//fin controle porte***********************************
 }
 
-void TheRoom::HorlogeComplete(float taille)
+//methode qui va etre appelée dans le main pour mettre a jour l'horloge
+void TheRoom::BuildAndDisplayHorloge()
 {
+	float taille = 0.8*12/10;
 	glPushMatrix();
 		glTranslated(0.0,-this->_taille/1.5-0.35*this->_taille/10,7.0*this->_taille/10); //decalage sur l'axe z pour la faire monté, puis décalage sur l'ax y pour la collé sur le mur
 		glRotated(90,0.0,1.0,0.0); //rotation sur l'axe y
@@ -738,7 +705,7 @@ void TheRoom::TheMuseum()
 }
 
 //Methode qui construit une vitre simple
-void TheRoom::VitreTransparante()
+void TheRoom::VitreTransparente()
 {
 	glPushMatrix();
 		//couleur de la vitre
@@ -901,7 +868,7 @@ void TheRoom::VitrineExposition(float largeur, float hauteur)
 				{
 					glPushMatrix();
 						glTranslated(0.0,0.0,-0.5);
-						VitreTransparante();
+						VitreTransparente();
 					glPopMatrix();
 					glRotated(90,0.0,1.0, 0.0);
 				}
@@ -914,7 +881,7 @@ void TheRoom::VitrineExposition(float largeur, float hauteur)
 					glPushMatrix();
 						glTranslated(0.0,0.5,0.0);
 						glRotated(90,1.0,0.0, 0.0);
-						VitreTransparante();
+						VitreTransparente();
 					glPopMatrix();
 					glRotated(180,0.0,0.0, 1.0);
 				}
@@ -1066,7 +1033,7 @@ void TheRoom::CylindreCrue(float epaisseur)
 }
 
 //la table de comande
-void TheRoom::TableComande(float taille)
+void TheRoom::TableInformation(float taille)
 {
 	glPushMatrix();
 		glScaled(taille,taille,taille);
