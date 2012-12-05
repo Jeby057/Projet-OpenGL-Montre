@@ -19,7 +19,7 @@ void IndicateurMins::BuildAndDisplay()
 {
 	Material mat = Material();
 	
-
+	// Tableaux de points répresentant les faces :
 	Point3D * socleGauche = new Point3D[4]; // rectangle de gauche (socle)
 	Point3D * socleDroite = new Point3D[4]; // 4 points du haut du socle (milieu)
 	Point3D * smtPyram = new Point3D[4]; // rectangle de droite (sommet de la pyramide tronquée)
@@ -48,7 +48,6 @@ void IndicateurMins::BuildAndDisplay()
 	/////////////////////////////
 	// Construction de la pièce
 	/////////////////////////////
-
 	
 	mat.ToWhiteReflect();
 	mat.Enable();
@@ -80,7 +79,6 @@ void IndicateurMins::BuildAndDisplay()
 	glEnd();
 	
 	// les faces autour des bases pour la pyramide tronquée
-	
 
 	glBegin(GL_QUAD_STRIP);
 		for(int i = 0; i < 4; i++)
@@ -96,7 +94,7 @@ void IndicateurMins::BuildAndDisplay()
 	mat.ToBlackRubber();
 	mat.Enable();
 
-	// Sur indicateur
+	// Triangle plus petit disposé sur le dessus de l'indicateur
 	glBegin(GL_QUADS);
 		float ecartSoclePyrX = abs(socleDroite[1]._x - smtPyram[1]._x) * 0.02;
 		float ecartSocleZ = abs(socleDroite[1]._y - socleDroite[2]._z) * 0.1;

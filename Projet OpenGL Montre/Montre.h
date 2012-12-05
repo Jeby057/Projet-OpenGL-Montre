@@ -210,7 +210,6 @@ public:
 	 * Permet de changer 
 	 */
 	void SetBackground(int id);
-	void SetArmatureTransparency(float transparency);
 	void ShowMecanisme(bool show);
 	bool IsUserChanging();
 	void SetUserChanging(bool val);

@@ -30,17 +30,15 @@ void EntourantCube::BuildAndDisplay()
 {
 	double angle = atanf((cosf(_angleCoinG)*_epaissG)/_longCoinG);
 	double diag = sqrt(cosf(_angleCoinG)*_epaissG*cosf(_angleCoinG)*_epaissG + _longCoinG*_longCoinG);
-	double largPoseTri = _prcLargPoseTri*_largeurD;
-	double largD = ((1 - _prcLargPoseTri)* _largeurD)/2;
+	double largPoseTri = _prcLargPoseTri*_largeurD; // La largeur pour poser l'indicateur minutes
+	double largD = ((1 - _prcLargPoseTri)* _largeurD)/2; // Le reste de largeur divisé par 2 (de chaque coté car moitié bas et moitié bas)
 	double posX, posY, posZ;
 	double xNiv, yNiv;
 
-	Point3D * ptsTourExt = new Point3D[21], * ptsTourInt = new Point3D[15]; // points du tour intérieur et extérieur, dessus
-	Point3D * ptsTourExtS = new Point3D[16], * ptsTourIntS = new Point3D[10]; // points du tour intérieur et extérieur, dessous
+	Point3D ptsTourExt[21], ptsTourInt[15]; // points du tour intérieur et extérieur, dessus
+	Point3D ptsTourExtS[16], ptsTourIntS[10]; // points du tour intérieur et extérieur, dessous
 
-	/////////////////////////////////////
-	// remplissage des tableaux de points
-	/////////////////////////////////////
+	// Remplissage des tableaux de points
 
 	// moitié bas
 	
@@ -133,9 +131,7 @@ void EntourantCube::BuildAndDisplay()
 	for(int i = 11; i < 15; i++)
 		ptsTourIntS[i-5] = Point3D(ptsTourInt[i]._x, ptsTourInt[i]._y, - _hauteur);
 
-	/////////////////////////////////////
-	//////////// Construction de la pièce
-	/////////////////////////////////////
+	//Construction de la pièce
 
 	Material mat = Material();
 	mat.ToChrome();

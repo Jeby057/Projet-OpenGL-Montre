@@ -796,17 +796,10 @@ void Montre::SetBackground(int id)
 	_plaqueSeparation->SetTexture(id);
 }
 
-void Montre::SetArmatureTransparency(float transparency)
-{
-	_armature->SetTransparency(transparency);
-}
-
-
 void Montre::ShowMecanisme(bool show){
 	_displayMecanismeOnly = show;
 	_displayMecanismeOnlyProcessing = true;
 }
-
 
 bool Montre::IsUserChanging()
 {

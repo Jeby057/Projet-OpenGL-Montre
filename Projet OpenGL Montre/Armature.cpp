@@ -1,8 +1,7 @@
 #include "Armature.h"
 
-Armature::Armature(float longueur, float largeur, float epaisseur) : _longueur(longueur), _largeur(largeur), _epaisseur(epaisseur) //, _rayonTurbine(rayonTurbine), _decalTurbX(decalTurbX), _decalTurbY(decalTurbY)
+Armature::Armature(float longueur, float largeur, float epaisseur) : _longueur(longueur), _largeur(largeur), _epaisseur(epaisseur)
 {
-	_transparency = 1.0;
 }
 
 Armature::~Armature()
@@ -11,15 +10,16 @@ Armature::~Armature()
 
 void Armature::BuildAndDisplay()
 {
+	// Les points pour les faces du dessus (par rapport à l'épaisseur)
+	Point3D tabDessus[28];
 
-	
+	// Les points pour les faces du dessous (sert à fermer l'armature en faisant le tour)
+	Point3D tabDessous[28];
 
-	//this->RepereMonde(1);
+	// La création est faite en découpant la structure en deux symétriquement (axe horizontal) : une moitié bas et une moitié hauts
 
-	Point3D * tabDessus = new Point3D [28];
-	Point3D * tabDessous = new Point3D [28];
-
-	// moitié de bas
+	// Remplissage des tableaux
+	// moitié bas
 
 	tabDessus[0] = Point3D(0.5, 0.0, 0.5);
 	tabDessus[1] = Point3D(0.45, 0.0, 0.5);
@@ -41,7 +41,7 @@ void Armature::BuildAndDisplay()
 	tabDessus[12] = Point3D(-0.5, 0.0, 0.5);
 	tabDessus[13] = Point3D(-0.35, 0.0, 0.5);
 
-	// moitié haute
+	// moitié haut
 	
 	tabDessus[14] = Point3D(0.45, 0.0, 0.5);
 	tabDessus[15] = Point3D(0.5, 0.0, 0.5);
@@ -63,6 +63,7 @@ void Armature::BuildAndDisplay()
 	tabDessus[26] = Point3D(-0.35, 0.0, 0.5);
 	tabDessus[27] = Point3D(-0.5, 0.0, 0.5);
 
+	// On copie les points des faces de dessus dans le tableau de celles de dessous (en z, on passe le -z des points de dessus)
 	for(int i=0; i<27; i+=2)
 	{
 		tabDessous[i]._x = tabDessus[i+1]._x;
@@ -74,8 +75,10 @@ void Armature::BuildAndDisplay()
 		tabDessous[i+1]._z = -tabDessus[i]._z;
 	}
 	
-	Point3D * tabBords  = new Point3D[11];
+	// Tableau des points représentant la face de dessous : elle est pleine car tout est fermé (pas besoin de refaire comme avec le trou pour les faces du dessus)
+	Point3D tabBords[11];
 
+	// On se sert du tableau des points des faces de dessous
 	tabBords[0] = Point3D(tabDessous[13]._x, tabDessous[13]._y, tabDessous[13]._z);
 	tabBords[1] = Point3D(tabDessous[24]._x, tabDessous[24]._y, tabDessous[24]._z);
 	tabBords[2] = Point3D(tabDessous[22]._x, tabDessous[22]._y, tabDessous[22]._z);
@@ -88,28 +91,17 @@ void Armature::BuildAndDisplay()
 	tabBords[9] = Point3D(tabDessous[9]._x, tabDessous[9]._y, tabDessous[9]._z);
 	tabBords[10] = Point3D(tabDessous[11]._x, tabDessous[11]._y, tabDessous[11]._z);
 
-	/*Point3D centreTurbine = Point3D(tabDessous[1]._x - _decalTurbX, tabDessous[1]._y - _decalTurbY, _epaisseur*tabDessous[0]._z);
-
-	float cote = 5.0/12;
-
-	tabTrou[0] = Point3D(centreTurbine._x + _rayonTurbine*cote, centreTurbine._y + _rayonTurbine, centreTurbine._z);
-	tabTrou[1] = Point3D(centreTurbine._x - _rayonTurbine*cote, centreTurbine._y + _rayonTurbine, centreTurbine._z);
-	tabTrou[2] = Point3D(centreTurbine._x - _rayonTurbine, centreTurbine._y + _rayonTurbine*cote, centreTurbine._z);
-	tabTrou[3] = Point3D(centreTurbine._x - _rayonTurbine, centreTurbine._y - _rayonTurbine*cote, centreTurbine._z);
-	tabTrou[4] = Point3D(centreTurbine._x - _rayonTurbine*cote, centreTurbine._y - _rayonTurbine, centreTurbine._z);
-	tabTrou[5] = Point3D(centreTurbine._x + _rayonTurbine*cote, centreTurbine._y - _rayonTurbine, centreTurbine._z);
-	tabTrou[6] = Point3D(centreTurbine._x + _rayonTurbine, centreTurbine._y - _rayonTurbine*cote, centreTurbine._z);
-	tabTrou[7] = Point3D(centreTurbine._x + _rayonTurbine, centreTurbine._y + _rayonTurbine*cote, centreTurbine._z);*/
-
-	// face dessus
+	// Construction des faces du dessus (avec la surélévation)
 
 	Material mat = Material();
 	mat.ToBlackReflect();
 	mat.Enable();
 
-	float posZ;
+	float posZ; // Valeur qui change en z pour contruire le surplus d'élévation de la coque sur le dessus
 	float epDessus = 4; // on divise l'épaisseur par ce nombre pour obtenir le surplus d'élévation de la coque sur le dessus
-	
+
+	// Moitié haut
+	// Tous les deux points (pour QUAD_STRIP) on ajoute l'élévation en z
 	glBegin(GL_QUAD_STRIP);
 		for(int i=0; i<14; i++)
 		{
@@ -122,6 +114,7 @@ void Armature::BuildAndDisplay()
 		}
 	glEnd();
 
+	// Moitié bas
 	glBegin(GL_QUAD_STRIP);
 		for(int i=14; i<28; i++)
 		{
@@ -134,7 +127,7 @@ void Armature::BuildAndDisplay()
 		}
 	glEnd();
 
-	// face dessous
+	// Construction de la face du dessous
 
 	mat.ToBlackReflect();
 	mat.Enable();
@@ -144,37 +137,13 @@ void Armature::BuildAndDisplay()
 			glVertex3f(_longueur*tabBords[i]._x, _largeur*tabBords[i]._y , _epaisseur*tabBords[i]._z);
 	glEnd();
 
-	// moitié bas
-	/*
-	glBegin(GL_TRIANGLE_STRIP);
-		for(int i = 0; i < 7; i++)
-		{
-			glVertex3f(tabTrou[i]._x, tabTrou[i]._y, tabTrou[i]._z);
-			glVertex3f(tabBords[i]._x, tabBords[i]._y, tabBords[i]._z);
-		}
-		glVertex3f(tabTrou[7]._x, tabTrou[7]._y, tabTrou[7]._z);
-		glVertex3f(tabBords[0]._x, tabBords[0]._y, tabBords[0]._z);
-		glVertex3f(tabTrou[0]._x, tabTrou[0]._y, tabTrou[0]._z);
-	glEnd();
+	// Construction des faces du tour - épaisseur - pour fermer
+	// Tour extérieur
 
-	glBegin(GL_TRIANGLE_STRIP);
-		for(int i = 6; i > -1; i--)
-		{
-			glVertex3f(tabTrou[i]._x, tabTrou[i]._y, tabTrou[i]._z);
-			glVertex3f(tabBords[i]._x, tabBords[i]._y, tabBords[i]._z);
-		}
-		glVertex3f(tabTrou[7]._x, tabTrou[7]._y, tabTrou[7]._z);
-		glVertex3f(tabBords[6]._x, tabBords[6]._y, tabBords[6]._z);
-		glVertex3f(tabTrou[6]._x, tabTrou[6]._y, tabTrou[6]._z);
-	glEnd();*/
-
-	// moitié haut
-
-	// tour
-	// extérieur
 	mat.ToSilver();
 	mat.Enable();
-	
+
+	// Moitié haut
 	glBegin(GL_QUAD_STRIP);
 		for(int i=0; i<13; i+=2)
 		{
@@ -183,6 +152,7 @@ void Armature::BuildAndDisplay()
 		}
 	glEnd();
 
+	// Moitié bas
 	glBegin(GL_QUAD_STRIP);
 		for(int i=14; i<27; i+=2)
 		{
@@ -191,11 +161,12 @@ void Armature::BuildAndDisplay()
 		}
 	glEnd();
 
-	// intérieur
+	// Tour intérieur
+
 	mat.ToGreyReflect();
 	mat.Enable();
 	
-
+	// Moitié haut
 	glBegin(GL_QUAD_STRIP);
 		for(int i=0; i<13; i+=2)
 		{
@@ -204,6 +175,7 @@ void Armature::BuildAndDisplay()
 		}
 	glEnd();
 	
+	// Moitié bas
 	glBegin(GL_QUAD_STRIP);
 		for(int i=14; i<27; i+=2)
 		{
@@ -212,13 +184,17 @@ void Armature::BuildAndDisplay()
 		}
 	glEnd();
 
+	// Construction de la vitre
+	// dans le trou au niveau de la surélévation
 
-	// Vitre
 	mat = Material(0.05);
 	mat.ToBlueDark();
 	mat.Enable();
 
-	Point3D * polInterieur = new Point3D[8];
+	// Les points représentant le polygone qui décrit la vitre
+	Point3D polInterieur[8];
+
+	// L'épaisseur de la vitre
 	float epaisseurVitre = 0.1;
 
 	polInterieur[0] = Point3D(_longueur*tabDessus[11]._x, _largeur*tabDessus[11]._y, tabDessus[11]._z + _epaisseur / epDessus - epaisseurVitre);
@@ -230,6 +206,7 @@ void Armature::BuildAndDisplay()
 	polInterieur[6] = Point3D(_longueur*tabDessus[22]._x, _largeur*tabDessus[22]._y, tabDessus[22]._z + _epaisseur / epDessus - epaisseurVitre);
 	polInterieur[7] = Point3D(_longueur*tabDessus[24]._x, _largeur*tabDessus[24]._y, tabDessus[24]._z + _epaisseur / epDessus - epaisseurVitre);
 
+	// La face du dessus
 	glBegin(GL_POLYGON);
         for(int i = 0; i < 8; i++)
         {
@@ -237,6 +214,7 @@ void Armature::BuildAndDisplay()
         }
     glEnd();
 	
+	// La face du dessous
     glBegin(GL_POLYGON);
         for(int i = 7; i > -1; i--)
         {
@@ -244,6 +222,7 @@ void Armature::BuildAndDisplay()
         }
     glEnd();
     
+	// Le tour pour fermer (crée l'épaisseur)
     glBegin(GL_QUAD_STRIP);
         for(int i = 0; i < 8; i++)
         {
@@ -255,20 +234,13 @@ void Armature::BuildAndDisplay()
     glEnd();
 	
 	mat.Disable();
-
 }
 
 void Armature::FastDisplay()
 {
-	Material mat = Material(_transparency);
+	Material mat = Material();
 	mat.ToBlackReflect();
 	mat.Enable();
 		Piece::FastDisplay();
 	mat.Disable();
-}
-
-
-
-void Armature::SetTransparency(float transparency){
-	_transparency = transparency;
 }
