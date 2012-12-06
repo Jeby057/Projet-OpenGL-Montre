@@ -5,14 +5,14 @@ PlaqueSeparation::PlaqueSeparation(float hauteur, float largeur, float longueur,
 _hauteur(hauteur), _largeur(largeur), _longueur(longueur), _txReduction(txReduction)
 {
 	_texture = 0;
-	_faceTexture = new GLuint[2];
+	_faceTexture = new GLuint[3];
 	LoadTexture(_faceTexture, texture, nbTextures);
 }
 
 
 PlaqueSeparation::~PlaqueSeparation(void)
 {
-	//delete[2] _faceTexture;
+	//delete[3] _faceTexture;
 }
 
 

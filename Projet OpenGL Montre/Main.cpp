@@ -170,7 +170,7 @@ void UpdateCallback()
 		_montre->Update();
 		_time->Update();
 		_camera->Update();
-		_scenario->Update();
+		//_scenario->Update();
 		glutPostRedisplay();
 	}
 	_room->Update();
@@ -186,6 +186,9 @@ void ArrierePlanMenu(int selection) {
 		break;
 		case 12  : 
 			_montre->SetBackground(1);
+		break;
+		case 13 :
+			_montre->SetBackground(2);
 		break;
 	}
 	_time->Start();
@@ -365,7 +368,8 @@ int main(int argc, char *argv[])
 	// Menu : Arriere plan
 	int menuArrierePlan = glutCreateMenu(ArrierePlanMenu);
 	glutAddMenuEntry("Défaut",11);
-	glutAddMenuEntry("Pamela",12); 
+	glutAddMenuEntry("Pamela",12);
+	glutAddMenuEntry("Galets",13); 
 	
 	// Menu : Temps
 	int menuTemps = glutCreateMenu(TempsMenu);

@@ -54,16 +54,17 @@ Montre::Montre(Time* time)
 	_maitresse->BuildAndSave();
 
 	// Plaque de séparation
-	 char* namFace[2];
-	 for(int i=0; i<2; i++)
+	 char* namFace[3];
+	 for(int i=0; i<3; i++)
 		namFace[i] = new char[12];
 	 
 	 sprintf(namFace[0],"%s", "carbone.ppm");
 	 sprintf(namFace[1],"%s", "pamela.ppm");
-	 _plaqueSeparation = new PlaqueSeparation(0.025, 3.2 + 0.4, 5.2, 0.65, namFace, 2);
+	 sprintf(namFace[2],"%s", "galets.ppm");
+	 _plaqueSeparation = new PlaqueSeparation(0.025, 3.2 + 0.4, 5.2, 0.65, namFace, 3);
 	 _plaqueSeparation->BuildAndSave();
 	 
-	 for(int i=0; i<2; i++)
+	 for(int i=0; i<3; i++)
 		delete namFace[i];
 
 	 // Sur-rotor central
