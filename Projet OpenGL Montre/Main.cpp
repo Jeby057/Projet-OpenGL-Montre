@@ -345,7 +345,7 @@ int main(int argc, char *argv[])
 	_camera = new TrackBallCamera();
 	_camera->SetScrollSensivity(0.1);
 	_camera->SetMotionSensivity(0.1);
-	_camera->SetOffsetSensivity(0.05);
+	_camera->SetOffsetSensivity(0.05); 
 	_camera->SetLocked(true);
 
 	// On abonne le scénario de démonstration à la caméra
