@@ -118,6 +118,13 @@ class TrackBallCamera
 	bool IsDistanceJoined();
 
     virtual ~TrackBallCamera();
+
+	void SetDesiredTarget(Point3D desiredTarget);
+	double GetAngleY();
+	double GetAngleZ();
+	double GetOffsetY();
+	double GetOffsetZ();
+
 protected:
 
 	// Sensibilités
@@ -149,6 +156,9 @@ protected:
 
 	// Nouvelle distance désirée
 	double _distanceDesired;
+
+	// Cible désirée
+	Point3D _desiredTarget;
 
 	// Cible de la caméra
 	Point3D _target;

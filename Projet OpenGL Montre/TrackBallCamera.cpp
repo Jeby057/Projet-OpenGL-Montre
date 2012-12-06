@@ -5,18 +5,19 @@ TrackBallCamera::TrackBallCamera(void)
 {
 	_tracked = false;
 	_moved = false;
-    _angleY = 10;
-    _angleZ = -125;
+    _angleY = 0;
+    _angleZ = -45;
 	_offsetZ = 0;
 	_offsetY = 0;
-    _distance = 1; 
-	_distanceDesired = 1;
+    _distance = 1.1; 
+	_distanceDesired = _distance;
     _motionSensivity = 0.3;
     _scrollSensivity = 1;
     _offsetSensivity = 0.1;
 	_targetMovedSensivity = 0.1;
-	_maxDistance = 9.5;
+	_maxDistance = 14;
 	_target = Point3D(0,0,0);
+	_desiredTarget = _target;
 	_locked = false;
 }
 
@@ -154,6 +155,18 @@ void TrackBallCamera::Update()
 	// Animation de la distance
 	if(!IsDistanceJoined())
 		_distance += (_distance >_distanceDesired) ? -_targetMovedSensivity : +_targetMovedSensivity;
+
+	// Cible X
+	if(_desiredTarget._x >= _target._x + _targetMovedSensivity || _desiredTarget._x <= _target._x - _targetMovedSensivity)
+		_target._x += (_desiredTarget._x > _target._x) ? _targetMovedSensivity : -_targetMovedSensivity;
+	
+	// Cible Y
+	if(_desiredTarget._y >= _target._y + _targetMovedSensivity || _desiredTarget._y <= _target._y - _targetMovedSensivity)
+		_target._y += (_desiredTarget._y > _target._y) ? _targetMovedSensivity : -_targetMovedSensivity;
+	
+	// Cible Z
+	if(_desiredTarget._z >= _target._z + _targetMovedSensivity || _desiredTarget._z <= _target._z - _targetMovedSensivity)
+		_target._z += (_desiredTarget._z > _target._z) ? _targetMovedSensivity : -_targetMovedSensivity;
 }
 
 void TrackBallCamera::SetTarget(Point3D target)
@@ -173,5 +186,30 @@ void TrackBallCamera::SetDesiredDistance(double distance)
 
 bool TrackBallCamera::IsDistanceJoined()
 {
-	return(_distanceDesired <= _distance + 0.1 && _distanceDesired >= _distance - 0.1);
+	return(_distanceDesired <= _distance + _targetMovedSensivity && _distanceDesired >= _distance - _targetMovedSensivity);
+}
+
+void TrackBallCamera::SetDesiredTarget(Point3D desiredTarget)
+{
+	_desiredTarget = desiredTarget;
+}
+
+double TrackBallCamera::GetAngleY()
+{
+	return _angleY;
+}
+
+double TrackBallCamera::GetAngleZ()
+{
+	return _angleZ;
+}
+
+double TrackBallCamera::GetOffsetY()
+{
+	return _offsetY;
+}
+
+double TrackBallCamera::GetOffsetZ()
+{
+	return _offsetZ;
 }

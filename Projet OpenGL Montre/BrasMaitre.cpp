@@ -58,7 +58,8 @@ void BrasMaitre::BuildAndDisplay(){
 	mat = Material();
 	mat.ToWhiteReflect();
 	mat.Enable();
-
+	
+	// Disque
 	glPushMatrix();
 		glTranslatef(0.0, 0.0, _longueur);
 		glRotatef(-90, 1.0, 0.0, 0.0);

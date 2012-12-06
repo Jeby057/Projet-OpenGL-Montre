@@ -116,37 +116,37 @@ void BlocMinute::BuildAndDisplay()
 	mat.ToRuby();
 	mat.Enable();
 	
-		float angle = 2;
-		Point3D pCentre = Point3D(_rayon, _hauteur*eHauteur/1.15, 0);
-		for(int i=-60; i<=60; i+=2)
-		{
+	float angle = 2;
+	Point3D pCentre = Point3D(_rayon, _hauteur*eHauteur/1.15, 0);
+	for(int i=-60; i<=60; i+=2)
+	{
 			
-			glPushMatrix();
+		glPushMatrix();
 
-				float rad = DEGREES_TO_RADIANS(i);
-				glRotatef(2.0, 0.0, 0.0, 1.0);
-				glTranslatef(cosf(rad) * pCentre._x + sinf(rad) * pCentre._z , pCentre._y - (60-abs(i)) * 0.001, -sinf(rad) * pCentre._x + cosf(rad) * pCentre._z);
-				glRotatef(i, 0.0, 1.0, 0.0);
+			float rad = DEGREES_TO_RADIANS(i);
+			glRotatef(2.0, 0.0, 0.0, 1.0);
+			glTranslatef(cosf(rad) * pCentre._x + sinf(rad) * pCentre._z , pCentre._y - (60-abs(i)) * 0.001, -sinf(rad) * pCentre._x + cosf(rad) * pCentre._z);
+			glRotatef(i, 0.0, 1.0, 0.0);
 				
-				if(abs(i)<=20)
-					glRotatef(20, 0.0, 0.0, 1.0);
-				else if(abs(i) > 20 && abs(i) <= 30)
-					glRotatef(20, 0.0, 0.0, 1.0);
-				else if(abs(i) > 30 && abs(i) <= 40)
-					glRotatef(25, 0.0, 0.0, 1.0);
-				else if(abs(i) > 40 && abs(i) <= 50)
-					glRotatef(27.5, 0.0, 0.0, 1.0);
-				else if(abs(i) > 50)
-					glRotatef(30, 0.0, 0.0, 1.0);
+			if(abs(i)<=20)
+				glRotatef(20, 0.0, 0.0, 1.0);
+			else if(abs(i) > 20 && abs(i) <= 30)
+				glRotatef(20, 0.0, 0.0, 1.0);
+			else if(abs(i) > 30 && abs(i) <= 40)
+				glRotatef(25, 0.0, 0.0, 1.0);
+			else if(abs(i) > 40 && abs(i) <= 50)
+				glRotatef(27.5, 0.0, 0.0, 1.0);
+			else if(abs(i) > 50)
+				glRotatef(30, 0.0, 0.0, 1.0);
 
-				glTranslatef(_largBras * 0.25, 0.0, 0.0);
-				glScalef(i%5==0?_largBras * 0.35:_largBras*0.35/2, _largBase/(60 * 1.5), _largBase/(60 * 1.5));
+			glTranslatef(_largBras * 0.25, 0.0, 0.0);
+			glScalef(i%5==0?_largBras * 0.35:_largBras*0.35/2, _largBase/(60 * 1.5), _largBase/(60 * 1.5));
 
-				glPushMatrix();
-					glutSolidCube(1);
-				glPopMatrix();
+			glPushMatrix();
+				glutSolidCube(1);
 			glPopMatrix();
-		}
+		glPopMatrix();
+	}
 
 	mat.Disable();
 

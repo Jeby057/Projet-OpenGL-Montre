@@ -39,20 +39,17 @@ void ScenarioDemonstration::Update()
 
 bool ScenarioDemonstration::Pass1()
 {
-	_desiredTarget = Point3D(0, 0, 0);
-	_camera->SetDesiredDistance(9.5);
-	_camera->SetTarget(_desiredTarget);
-	_camera->Rotate(0, 1);
-	return _camera->IsDistanceJoined();
+	_desiredTarget = Point3D(0, 0, 12);
+	_camera->SetDesiredDistance(3.5);
+	_camera->Rotate(0, -1);
+	return (_camera->GetAngleZ() <= -120);
 }
 
 bool ScenarioDemonstration::Pass2()
-{
-	if(_desiredTarget._y <= 6){
-		_desiredTarget._y += 0.1;
-		_camera->Translate(0, 0.05);
-		_camera->SetTarget(_desiredTarget);
-	}
+{	
+	_desiredTarget = Point3D(0, 0, 12);
+	_camera->SetDesiredTarget(_desiredTarget);
+	_camera->SetDesiredDistance(1);
 	return false;
 }
 
