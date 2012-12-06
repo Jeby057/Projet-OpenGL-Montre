@@ -22,6 +22,7 @@
 #include "Include.h"
 #include "Piece.h"
 #include "PPMImage.h"
+#include "Time.h"
 
 class TheRoom : public Piece
 {
@@ -37,7 +38,7 @@ class TheRoom : public Piece
 	 * _angleMinute : l'angle de rotation des minutes
 	 * _angleHeure : l'angle de rotation des heures
 	 */
-	int _angleSeconde, _angleMinute, _angleHeure;
+	double _angleSeconde, _angleMinute, _angleHeure;
 
 	/**
 	 * les Angles qui contrôlent le pendule
@@ -76,6 +77,10 @@ class TheRoom : public Piece
 	GLuint	_mur1, _mur2, _mur3, _mur4,
 			_plafond, _sole, _plaqueHorloge,_noticeEmploi,
 			_porte, _murTunnel;
+
+	// Timer
+	Time* _time;
+
 public:
 	/**
 	 * Constructeur de la classe
@@ -84,7 +89,7 @@ public:
 	 * Il demande un paramètre :
 	 * @taille : taille de la chambre
 	 */
-	TheRoom(float taille);
+	TheRoom(float taille, Time* time);
 
 	/**
 	 * Destruction de la montre
@@ -199,6 +204,9 @@ public:
 	 * elle va être appelée dans main par la suite
 	 */
 	void Update();
+
+	// Met à l'heure
+	void SetHeure(int seconde, int minute, int heure);
 };
 
 #endif

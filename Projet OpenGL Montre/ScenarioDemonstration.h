@@ -33,5 +33,6 @@ public:
 	bool Pass1();
 	bool Pass2();
 	bool Pass3();
+	bool Pass4();
 };
 #endif

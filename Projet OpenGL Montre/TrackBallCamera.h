@@ -116,6 +116,11 @@ class TrackBallCamera
 	 * Retourne Vrai si la distance et la distance désiré sont de même ordre de grandeur
 	 */
 	bool IsDistanceJoined();
+	
+	/**
+	 * Retourne Vrai si la target et la target désiré sont de même ordre de grandeur
+	 */
+	bool IsTargetJoined();
 
     virtual ~TrackBallCamera();
 

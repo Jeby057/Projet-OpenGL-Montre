@@ -1,7 +1,7 @@
 #include "TheRoom.h"
 
 //Le constructeur de la classe, il charge les textures et initialise les variables
-TheRoom::TheRoom(float taille): _taille(taille)
+TheRoom::TheRoom(float taille, Time* time): _taille(taille), _time(time)
 {
 
 	GLuint texturesId[10];
@@ -41,19 +41,14 @@ TheRoom::TheRoom(float taille): _taille(taille)
 	 _murTunnel = texturesId[8]; //la mur tunnel
 	 _porte = texturesId[9]; //la porte
 
-
-
-
-
-	this->_angleSeconde = -10;
-	this->_angleMinute = -354;
-	this->_angleHeure = -330;
 	this->_anglePondule = 0;
 	this->alpha = 1;
 	this->_zOiseau = 0.0;
 	this->_oiseauOk = false;
-	this->_heurOiseau = 11;
 	this->_heurOiseauControle = 0;
+
+	SYSTEMTIME timeSys = Time::GetSystemGMTTime();
+	SetHeure(timeSys.wSecond, timeSys.wMinute+10, timeSys.wHour);
 }
 
 //destructeur de la classe TheRoom
@@ -98,24 +93,34 @@ void TheRoom::BuildAndDisplay()
 
 }
 
+void TheRoom::SetHeure(int seconde, int minute, int heure)
+{
+	this->_angleSeconde = -seconde * 360 / 60;
+	this->_angleMinute = -minute * 360 / 60;
+	this->_angleHeure = -heure * 360 / 24;
+	this->_heurOiseau = heure;
+}
+
 //Methode qui met à jour l'horloge
 void TheRoom::Update()
 {
 	//rotation des aiguilles
-	this->_angleSeconde -=1;
-	if(this->_angleSeconde == -360)
+	SYSTEMTIME timeInterval = _time->GetInterval();
+	this->_angleSeconde -= timeInterval.wMilliseconds / 1000.0 * 360.0 / 60.0;
+
+	if(this->_angleSeconde <= -360)
 	{
 		//rotation des aiguilles*******************************
 		this->_angleSeconde = 0;
 		this->_angleMinute -= 6;
-		if(this->_angleMinute == -360)
+		if(this->_angleMinute <= -360)
 		{
 			this->_angleMinute  = 0;
 			this->_angleHeure -= 30;
 			this->_oiseauOk = true;
 			this->_heurOiseauControle = 0;
 			this->_heurOiseau++;
-			if(this->_angleHeure == -360)
+			if(this->_angleHeure <= -360)
 			{
 				this->_angleHeure  = 0;
 			}

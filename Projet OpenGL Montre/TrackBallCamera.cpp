@@ -189,6 +189,13 @@ bool TrackBallCamera::IsDistanceJoined()
 	return(_distanceDesired <= _distance + _targetMovedSensivity && _distanceDesired >= _distance - _targetMovedSensivity);
 }
 
+bool TrackBallCamera::IsTargetJoined()
+{
+	return (_desiredTarget._x <= _target._x + _targetMovedSensivity && _desiredTarget._x >= _target._x - _targetMovedSensivity
+		&& _desiredTarget._y <= _target._y + _targetMovedSensivity && _desiredTarget._y >= _target._y - _targetMovedSensivity
+		&& _desiredTarget._z <= _target._z + _targetMovedSensivity && _desiredTarget._z >= _target._z - _targetMovedSensivity);
+}
+
 void TrackBallCamera::SetDesiredTarget(Point3D desiredTarget)
 {
 	_desiredTarget = desiredTarget;

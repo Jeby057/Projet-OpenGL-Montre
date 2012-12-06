@@ -167,13 +167,13 @@ void UpdateCallback()
 	else
 	{
 		// Mise à jour
+		_room->Update();
 		_montre->Update();
 		_time->Update();
 		_camera->Update();
 		//_scenario->Update();
 		glutPostRedisplay();
 	}
-	_room->Update();
 }
 
 /**
@@ -359,7 +359,7 @@ int main(int argc, char *argv[])
 	_montre = new Montre(_time);
 
 	// Création de la pièce
-	_room = new TheRoom(12);
+	_room = new TheRoom(12, _time);
 	_room->BuildAndSave();
 
 	// Chargement principal terminé
