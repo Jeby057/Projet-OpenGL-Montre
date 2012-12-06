@@ -48,7 +48,7 @@ TheRoom::TheRoom(float taille, Time* time): _taille(taille), _time(time)
 	this->_heurOiseauControle = 0;
 
 	SYSTEMTIME timeSys = Time::GetSystemGMTTime();
-	SetHeure(timeSys.wSecond, timeSys.wMinute+10, timeSys.wHour);
+	SetHeure(timeSys.wSecond, timeSys.wMinute, timeSys.wHour);
 }
 
 //destructeur de la classe TheRoom

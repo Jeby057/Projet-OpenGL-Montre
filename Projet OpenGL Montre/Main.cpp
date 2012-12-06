@@ -171,7 +171,7 @@ void UpdateCallback()
 		_montre->Update();
 		_time->Update();
 		_camera->Update();
-		//_scenario->Update();
+		_scenario->Update();
 		glutPostRedisplay();
 	}
 }
@@ -346,7 +346,7 @@ int main(int argc, char *argv[])
 	_camera->SetScrollSensivity(0.1);
 	_camera->SetMotionSensivity(0.1);
 	_camera->SetOffsetSensivity(0.05);
-	_camera->SetLocked(false);
+	_camera->SetLocked(true);
 
 	// On abonne le scénario de démonstration à la caméra
 	_scenario = new ScenarioDemonstration(_camera);
